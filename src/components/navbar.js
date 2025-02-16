@@ -1,0 +1,18 @@
+import Link from "next/link";
+
+export default function Navbar() {
+    return (
+      <nav className="bg-white shadow-sm">
+        <div className="container mx-auto px-4">
+          <div className="flex justify-between items-center h-16">
+            <Link href="/" className="text-xl font-bold">Xinyi Lu</Link>
+            <div className="space-x-8">
+              <Link href="/" className="hover:text-blue-600">Home</Link>
+              <Link href="/about" className="hover:text-blue-600">About</Link>
+              <Link href="/projects" className="hover:text-blue-600">Projects</Link>
+            </div>
+          </div>
+        </div>
+      </nav>
+    )
+  }
