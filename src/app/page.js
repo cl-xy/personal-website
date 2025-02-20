@@ -14,7 +14,7 @@ export default function Home() {
           A data and software engineer passionate about building AI-driven
           solutions. 
         </p>
-        <p className="text-lg mb-4">
+        <p className="text-lg mb-8">
           With experience in GenAI, NLP, and backend development in
           the finance industry, I am driven to solve complex problems at the
           intersection of AI, data science, and engineering.
@@ -24,7 +24,7 @@ export default function Home() {
             href="/about"
             className="mb-7 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
           >
-            Learn More
+            Learn more about me
           </a>
         </div>
       </section>

@@ -2,7 +2,6 @@
 import { Inter } from 'next/font/google';
 import { createTheme } from '@mui/material/styles';
 
-// Initialize Next.js font
 const inter = Inter({
   weight: ['300', '400', '500', '700'],
   subsets: ['latin'],
@@ -45,17 +44,16 @@ const theme = createTheme({
       fontWeight: 400,
     },
     button: {
-      textTransform: 'none', // Prevents automatic uppercase transformation
+      textTransform: 'none', 
       fontWeight: 500,
     },
   },
-  // You can also customize other theme aspects
   palette: {
     primary: {
-      main: '#3B82F6', // Tailwind blue-500
+      main: '#3B82F6', 
     },
     secondary: {
-      main: '#10B981', // Tailwind emerald-500
+      main: '#10B981', 
     },
   },
   components: {

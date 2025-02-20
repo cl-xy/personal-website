@@ -1,28 +1,23 @@
 'use client';
-import { Box, Card, CardContent, CardMedia, CardActions, Button, Typography } from "@mui/material";
-import { ThemeProvider, createElement } from "@emotion/react";
+import { Box, Card, CardContent, CardMedia, CardActions, Button, Typography, createTheme } from "@mui/material";
+import { ThemeProvider } from "@emotion/react";
 
-const theme = createElement();
+const theme = createTheme();
 
 export default function Projects() {
   const projects = [
-    {
-      title: "Exploring Portfolio Decarbonization using AI", 
-      description: "Using NLP techniques to understand the decarbonization targets and effort made by financial institutions across asian banks, asset managers, insurance, pension funds.", 
-      image: '/portfolio_decarbonization.png', 
-      link: 'https://github.com/cl-xy/bt4103_esg'
-    }, 
     {
       title: "A full-stack banking web application", 
       description: "As part of the training program for 2023 PBWM Technology Analysts, a simple prototype to demonstrate CRUD operations for bank clients.", 
       image: '/bank_app.jpg', 
       link: 'https://github.com/aerinng/neueda-fe-project'
     }, 
-    // {
-    //   title: "Exploring Portfolio Decarbonization using AI", 
-    //   description: "Using NLP techniques to understand the decarbonization targets and effort made by financial institutions across asian banks, asset managers, insurance, pension funds.", 
-    //   image: '/portfolio_decarbonization.png', 
-    // }, 
+    {
+      title: "Exploring Portfolio Decarbonization using AI", 
+      description: "Using NLP techniques to understand the decarbonization targets and effort made by financial institutions across asian banks, asset managers, insurance, pension funds.", 
+      image: '/portfolio_decarbonization.png', 
+      link: 'https://github.com/cl-xy/bt4103_esg'
+    }, 
   ]
 
   return (
