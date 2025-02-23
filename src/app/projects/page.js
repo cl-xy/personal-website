@@ -7,14 +7,16 @@ const theme = createTheme();
 export default function Projects() {
   const projects = [
     {
-      title: "A full-stack banking web application", 
-      description: "As part of the training program for 2023 PBWM Technology Analysts, a simple prototype to demonstrate CRUD operations for bank clients.", 
+      title: "A banking web application", 
+      description: "A simple full-stack application to demonstrate CRUD operations for bank clients.",
+      tech_stack: "Frontend - ReactJS; Backend - Java, Springboot",
       image: '/bank_app.jpg', 
       link: 'https://github.com/aerinng/neueda-fe-project'
     }, 
     {
       title: "Exploring Portfolio Decarbonization using AI", 
       description: "Using NLP techniques to understand the decarbonization targets and effort made by financial institutions across asian banks, asset managers, insurance, pension funds.", 
+      tech_stack: "Python",
       image: '/portfolio_decarbonization.png', 
       link: 'https://github.com/cl-xy/bt4103_esg'
     }, 
@@ -35,7 +37,7 @@ export default function Projects() {
             }}>
               <Box sx={{ 
                 position: 'relative',
-                paddingTop: '56.25%', // 16:9 aspect ratio
+                paddingTop: '56.25%', 
                 width: '100%'
               }}>
                 <CardMedia
@@ -58,6 +60,10 @@ export default function Projects() {
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   {project.description}
+                </Typography>
+                <br></br>
+                <Typography variant="body2" color="text.secondary">
+                  Tech Stack: {project.tech_stack}
                 </Typography>
               </CardContent>
               <CardActions>
