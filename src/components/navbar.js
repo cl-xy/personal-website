@@ -8,8 +8,8 @@ export default function Navbar() {
             <div className="space-x-8">
               <Link href="/" className="hover:text-blue-600">Home</Link>
               <Link href="/about" className="hover:text-blue-600">About</Link>
-              <Link href="/projects" className="hover:text-blue-600">Projects</Link>
               <Link href="/resume" className="hover:text-blue-600">Resume</Link>
+              <Link href="/projects" className="hover:text-blue-600">Projects</Link>
             </div>
           </div>
         </div>

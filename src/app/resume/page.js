@@ -10,28 +10,7 @@ import {
   jobs,
   skills,
 } from "./data";
-
-const SkillBar = ({ skill, level }) => (
-  <div className="mb-4">
-    <div className="flex justify-between mb-1">
-      <span className="font-medium">{skill}</span>
-      <span>{level}%</span>
-    </div>
-    <LinearProgress 
-      variant="determinate" 
-      value={level} 
-      sx={{ 
-        height: 8, 
-        borderRadius: 4,
-        backgroundColor: '#e5e7eb',
-        '& .MuiLinearProgress-bar': {
-          backgroundColor: '#3b82f6',
-          borderRadius: 4
-        }
-      }}
-    />
-  </div>
-);
+import SkillLevelBar from '@/components/skillslevelbar';
 
 export default function Resume() {
   const [activeTab, setActiveTab] = useState(0);
@@ -42,9 +21,9 @@ export default function Resume() {
     setActiveTab(newValue);
   };
 
-  const handleDownload = () => {
-    window.open('/files/your-resume.pdf', '_blank');
-  };
+  // const handleDownload = () => {
+  //   window.open('/files/your-resume.pdf', '_blank');
+  // };
 
   return (
     <div className="container mx-auto px-4 py-12">
@@ -54,14 +33,14 @@ export default function Resume() {
         className="flex justify-between items-center mb-8"
       >
         <h1 className="text-3xl font-bold">Resume</h1>
-        <Button 
+        {/* <Button 
           variant="contained" 
           startIcon={<DownloadIcon size={20} />}
           onClick={handleDownload}
           className="bg-blue-600 hover:bg-blue-700"
         >
           Download PDF
-        </Button>
+        </Button> */}
       </motion.div>
 
       <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-8">
@@ -86,7 +65,7 @@ export default function Resume() {
           <Tab icon={<Briefcase size={20} />} label="Experience" />
           <Tab icon={<Code size={20} />} label="Skills" />
           <Tab icon={<GraduationCap size={20} />} label="Education" />
-          <Tab icon={<StickyNote size={20} />} label="Others" />
+          {/* <Tab icon={<StickyNote size={20} />} label="Others" /> */}
         </Tabs>
 
         <div className="mt-8">
@@ -96,9 +75,9 @@ export default function Resume() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <h3 className="text-xl font-semibold mb-4">Professional Summary</h3>
+              <h3 className="text-xl font-semibold mb-6">Professional Summary</h3>
               <p className="text-gray-700 leading-relaxed">{summary.full_summary}</p>
-              <p className="text-gray-700 leading-relaxed mt-6">{summary.call_to_action}</p>
+              <p className="text-gray-700 leading-relaxed mt-8">{summary.call_to_action}</p>
             </motion.div>
           )}
 
@@ -155,33 +134,59 @@ export default function Resume() {
             >
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div>
-                  <h4 className="font-medium mb-4">Frontend</h4>
-                  {skills.frontend.map((skill, index) => (
+                  <h4 className="font-medium mb-4 font-bold"><b>Programming Languages</b></h4>
+                  {skills.programming_lang.map((skill, index) => (
                     <motion.div
                       key={index}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.1 }}
                     >
-                      <SkillBar skill={skill.name} level={skill.level} />
+                      <SkillLevelBar skill={skill.name} level={skill.level} />
                     </motion.div>
                   ))}
                 </div>
                 <div>
-                  <h4 className="font-medium mb-4">Backend</h4>
-                  {skills.backend.map((skill, index) => (
+                  <h4 className="font-medium mb-4"><b>Database</b></h4>
+                  {skills.database.map((skill, index) => (
                     <motion.div
                       key={index}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.1 }}
                     >
-                      <SkillBar skill={skill.name} level={skill.level} />
+                      <SkillLevelBar skill={skill.name} level={skill.level} />
                     </motion.div>
                   ))}
                 </div>
                 <div>
-                  <h4 className="font-medium mb-4">Tools</h4>
+                  <h4 className="font-medium mb-4"><b>Web Development</b></h4>
+                  {skills.web_dev.map((skill, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                    >
+                      <SkillLevelBar skill={skill.name} level={skill.level} />
+                    </motion.div>
+                  ))}
+                </div>
+                <div>
+                  <h4 className="font-medium mb-4"><b>Data Visualization</b></h4>
+                  {skills.data_viz.map((skill, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                    >
+                      <SkillLevelBar skill={skill.name} level={skill.level} />
+                    </motion.div>
+                  ))}
+                </div>
+                <div>
+                  <h4 className="font-medium mb-4"><b>Tools</b></h4>
                   {skills.tools.map((skill, index) => (
                     <motion.div
                       key={index}
@@ -189,7 +194,7 @@ export default function Resume() {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.1 }}
                     >
-                      <SkillBar skill={skill.name} level={skill.level} />
+                      <SkillLevelBar skill={skill.name} level={skill.level} />
                     </motion.div>
                   ))}
                 </div>
@@ -223,7 +228,7 @@ export default function Resume() {
                     <p className='text-base'>{education.degree}</p>
                     <p className='text-sm'>{education.major}</p>
                   </div>
-                  <ul className="list-disc list-inside text-sm text-gray-700 space-y-2 mb-4">
+                  <ul className="list-disc list-inside text-sm text-gray-700 space-y-2 mb-1">
                     {education.additional_info.map((info, i) => (
                       <li key={i}>{info}</li>
                     ))}

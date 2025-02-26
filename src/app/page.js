@@ -4,17 +4,17 @@ export default function Home() {
   return (
     <div>
       <div style={{ width: "100%", position: "relative", height: "400px" }}>
-        <Image src="/cover.jpg" alt="error" layout="fill" objectFit="cover" />
+        <Image src="/cover.jpg" alt="error" fill={true} style={{objectFit: "cover"}}/>
       </div>
       <div className="container mx-auto px-4 py-6" />
       <section className="max-w-4xl mx-auto text-center">
         <h1 className="text-5xl font-bold mb-10">Hi, I&apos;m Xinyi</h1>
 
-        <p className="text-2xl mb-10">
+        <p className="text-2xl mb-14">
           A data and software engineer passionate about building AI-driven
           solutions. 
         </p>
-        <p className="text-lg mb-8">
+        <p className="text-lg mb-14">
           With experience in GenAI, NLP, and backend development in
           the finance industry, I am driven to solve complex problems at the
           intersection of AI, data science, and engineering.

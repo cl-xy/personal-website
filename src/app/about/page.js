@@ -6,7 +6,7 @@ export default function About() {
       <div className="w-1/2 p-4">
         <h1 className="text-3xl font-bold mb-6">About Me</h1>
         <p className="mb-6">I am driven by curiosity and a passion for solving complex problems. With a strong ability to learn quickly, I excel at transforming ideas into effective, real-world solutions. </p>
-        <p className="mb-6">I graduated from National University of Singapore (NUS) with a BSc (Honours) in Business Analytics, double major in Statistics and have been working in the finance industry as a GenAI and backend developer. My interest lies in leveraging Generative AI to solve business pain points. 
+        <p className="mb-6">My interest lies in leveraging Generative AI to solve business pain points. 
           For example, building Retrieval-Augmented Generation chatbots to reduce time taken to comb through lengthy documents.
         </p>
         <p className="mb-6">

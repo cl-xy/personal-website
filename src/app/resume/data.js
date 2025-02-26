@@ -5,7 +5,7 @@ export const jobs = [
     country: 'Singapore',
     period: 'Sep 2024 - Present',
     achievements: [
-      'Implemented RESTful microservices using Java and Spring Boot to support trade order system modernization for equity products.'
+      'Implementing RESTful microservices using Java and Spring Boot to support trade order system modernization for equity products.'
     ],
     technologies: ['Java', 'Spring Boot', 'SQL', 'Postman']
   },
@@ -106,19 +106,41 @@ export const summary = {
 };
 
 export const skills = {
-  frontend: [
-    { name: 'React/Next.js', level: 90 },
-    { name: 'TypeScript', level: 85 },
-    { name: 'Tailwind CSS', level: 88 }
+  programming_lang: [
+    { name: 'Python', level: 'Expert' },
+    { name: 'Java', level: 'Intermediate' },
+    { name: 'R', level: 'Intermediate' }, 
+    { name: 'Matlab', level: 'Beginner'}
   ],
-  backend: [
-    { name: 'Node.js', level: 82 },
-    { name: 'Python', level: 75 },
-    { name: 'PostgreSQL', level: 80 }
+  database: [
+    { name: 'MySQL', level: 'Intermediate' },
+    { name: 'SQLite', level: 'Intermediate' },
+    { name: 'Oracle DB', level: 'Intermediate' }, 
+    { name: 'SAS', level: 'Beginner'}, 
+    { name: 'Neo4j', level: 'Intermediate' },
+    { name: 'MongoDB', level: 'Beginner' },
+    { name: 'Milvus', level: 'Intermediate' }, 
+    { name: 'PostgreSQL', level: 'Intermediate'}
+  ],
+  web_dev: [
+    { name: 'HTML', level: 'Expert' },
+    { name: 'CSS', level: 'Expert' },
+    { name: 'JavaScript', level: 'Intermediate' }, 
+    { name: 'React.js', level: 'Intermediate' },
+    { name: 'Vue.js', level: 'Beginner' },
+    { name: 'Next.js', level: 'Beginner' },
+    { name: 'Spring Boot', level: 'Beginner' }
+  ],
+  data_viz: [
+    { name: 'Tableau', level: 'Intermediate' },
+    { name: 'Power BI', level: 'Intermediate' },
   ],
   tools: [
-    { name: 'Git', level: 85 },
-    { name: 'Docker', level: 78 },
-    { name: 'AWS', level: 72 }
+    { name: 'Bitbucket', level: 'Expert'},
+    { name: 'Confluence', level: 'Expert'},
+    { name: 'Git', level: 'Expert' },
+    { name: 'Docker', level: 'Beginner' }, 
+    { name: 'Heroku', level: 'Beginner'}, 
+    { name: 'ArcGIS', level: 'Beginner'}
   ]
 };
