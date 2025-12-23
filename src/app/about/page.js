@@ -1,40 +1,32 @@
 'use client';
 import Gallery from "@/components/gallery";
 import { motion } from 'framer-motion';
+import PageLayout from '@/components/page-layout';
+import GradientText from '@/components/gradient-text';
+import { fadeInLeft, fadeInRight, getDelayedFadeInUp, ANIMATION_DELAYS } from '@/lib/animations';
 
 export default function About() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 relative">
-      {/* Floating Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/6 right-1/6 w-40 h-40 bg-blue-300 rounded-full mix-blend-multiply filter blur-2xl opacity-20 animate-pulse"></div>
-        <div className="absolute bottom-1/4 left-1/6 w-48 h-48 bg-purple-300 rounded-full mix-blend-multiply filter blur-2xl opacity-20 animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 right-1/3 w-32 h-32 bg-pink-300 rounded-full mix-blend-multiply filter blur-2xl opacity-20 animate-pulse delay-2000"></div>
-      </div>
-
-      <div className="container relative z-10 flex flex-col lg:flex-row mx-auto px-6 py-16 gap-8">
+    <PageLayout variant="about">
+      <div className="container flex flex-col lg:flex-row mx-auto px-6 py-16 gap-8">
         {/* Text Content */}
-        <motion.div 
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
+        <motion.div
+          {...fadeInLeft}
           className="w-full lg:w-1/2 space-y-8"
         >
           {/* Header */}
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-4xl font-bold bg-gradient-to-r from-gray-800 to-blue-600 bg-clip-text text-transparent"
+            {...getDelayedFadeInUp(ANIMATION_DELAYS.SHORT)}
+            className="text-4xl font-bold"
           >
-            About Me
+            <GradientText from="gray-800" to="blue-600">
+              About Me
+            </GradientText>
           </motion.h1>
 
           {/* Personality */}
           <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            {...getDelayedFadeInUp(ANIMATION_DELAYS.MEDIUM)}
             className="text-lg text-gray-700 leading-relaxed"
           >
             I am driven by{' '}
@@ -54,9 +46,7 @@ export default function About() {
 
           {/* Interests */}
           <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
+            {...getDelayedFadeInUp(ANIMATION_DELAYS.LONG)}
             className="text-lg text-gray-700 leading-relaxed"
           >
             In my free time, I enjoy{' '}
@@ -76,9 +66,7 @@ export default function About() {
 
           {/* Connect */}
           <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
+            {...getDelayedFadeInUp(ANIMATION_DELAYS.EXTRA_LONG)}
             className="text-lg text-gray-700 leading-relaxed"
           >
             Feel free to connect with me on{' '}
@@ -95,15 +83,14 @@ export default function About() {
         </motion.div>
 
         {/* Gallery */}
-        <motion.div 
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+        <motion.div
+          {...fadeInRight}
+          transition={{ duration: 0.8, delay: ANIMATION_DELAYS.MEDIUM }}
           className="w-full lg:w-1/2 flex items-center justify-center mt-8 lg:mt-0"
         >
           <Gallery />
         </motion.div>
       </div>
-    </div>
+    </PageLayout>
   );
 }

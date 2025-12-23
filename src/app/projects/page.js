@@ -1,11 +1,15 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { Box, Card, CardContent, CardMedia, CardActions, Button, Typography, Chip } from "@mui/material";
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, Github, Code, Database, Palette, Server, Brain, BarChart3 } from 'lucide-react';
+import { Github } from 'lucide-react';
+import PageLayout from '@/components/page-layout';
+import SectionContainer from '@/components/section-container';
+import AnimatedCard from '@/components/animated-card';
+import GradientText from '@/components/gradient-text';
+import { fadeInUp, ANIMATION_DELAYS } from '@/lib/animations';
 
 export default function Projects() {
-  const [selectedTech, setSelectedTech] = useState(null);
   const [hoveredProject, setHoveredProject] = useState(null);
   const [mounted, setMounted] = useState(false);
 
@@ -40,42 +44,15 @@ export default function Projects() {
     }, 
   ];
 
-  // Extract all unique technologies with enhanced metadata
-  const techStack = {
-    'ReactJS': { category: 'Frontend', color: 'from-blue-400 to-cyan-400', icon: Code },
-    'Java': { category: 'Backend', color: 'from-orange-400 to-red-400', icon: Server },
-    'Spring Boot': { category: 'Backend', color: 'from-green-400 to-emerald-400', icon: Server },
-    'MySQL': { category: 'Database', color: 'from-blue-500 to-indigo-500', icon: Database },
-    'HTML': { category: 'Frontend', color: 'from-orange-300 to-orange-400', icon: Code },
-    'CSS': { category: 'Frontend', color: 'from-blue-300 to-purple-400', icon: Palette },
-    'Python': { category: 'Programming', color: 'from-yellow-400 to-yellow-500', icon: Code },
-    'NLP': { category: 'AI/ML', color: 'from-purple-400 to-pink-400', icon: Brain },
-    'Machine Learning': { category: 'AI/ML', color: 'from-purple-500 to-purple-600', icon: Brain },
-    'Pandas': { category: 'Data Science', color: 'from-green-400 to-green-500', icon: BarChart3 },
-    'scikit-learn': { category: 'AI/ML', color: 'from-indigo-400 to-purple-500', icon: Brain },
-    'NLTK': { category: 'AI/ML', color: 'from-pink-400 to-rose-400', icon: Brain }
-  };
-
-  const categoryColors = {
-    'Frontend': 'from-blue-100 to-cyan-100 border-blue-300',
-    'Backend': 'from-green-100 to-emerald-100 border-green-300',
-    'Database': 'from-indigo-100 to-blue-100 border-indigo-300',
-    'Programming': 'from-yellow-100 to-amber-100 border-yellow-300',
-    'AI/ML': 'from-purple-100 to-pink-100 border-purple-300',
-    'Data Science': 'from-emerald-100 to-green-100 border-emerald-300'
-  };
-
-  const getProjectsUsingTech = (tech) => {
-    return projects.filter(project => project.technologies.includes(tech));
-  };
-
   if (!mounted) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-indigo-50 relative">
-        <div className="container relative z-10 mx-auto px-6 py-16">
+      <PageLayout variant="projects">
+        <SectionContainer>
           <div className="text-center mb-16">
-            <h1 className="text-5xl font-bold bg-gradient-to-r from-gray-800 to-purple-600 bg-clip-text text-transparent">
-              Projects
+            <h1 className="text-5xl font-bold">
+              <GradientText from="gray-800" to="purple-600">
+                Projects
+              </GradientText>
             </h1>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -85,10 +62,11 @@ export default function Projects() {
                 className="backdrop-blur-sm bg-white/90 rounded-3xl shadow-xl border border-white/20 overflow-hidden"
               >
                 <div className="relative h-48 overflow-hidden">
-                  <img 
+                  <Image
                     src={project.image}
                     alt={project.title}
-                    className="w-full h-full object-cover"
+                    fill
+                    className="object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                   <div className="absolute top-4 left-4 px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-xs font-semibold text-gray-800">
@@ -131,59 +109,48 @@ export default function Projects() {
               </div>
             ))}
           </div>
-        </div>
-      </div>
+        </SectionContainer>
+      </PageLayout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-indigo-50 relative">
-      {/* Floating Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 right-1/4 w-48 h-48 bg-purple-300 rounded-full mix-blend-multiply filter blur-2xl opacity-20 animate-pulse"></div>
-        <div className="absolute bottom-1/3 left-1/4 w-64 h-64 bg-blue-300 rounded-full mix-blend-multiply filter blur-2xl opacity-20 animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 right-1/2 w-40 h-40 bg-pink-300 rounded-full mix-blend-multiply filter blur-2xl opacity-20 animate-pulse delay-2000"></div>
-      </div>
-
-      <div className="container relative z-10 mx-auto px-6 py-16">
+    <PageLayout variant="projects">
+      <SectionContainer>
         {/* Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
+        <motion.div
+          {...fadeInUp}
+          transition={{ duration: 0.8, delay: 0 }}
           className="text-center mb-16"
         >
-          <h1 className="text-5xl font-bold bg-gradient-to-r from-gray-800 to-purple-600 bg-clip-text text-transparent">
-            Projects
+          <h1 className="text-5xl font-bold">
+            <GradientText from="gray-800" to="purple-600">
+              Projects
+            </GradientText>
           </h1>
         </motion.div>
 
 
         {/* Projects Grid */}
-        <motion.div
-          layout
-          className="grid grid-cols-1 lg:grid-cols-2 gap-8"
-        >
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <AnimatePresence>
             {projects.map((project, index) => (
-              <motion.div
+              <AnimatedCard
                 key={project.id}
-                layout
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ delay: index * 0.1 }}
-                className={`group relative backdrop-blur-sm bg-white/90 rounded-3xl shadow-xl border border-white/20 overflow-hidden transition-all duration-500 ${
-                  hoveredProject === project.id ? 'shadow-2xl scale-[1.02]' : 'hover:shadow-2xl'
-                }`}
-                onMouseEnter={() => setHoveredProject(project.id)}
-                onMouseLeave={() => setHoveredProject(null)}
+                delay={index * 0.1}
+                variant="glass"
+                onHoverStart={() => setHoveredProject(project.id)}
+                onHoverEnd={() => setHoveredProject(null)}
+                isHovered={hoveredProject === project.id}
+                className="group overflow-hidden"
               >
                 {/* Project Image */}
                 <div className="relative h-48 overflow-hidden">
-                  <img 
+                  <Image
                     src={project.image}
                     alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                   
@@ -209,20 +176,17 @@ export default function Projects() {
                   {/* Technology Stack */}
                   <div className="mb-6">
                     <div className="flex flex-wrap gap-2">
-                      {project.technologies.map((tech, techIndex) => {
-                        const techData = techStack[tech];
-                        return (
-                          <motion.div
-                            key={tech}
-                            className="px-3 py-1 rounded-full text-sm font-semibold bg-gray-100 text-gray-700"
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: techIndex * 0.05 }}
-                          >
-                            {tech}
-                          </motion.div>
-                        );
-                      })}
+                      {project.technologies.map((tech, techIndex) => (
+                        <motion.div
+                          key={tech}
+                          className="px-3 py-1 rounded-full text-sm font-semibold bg-gray-100 text-gray-700"
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: techIndex * 0.05 }}
+                        >
+                          {tech}
+                        </motion.div>
+                      ))}
                     </div>
                   </div>
 
@@ -241,13 +205,11 @@ export default function Projects() {
                     </motion.a>
                   </div>
                 </div>
-
-              </motion.div>
+              </AnimatedCard>
             ))}
           </AnimatePresence>
-        </motion.div>
-
-      </div>
-    </div>
+        </div>
+      </SectionContainer>
+    </PageLayout>
   );
 }

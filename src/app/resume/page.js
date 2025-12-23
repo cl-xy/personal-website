@@ -1,17 +1,20 @@
 'use client';
 import { useState } from 'react';
-import { Button, Tabs, Tab, Chip } from '@mui/material';
+import Image from 'next/image';
+import { Tabs, Tab, Chip } from '@mui/material';
 import { BookOpen, Briefcase, Code, GraduationCap, Award } from 'lucide-react';
 import { motion } from 'framer-motion';
 import {
-  personalInfo, 
-  summary, 
-  educations, 
+  personalInfo,
+  summary,
+  educations,
   jobs,
   skills,
   certifications,
 } from "./data";
 import SkillsMasonry from '@/components/skillsmasonry';
+import SectionContainer from '@/components/section-container';
+import { fadeInUp, getDelayedFadeInUp, fadeIn, ANIMATION_DELAYS } from '@/lib/animations';
 
 export default function Resume() {
   const [activeTab, setActiveTab] = useState(0);
@@ -24,19 +27,18 @@ export default function Resume() {
 
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <motion.div 
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
+    <SectionContainer maxWidth="7xl" className="bg-gray-50 min-h-screen">
+      <motion.div
+        {...fadeInUp}
+        transition={{ duration: 0.8, delay: 0 }}
         className="flex justify-between items-center mb-8"
       >
         <h1 className="text-3xl font-bold">Resume</h1>
       </motion.div>
 
       <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-8">
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+        <motion.div
+          {...fadeIn}
           className="mb-8 text-center"
         >
           <h2 className="text-4xl font-bold mb-2">Xinyi Lu</h2>
@@ -100,14 +102,13 @@ export default function Resume() {
                         {/* Company Header */}
                         <div className="flex items-start gap-6 mb-6">
                           <div className="flex-shrink-0">
-                            <div className="relative">
-                              <img 
-                                src={item.jobs[0].logo} 
+                            <div className="relative w-16 h-16">
+                              <Image
+                                src={item.jobs[0].logo}
                                 alt={`${item.jobs[0].company} logo`}
-                                className="w-16 h-16 object-cover p-1 rounded-lg bg-white shadow-lg border-2 border-gray-100 transition-transform duration-300 hover:scale-105"
-                                onError={(e) => {
-                                  e.target.style.display = 'none';
-                                }}
+                                width={64}
+                                height={64}
+                                className="object-cover p-1 rounded-lg bg-white shadow-lg border-2 border-gray-100 transition-transform duration-300 hover:scale-105"
                               />
                               <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
                                 <Briefcase size={10} className="text-white" />
@@ -203,16 +204,15 @@ export default function Resume() {
                       >
                         <div className="flex items-start gap-6 mb-6">
                           <div className="flex-shrink-0">
-                            <div className="relative">
-                              <img 
-                                src={job.logo} 
+                            <div className="relative w-16 h-16">
+                              <Image
+                                src={job.logo}
                                 alt={`${job.company} logo`}
-                                className={`w-16 h-16 rounded-lg bg-white shadow-lg border-2 border-gray-100 transition-transform duration-300 hover:scale-105 ${
+                                width={64}
+                                height={64}
+                                className={`rounded-lg bg-white shadow-lg border-2 border-gray-100 transition-transform duration-300 hover:scale-105 ${
                                   job.company === 'GIC' ? 'object-contain p-2' : 'object-cover p-1'
                                 }`}
-                                onError={(e) => {
-                                  e.target.style.display = 'none';
-                                }}
                               />
                               <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
                                 <Briefcase size={10} className="text-white" />
@@ -312,14 +312,13 @@ export default function Resume() {
                 >
                   <div className="flex items-start gap-6 mb-6">
                     <div className="flex-shrink-0">
-                      <div className="relative">
-                        <img 
-                          src={education.logo} 
+                      <div className="relative w-24 h-24">
+                        <Image
+                          src={education.logo}
                           alt={`${education.school} logo`}
-                          className="w-24 h-24 object-cover rounded-xl bg-white p-2 shadow-lg border-2 border-gray-100 transition-transform duration-300 hover:scale-105"
-                          onError={(e) => {
-                            e.target.style.display = 'none';
-                          }}
+                          width={96}
+                          height={96}
+                          className="object-cover rounded-xl bg-white p-2 shadow-lg border-2 border-gray-100 transition-transform duration-300 hover:scale-105"
                         />
                         <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
                           <GraduationCap size={14} className="text-white" />
@@ -402,6 +401,6 @@ export default function Resume() {
           )}
         </div>
       </div>
-    </div>
+    </SectionContainer>
   );
 }

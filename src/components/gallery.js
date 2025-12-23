@@ -1,18 +1,8 @@
 'use client'
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
-
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import Image from 'next/image';
 
 export default function Gallery() {
   const photos = [
-    {
-      id: 1,
-      src: "/gallery/img1.jpg",
-      title: "aboutme_img1"
-    },
     {
       id: 2,
       src: "/gallery/img2.jpg",
@@ -31,26 +21,22 @@ export default function Gallery() {
   ];
 
   return (
-    <div className="max-w-xl mx-auto p-4">
-      <Swiper
-        modules={[Navigation, Pagination]}
-        navigation
-        pagination={{ clickable: true }}
-        loop={true}
-        className="rounded-lg"
-      >
+    <div className="w-full max-w-xl mx-auto p-4">
+      <div className="grid grid-cols-2 gap-4">
         {photos.map((photo) => (
-          <SwiperSlide key={photo.id}>
-            <div className="relative aspect-[4/3]">
-              <img
-                src={photo.src}
-                alt={photo.title}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </SwiperSlide>
+          <div key={photo.id} className="rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
+            <Image
+              src={photo.src}
+              alt={photo.title}
+              width={300}
+              height={300}
+              className="w-full h-auto object-cover hover:scale-105 transition-transform duration-300"
+              loading={photo.id === 2 ? 'eager' : 'lazy'}
+              quality={75}
+            />
+          </div>
         ))}
-      </Swiper>
+      </div>
     </div>
   );
 };

@@ -1,17 +1,14 @@
 'use client';
 import Image from "next/image";
 import { motion } from 'framer-motion';
+import PageLayout from '@/components/page-layout';
+import SectionContainer from '@/components/section-container';
+import AnimatedCard from '@/components/animated-card';
+import { fadeInUp, scaleIn, getDelayedFadeIn, ANIMATION_DELAYS } from '@/lib/animations';
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
-      {/* Floating Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse"></div>
-        <div className="absolute top-3/4 right-1/4 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse delay-2000"></div>
-      </div>
-
+    <PageLayout variant="home">
       {/* Hero Section */}
       <div className="relative">
         <div style={{ width: "100%", position: "relative", height: "500px" }}>
@@ -20,24 +17,19 @@ export default function Home() {
           
           {/* Hero Content Overlay */}
           <div className="absolute inset-0 flex items-center justify-center">
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
+            <motion.div
+              {...fadeInUp}
               className="text-center text-white z-10"
             >
-              <motion.h1 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.2 }}
+              <motion.h1
+                {...getDelayedFadeIn(ANIMATION_DELAYS.SHORT)}
                 className="text-6xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent"
               >
                 Hi, I&apos;m Xinyi
               </motion.h1>
               <motion.div
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.8 }}
+                {...scaleIn}
+                transition={{ duration: 0.6, delay: ANIMATION_DELAYS.EXTRA_LONG }}
                 className="w-24 h-1 bg-gradient-to-r from-blue-400 to-purple-400 mx-auto rounded-full"
               ></motion.div>
             </motion.div>
@@ -46,27 +38,18 @@ export default function Home() {
       </div>
 
       {/* Main Content Section */}
-      <section className="relative z-10 max-w-5xl mx-auto px-6 py-16">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="backdrop-blur-sm bg-white/80 rounded-3xl shadow-2xl border border-white/20 p-12 text-center"
-        >
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
+      <SectionContainer>
+        <AnimatedCard delay={0.3} variant="glass" className="p-12 text-center bg-white/80">
+          <motion.p
+            {...getDelayedFadeIn(0.5)}
             className="text-3xl md:text-4xl font-light mb-10 bg-gradient-to-r from-gray-800 to-blue-600 bg-clip-text text-transparent leading-relaxed"
           >
             A data and software engineer passionate about building AI-driven
             solutions.
           </motion.p>
-          
+
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
+            {...getDelayedFadeIn(0.7)}
             className="bg-gradient-to-br from-slate-50 to-gray-50 rounded-2xl p-8 mb-12 border-2 border-dashed border-gray-300 relative overflow-hidden"
           >
             {/* Tech Background Pattern */}
@@ -113,11 +96,9 @@ export default function Home() {
               </div>
             </div>
           </motion.div>
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.9 }}
+
+          <motion.div
+            {...getDelayedFadeIn(0.9)}
             className="flex justify-center"
           >
             <a
@@ -141,9 +122,8 @@ export default function Home() {
               </span>
             </a>
           </motion.div>
-        </motion.div>
-
-      </section>
-    </div>
+        </AnimatedCard>
+      </SectionContainer>
+    </PageLayout>
   );
 }
