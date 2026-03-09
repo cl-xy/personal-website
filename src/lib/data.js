@@ -1,3 +1,5 @@
+import { siteConfig } from '@/lib/site-config';
+
 export const jobs = [
   {
     title: 'Software Engineer',
@@ -44,7 +46,7 @@ export const jobs = [
     period: 'Jan 2022 - Jul 2022',
     logo: '/logos/gic-logo.png',
     achievements: [
-      "Utilized Python\'s geospatial packages (GeoPandas and Folium) and SQLite to manage real estate assets, resulting in time savings of 2 hours daily in reviewing investment deals.", 
+      'Utilized Python\'s geospatial packages (GeoPandas and Folium) and SQLite to manage real estate assets, resulting in time savings of 2 hours daily in reviewing investment deals.', 
       'Refined ETL pipeline frameworks in Python to improve efficiency in data extraction and analysis.'
     ], 
     technologies: ['Python', 'ETL', 'SQLite']
@@ -83,7 +85,7 @@ export const educations = [
     period: '2019 - 2023',
     logo: '/logos/nus-logo.jpg',
     additional_info: [
-      "Dean\'s List for AY21/22 ST1",
+      "Dean's List for AY21/22 ST1",
       'Certificate of Distinction in Analytics Techniques and Data Science Knowledge Areas',
     ]
   },
@@ -95,18 +97,31 @@ export const educations = [
     logo: '/logos/colorado-logo.avif',
     additional_info: [
       'Awarded the NUS Awards for Study Abroad (NASA) Exchange Scholarship to participate in the overseas Student Exchange Programme (SEP)',
-      "Dean\'s List",
+      "Dean's List",
     ]
   }
 ];
 
-export const personalInfo = {
-  name: "Xinyi Lu", 
-  location: "Singapore", 
-  email: "xinyilu2000@gmail.com", 
-  linkedin: "https://www.linkedin.com/in/xinyi-lu-35b72917a/", 
-  github: "https://github.com/cl-xy",
-};
+export const personalInfo = siteConfig;
+
+export const projects = [
+  {
+    id: 1,
+    title: "Banking Web Application",
+    description: "A comprehensive full-stack application demonstrating CRUD operations for bank clients with modern UI/UX design.",
+    technologies: ['ReactJS', 'Java', 'Spring Boot', 'MySQL', 'HTML', 'CSS'],
+    image: '/bank_app.jpg',
+    github: 'https://github.com/aerinng/neueda-fe-project',
+  },
+  {
+    id: 2,
+    title: "AI Portfolio Decarbonization Analysis",
+    description: "Advanced NLP research project analyzing decarbonization strategies across Asian financial institutions using cutting-edge AI techniques.",
+    technologies: ['Python', 'NLP', 'Machine Learning', 'Pandas', 'scikit-learn', 'NLTK'],
+    image: '/portfolio_decarbonization.png',
+    github: 'https://github.com/cl-xy/bt4103_esg',
+  },
+];
 
 export const summary = {
   full_summary: `Data and software engineer with a passion for 

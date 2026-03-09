@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import PageLayout from '@/components/page-layout';
 import GradientText from '@/components/gradient-text';
 import { fadeInLeft, fadeInRight, getDelayedFadeInUp, ANIMATION_DELAYS } from '@/lib/animations';
+import { siteConfig } from '@/lib/site-config';
 
 export default function About() {
   return (
@@ -71,7 +72,7 @@ export default function About() {
           >
             Feel free to connect with me on{' '}
             <a
-              href="https://www.linkedin.com/in/xinyi-lu-35b72917a/"
+              href={siteConfig.linkedin}
               className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-2 rounded-full font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-105 shadow-lg"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
