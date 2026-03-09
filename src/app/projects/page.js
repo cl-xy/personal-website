@@ -8,41 +8,14 @@ import SectionContainer from '@/components/section-container';
 import AnimatedCard from '@/components/animated-card';
 import GradientText from '@/components/gradient-text';
 import { fadeInUp, ANIMATION_DELAYS } from '@/lib/animations';
+import { projects } from '@/lib/data';
 
 export default function Projects() {
-  const [hoveredProject, setHoveredProject] = useState(null);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  const projects = [
-    {
-      id: 1,
-      title: "Banking Web Application", 
-      description: "A comprehensive full-stack application demonstrating CRUD operations for bank clients with modern UI/UX design and secure authentication.",
-      detailedDescription: "Built a complete banking system with client management, transaction tracking, and secure user authentication. Features responsive design and follows banking security best practices.",
-      technologies: ['ReactJS', 'Java', 'Spring Boot', 'MySQL', 'HTML', 'CSS'],
-      category: 'Full-Stack',
-      image: '/bank_app.jpg', 
-      github: 'https://github.com/aerinng/neueda-fe-project',
-      metrics: { duration: '3 months', team: '2 people', lines: '5000+' },
-      difficulty: 'Intermediate'
-    }, 
-    {
-      id: 2,
-      title: "AI Portfolio Decarbonization Analysis", 
-      description: "Advanced NLP research project analyzing decarbonization strategies across Asian financial institutions using cutting-edge AI techniques.", 
-      detailedDescription: "Leveraged natural language processing to extract and analyze sustainability commitments from financial reports. Built sentiment analysis models and trend prediction algorithms.",
-      technologies: ['Python', 'NLP', 'Machine Learning', 'Pandas', 'scikit-learn', 'NLTK'],
-      category: 'AI/ML Research',
-      image: '/portfolio_decarbonization.png', 
-      github: 'https://github.com/cl-xy/bt4103_esg',
-      metrics: { duration: '6 months', team: '4 people', lines: '8000+' },
-      difficulty: 'Advanced'
-    }, 
-  ];
 
   if (!mounted) {
     return (
@@ -68,10 +41,6 @@ export default function Projects() {
                     fill
                     className="object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                  <div className="absolute top-4 left-4 px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-xs font-semibold text-gray-800">
-                    {project.category}
-                  </div>
                 </div>
                 <div className="p-8">
                   <div className="mb-4">
@@ -134,14 +103,11 @@ export default function Projects() {
         {/* Projects Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <AnimatePresence>
-            {projects.map((project, index) => (
+            {projects.map((project) => (
               <AnimatedCard
                 key={project.id}
-                delay={index * 0.1}
+                delay={0}
                 variant="glass"
-                onHoverStart={() => setHoveredProject(project.id)}
-                onHoverEnd={() => setHoveredProject(null)}
-                isHovered={hoveredProject === project.id}
                 className="group overflow-hidden"
               >
                 {/* Project Image */}
@@ -153,12 +119,6 @@ export default function Projects() {
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                  
-
-                  {/* Category Badge */}
-                  <div className="absolute top-4 left-4 px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-xs font-semibold text-gray-800">
-                    {project.category}
-                  </div>
                 </div>
 
                 {/* Project Content */}
@@ -168,7 +128,7 @@ export default function Projects() {
                       {project.title}
                     </h3>
                     <p className="text-gray-600 leading-relaxed">
-                      {hoveredProject === project.id ? project.detailedDescription : project.description}
+                      {project.description}
                     </p>
                   </div>
 

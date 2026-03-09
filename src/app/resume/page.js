@@ -11,7 +11,7 @@ import {
   jobs,
   skills,
   certifications,
-} from "./data";
+} from "@/lib/data";
 import SkillsMasonry from '@/components/skillsmasonry';
 import SectionContainer from '@/components/section-container';
 import { fadeInUp, getDelayedFadeInUp, fadeIn, ANIMATION_DELAYS } from '@/lib/animations';
@@ -27,23 +27,16 @@ export default function Resume() {
 
 
   return (
-    <SectionContainer maxWidth="7xl" className="bg-gray-50 min-h-screen">
-      <motion.div
-        {...fadeInUp}
-        transition={{ duration: 0.8, delay: 0 }}
-        className="flex justify-between items-center mb-8"
-      >
-        <h1 className="text-3xl font-bold">Resume</h1>
-      </motion.div>
-
-      <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-8">
+    <div className="bg-gray-50 min-h-screen">
+      <SectionContainer maxWidth="7xl">
+        <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-4 sm:p-8">
         <motion.div
           {...fadeIn}
           className="mb-8 text-center"
         >
-          <h2 className="text-4xl font-bold mb-2">Xinyi Lu</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-2">{personalInfo.name}</h2>
           <p className="text-gray-600">
-            📍 {personalInfo.location} · 📧 <a href='mailto:xinyilu2000@gmail.com'>Email</a> · 🔗 <a href='https://www.linkedin.com/in/xinyi-lu-35b72917a/'>LinkedIn</a>
+            📍 {personalInfo.location} · 📧 <a href={`mailto:${personalInfo.email}`}>Email</a> · 🔗 <a href={personalInfo.linkedin}>LinkedIn</a>
           </p>
         </motion.div>
 
@@ -100,7 +93,7 @@ export default function Resume() {
                         transition={{ delay: index * 0.2 }}
                       >
                         {/* Company Header */}
-                        <div className="flex items-start gap-6 mb-6">
+                        <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 mb-6">
                           <div className="flex-shrink-0">
                             <div className="relative w-16 h-16">
                               <Image
@@ -128,11 +121,11 @@ export default function Resume() {
                         {/* Positions */}
                         {item.jobs.map((job, jobIndex) => (
                           <div key={jobIndex}>
-                            <div className="flex justify-between items-start mb-4">
+                            <div className="flex flex-col sm:flex-row sm:justify-between items-start gap-2 sm:gap-0 mb-4">
                               <div className="flex-1">
                                 <h5 className="text-lg font-semibold text-gray-700 mb-1">{job.title}</h5>
                               </div>
-                              <div className="text-right ml-4">
+                              <div className="text-left sm:text-right sm:ml-4">
                                 <div className="flex items-center gap-2 bg-green-100 px-3 py-2 rounded-lg">
                                   <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                                   <span className="text-green-700 font-semibold text-sm">{job.period}</span>
@@ -202,7 +195,7 @@ export default function Resume() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.2 }}
                       >
-                        <div className="flex items-start gap-6 mb-6">
+                        <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 mb-6">
                           <div className="flex-shrink-0">
                             <div className="relative w-16 h-16">
                               <Image
@@ -220,18 +213,18 @@ export default function Resume() {
                             </div>
                           </div>
                           <div className="flex-1">
-                            <div className="flex justify-between items-start mb-3">
+                            <div className="flex flex-col sm:flex-row sm:justify-between items-start gap-2 sm:gap-0 mb-3">
                               <div className="flex-1">
                                 <div className="mb-2">
                                   <h4 className="text-xl font-bold text-gray-800">{job.company}</h4>
                                 </div>
-                                <div className="flex items-center gap-2 mb-2">
+                                <div className="flex flex-wrap items-center gap-2 mb-2">
                                   <p className="text-lg font-semibold text-gray-700">{job.title}</p>
                                   <span className="text-gray-500">•</span>
                                   <span className="text-gray-600 bg-gray-100 px-2 py-1 rounded-full text-sm">{job.country}</span>
                                 </div>
                               </div>
-                              <div className="text-right ml-4">
+                              <div className="text-left sm:text-right sm:ml-4 mt-2 sm:mt-0">
                                 <div className="flex items-center gap-2 bg-green-100 px-3 py-2 rounded-lg">
                                   <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                                   <span className="text-green-700 font-semibold text-sm">{job.period}</span>
@@ -310,7 +303,7 @@ export default function Resume() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.2 }}
                 >
-                  <div className="flex items-start gap-6 mb-6">
+                  <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 mb-6">
                     <div className="flex-shrink-0">
                       <div className="relative w-24 h-24">
                         <Image
@@ -326,7 +319,7 @@ export default function Resume() {
                       </div>
                     </div>
                     <div className="flex-1">
-                      <div className="flex justify-between items-start mb-3">
+                      <div className="flex flex-col sm:flex-row sm:justify-between items-start gap-2 sm:gap-0 mb-3">
                         <div>
                           <h4 className="text-xl font-bold text-gray-800 mb-1">{education.school}</h4>
                           <div className="flex items-center gap-2 mb-2">
@@ -401,6 +394,7 @@ export default function Resume() {
           )}
         </div>
       </div>
-    </SectionContainer>
+      </SectionContainer>
+    </div>
   );
 }
