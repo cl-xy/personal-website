@@ -29,14 +29,6 @@ export const scaleIn = {
   transition: { duration: 0.6 }
 };
 
-export const staggerChildren = (delayMultiplier = 0.1) => ({
-  animate: {
-    transition: {
-      staggerChildren: delayMultiplier
-    }
-  }
-});
-
 export const getDelayedFadeInUp = (delay) => ({
   initial: { opacity: 0, y: 30 },
   animate: { opacity: 1, y: 0 },
@@ -48,11 +40,6 @@ export const getDelayedFadeIn = (delay) => ({
   animate: { opacity: 1 },
   transition: { duration: 0.8, delay }
 });
-
-export const cardHover = {
-  scale: 1.02,
-  transition: { duration: 0.3 }
-};
 
 export const ANIMATION_DELAYS = {
   SHORT: 0.2,
