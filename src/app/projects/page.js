@@ -23,7 +23,7 @@ export default function Projects() {
         <SectionContainer>
           <div className="text-center mb-16">
             <h1 className="text-5xl font-bold">
-              <GradientText from="gray-800" to="purple-600">
+              <GradientText variant="purple">
                 Projects
               </GradientText>
             </h1>
@@ -93,7 +93,7 @@ export default function Projects() {
           className="text-center mb-16"
         >
           <h1 className="text-5xl font-bold">
-            <GradientText from="gray-800" to="purple-600">
+            <GradientText variant="purple">
               Projects
             </GradientText>
           </h1>
