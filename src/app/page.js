@@ -12,7 +12,7 @@ export default function Home() {
       {/* Hero Section */}
       <div className="relative">
         <div style={{ width: "100%", position: "relative", height: "500px" }}>
-          <Image src="/cover.jpg" alt="error" fill={true} style={{objectFit: "cover"}}/>
+          <Image src="/cover.jpg" alt="Scenic cover photo" fill={true} style={{objectFit: "cover"}}/>
           <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/60"></div>
           
           {/* Hero Content Overlay */}
