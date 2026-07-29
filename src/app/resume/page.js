@@ -34,7 +34,7 @@ export default function Resume() {
           {...fadeIn}
           className="mb-8 text-center"
         >
-          <h2 className="text-3xl sm:text-4xl font-bold mb-2">{personalInfo.name}</h2>
+          <h1 className="text-3xl sm:text-4xl font-bold mb-2">{personalInfo.name}</h1>
           <p className="text-gray-600">
             📍 {personalInfo.location} · 📧 <a href={`mailto:${personalInfo.email}`}>Email</a> · 🔗 <a href={personalInfo.linkedin}>LinkedIn</a>
           </p>
