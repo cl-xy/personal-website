@@ -1,5 +1,4 @@
 'use client';
-import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Github } from 'lucide-react';
@@ -11,78 +10,6 @@ import { fadeInUp, ANIMATION_DELAYS } from '@/lib/animations';
 import { projects } from '@/lib/data';
 
 export default function Projects() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return (
-      <PageLayout variant="projects">
-        <SectionContainer>
-          <div className="text-center mb-16">
-            <h1 className="text-5xl font-bold">
-              <GradientText variant="purple">
-                Projects
-              </GradientText>
-            </h1>
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {projects.map((project, index) => (
-              <div
-                key={project.id}
-                className="backdrop-blur-sm bg-white/90 rounded-3xl shadow-xl border border-white/20 overflow-hidden"
-              >
-                <div className="relative h-48 overflow-hidden">
-                  <Image
-                    src={project.image}
-                    alt={project.title}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div className="p-8">
-                  <div className="mb-4">
-                    <h3 className="text-2xl font-bold text-gray-800 mb-2">
-                      {project.title}
-                    </h3>
-                    <p className="text-gray-600 leading-relaxed">
-                      {project.description}
-                    </p>
-                  </div>
-                  <div className="mb-6">
-                    <div className="flex flex-wrap gap-2">
-                      {project.technologies.map((tech, techIndex) => (
-                        <div
-                          key={tech}
-                          className="px-3 py-1 rounded-full text-sm font-semibold bg-gray-100 text-gray-700"
-                        >
-                          {tech}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="flex gap-3">
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-gray-800 to-gray-900 text-white rounded-xl font-semibold hover:from-gray-900 hover:to-black transition-all duration-300 transform hover:scale-105 shadow-lg"
-                    >
-                      <Github size={18} />
-                      View Code
-                    </a>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </SectionContainer>
-      </PageLayout>
-    );
-  }
-
   return (
     <PageLayout variant="projects">
       <SectionContainer>
