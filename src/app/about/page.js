@@ -20,7 +20,7 @@ export default function About() {
             {...getDelayedFadeInUp(ANIMATION_DELAYS.SHORT)}
             className="text-4xl font-bold"
           >
-            <GradientText from="gray-800" to="blue-600">
+            <GradientText variant="blue">
               About Me
             </GradientText>
           </motion.h1>
