@@ -26,9 +26,7 @@ export default function JobCard({ company, jobs, delay = 0 }) {
               alt={`${company} logo`}
               width={64}
               height={64}
-              className={`rounded-lg bg-white shadow-lg border-2 border-gray-100 transition-transform duration-300 hover:scale-105 ${
-                company === 'GIC' ? 'object-contain p-2' : 'object-cover p-1'
-              }`}
+              className="object-contain rounded-lg bg-white p-2 shadow-lg border-2 border-gray-100 transition-transform duration-300 hover:scale-105"
             />
             <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
               <Briefcase size={10} className="text-white" />
