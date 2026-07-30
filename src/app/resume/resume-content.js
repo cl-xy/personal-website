@@ -112,18 +112,17 @@ export default function ResumeContent() {
                           height={80}
                           className="object-contain rounded-xl bg-white p-2 shadow-lg border-2 border-transparent transition-transform duration-300 hover:scale-105"
                         />
-                        <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
-                          <GraduationCap size={14} className="text-white" />
-                        </div>
                       </div>
                     </div>
                     <div className="flex-1">
                       <div className="flex flex-col sm:flex-row sm:justify-between items-start gap-2 sm:gap-0 mb-3">
-                        <div>
+                        <div className="flex-1">
                           <h4 className="text-xl font-bold text-gray-800 mb-1">{education.school}</h4>
-                          <div className="flex items-center gap-2 mb-2">
+                        </div>
+                        <div className="text-left sm:text-right sm:ml-4 mt-2 sm:mt-0">
+                          <div className="flex items-center gap-2 bg-blue-100 px-3 py-2 rounded-lg">
                             <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                            <span className="text-blue-600 font-semibold text-sm">{education.period}</span>
+                            <span className="text-blue-700 font-semibold text-sm">{education.period}</span>
                           </div>
                         </div>
                       </div>
