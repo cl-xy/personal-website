@@ -110,7 +110,7 @@ export default function ResumeContent() {
                           alt={`${education.school} logo`}
                           width={96}
                           height={96}
-                          className="object-cover rounded-xl bg-white p-2 shadow-lg border-2 border-gray-100 transition-transform duration-300 hover:scale-105"
+                          className="object-contain rounded-xl bg-white p-2 shadow-lg border-2 border-gray-100 transition-transform duration-300 hover:scale-105"
                         />
                         <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
                           <GraduationCap size={14} className="text-white" />
