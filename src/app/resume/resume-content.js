@@ -104,13 +104,13 @@ export default function ResumeContent() {
                 <GradientHoverCard key={index} accent="blue" delay={index * 0.2}>
                   <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 mb-6">
                     <div className="flex-shrink-0">
-                      <div className="relative w-24 h-24">
+                      <div className="relative w-20 h-20">
                         <Image
                           src={education.logo}
                           alt={`${education.school} logo`}
-                          width={96}
-                          height={96}
-                          className="object-contain rounded-xl bg-white p-2 shadow-lg border-2 border-gray-100 transition-transform duration-300 hover:scale-105"
+                          width={80}
+                          height={80}
+                          className="object-contain rounded-xl bg-white p-2 shadow-lg border-2 border-transparent transition-transform duration-300 hover:scale-105"
                         />
                         <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
                           <GraduationCap size={14} className="text-white" />
