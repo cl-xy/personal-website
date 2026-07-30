@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Chip } from '@mui/material';
 import { Briefcase } from 'lucide-react';
+import GradientHoverCard from './gradient-hover-card';
 
 /**
  * JobCard - Renders one company's experience block.
@@ -10,22 +11,13 @@ import { Briefcase } from 'lucide-react';
  * companies with multiple roles (e.g. internal promotions) render one
  * sub-section per role under a shared company header.
  */
-export default function JobCard({ company, jobs, isActive, onHoverStart, onHoverEnd, delay = 0 }) {
+export default function JobCard({ company, jobs, delay = 0 }) {
   const primary = jobs[0];
   const isGroup = jobs.length > 1;
   const SkillsHeading = isGroup ? 'h6' : 'h5';
 
   return (
-    <motion.div
-      className={`mb-8 p-8 rounded-xl bg-gradient-to-r from-white to-gray-50 border-l-4 border-green-500 transition-all duration-300 ${
-        isActive ? 'shadow-xl bg-gradient-to-r from-green-50 to-emerald-50 transform scale-[1.02]' : 'shadow-lg hover:shadow-xl'
-      }`}
-      onMouseEnter={onHoverStart}
-      onMouseLeave={onHoverEnd}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay }}
-    >
+    <GradientHoverCard accent="green" delay={delay}>
       <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 mb-6">
         <div className="flex-shrink-0">
           <div className="relative w-16 h-16">
@@ -137,6 +129,6 @@ export default function JobCard({ company, jobs, isActive, onHoverStart, onHover
           )}
         </div>
       ))}
-    </motion.div>
+    </GradientHoverCard>
   );
 }
