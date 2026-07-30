@@ -2,7 +2,6 @@
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Chip } from '@mui/material';
-import { Briefcase } from 'lucide-react';
 import GradientHoverCard from './gradient-hover-card';
 
 /**
@@ -28,9 +27,6 @@ export default function JobCard({ company, jobs, delay = 0 }) {
               height={80}
               className="object-contain rounded-lg bg-white p-2 shadow-lg border-2 border-transparent transition-transform duration-300 hover:scale-105"
             />
-            <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
-              <Briefcase size={10} className="text-white" />
-            </div>
           </div>
         </div>
         <div className="flex-1">

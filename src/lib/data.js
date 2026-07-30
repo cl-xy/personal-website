@@ -127,7 +127,7 @@ export const summary = {
   full_summary: `Data and software engineer with a passion for 
   creating elegant solutions to complex problems. Specialized in Generative AI, data science 
   and committed to writing clean, maintainable, production-ready code.`,
-  call_to_action: "Open to relocation for opportunities in AI/ML engineering, data science, data engineering"
+  call_to_action: "Open for opportunities in AI/ML engineering, data science, data engineering"
 };
 
 export const skills = {
