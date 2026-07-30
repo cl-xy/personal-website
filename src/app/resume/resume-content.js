@@ -15,13 +15,12 @@ import {
 import SkillsMasonry from '@/components/skillsmasonry';
 import SectionContainer from '@/components/section-container';
 import JobCard from '@/components/job-card';
+import GradientHoverCard from '@/components/gradient-hover-card';
 import { fadeInUp, getDelayedFadeInUp, fadeIn, ANIMATION_DELAYS } from '@/lib/animations';
 import { groupJobsByCompany } from '@/lib/resume-utils';
 
 export default function ResumeContent() {
   const [activeTab, setActiveTab] = useState(0);
-  const [hoveredJob, setHoveredJob] = useState(null);
-  const [hoveredEducation, setHoveredEducation] = useState(null);
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
@@ -79,9 +78,6 @@ export default function ResumeContent() {
                   key={group.company}
                   company={group.company}
                   jobs={group.jobs}
-                  isActive={hoveredJob === group.company}
-                  onHoverStart={() => setHoveredJob(group.company)}
-                  onHoverEnd={() => setHoveredJob(null)}
                   delay={index * 0.2}
                 />
               ))}
@@ -105,17 +101,7 @@ export default function ResumeContent() {
               transition={{ duration: 0.5 }}
             >
               {educations.map((education, index) => (
-                <motion.div
-                  key={index}
-                  className={`mb-8 p-8 rounded-xl bg-gradient-to-r from-white to-gray-50 border-l-4 border-blue-500 transition-all duration-300 ${
-                    hoveredEducation === index ? 'shadow-xl bg-gradient-to-r from-blue-50 to-indigo-50 transform scale-[1.02]' : 'shadow-lg hover:shadow-xl'
-                  }`}
-                  onMouseEnter={() => setHoveredEducation(index)}
-                  onMouseLeave={() => setHoveredEducation(null)}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.2 }}
-                >
+                <GradientHoverCard key={index} accent="blue" delay={index * 0.2}>
                   <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 mb-6">
                     <div className="flex-shrink-0">
                       <div className="relative w-24 h-24">
@@ -161,7 +147,7 @@ export default function ResumeContent() {
                       ))}
                     </ul>
                   </div>
-                </motion.div>
+                </GradientHoverCard>
               ))}
             </motion.div>
           )}
