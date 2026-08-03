@@ -4,38 +4,42 @@
 
 @layer base {
   html {
-    font-family: 'Inter', system-ui, sans-serif;
-    color: #1C1C1C;
-    background-color: #FDFBF7;
+    font-family: 'JetBrains Mono', 'SFMono-Regular', 'Consolas', monospace;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
+  body {
+    background-color: #0D1117;
+    color: #E6EDF3;
+  }
+
   ::selection {
-    background-color: #D47A2A;
-    color: #FDFBF7;
+    background-color: #58A6FF;
+    color: #0D1117;
+  }
+
+  /* Custom scrollbar for dark theme */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #0D1117;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #30363D;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #484F58;
   }
 }
 
-@layer components {
-  .incident-block {
-    @apply relative bg-incident-bg border-t-[3px] border-b-[3px] border-incident py-6 px-5;
-  }
-
-  .fix-block {
-    @apply relative border-l-[3px] border-fix bg-fix-bg py-4 px-5;
-  }
-
-  .shipped-badge {
-    @apply inline-flex items-center gap-1.5 text-xs font-mono px-2.5 py-1 bg-fix/10 text-fix border border-fix/20;
-  }
-
-  .section-break {
-    @apply w-full border-t border-border my-12 sm:my-16;
-  }
-
-  .proof-chip {
-    @apply inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono;
-    @apply bg-transparent text-muted border border-border-strong;
+@layer utilities {
+  .font-sans {
+    font-family: 'Inter', system-ui, sans-serif;
   }
 }
