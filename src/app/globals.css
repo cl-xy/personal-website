@@ -19,20 +19,26 @@
 
 @layer components {
   .annotation {
-    @apply font-mono text-xs text-terracotta leading-relaxed;
+    @apply font-mono text-xs text-ink/50 leading-relaxed;
   }
 
   .proof-chip {
-    @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-mono;
-    @apply bg-code-bg text-ink/70;
-    border: 1px solid rgba(31, 41, 51, 0.08);
+    @apply inline-flex items-center gap-1.5 px-2 py-1 rounded-none text-xs font-mono uppercase tracking-wider;
+    @apply bg-transparent text-ink/70 border border-ink/20;
+  }
+
+  .proof-chip::before {
+    content: '[';
+  }
+
+  .proof-chip::after {
+    content: ']';
   }
 
   .field-entry {
-    @apply relative;
   }
 
   .section-divider {
-    @apply w-full h-px bg-gradient-to-r from-transparent via-muted/20 to-transparent my-10 sm:my-16;
+    @apply w-full border-t border-ink/10 my-10 sm:my-16;
   }
 }

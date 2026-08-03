@@ -16,8 +16,8 @@ export const gallery = [
 ];
 
 export const proofChips = [
-  "LLM agents saving 7,000 hrs/yr at Citi",
-  "AI Investment Analyst: deployed end-to-end",
+  "7,000 hrs/yr saved at Citi",
+  "AI Investment Analyst: deployed",
   "LangGraph · FastMCP · SSE",
   "NUS Honors · Ex-Data Scientist",
 ];
@@ -28,7 +28,6 @@ export const projects = [
     title: "AI Investment Analyst",
     subtitle: "Agentic stock analysis with observable reasoning",
     tier: "premium",
-    image: "/bank_app.jpg",
     stack: ["LangGraph", "FastMCP", "FastAPI", "React", "SSE", "Fly.io", "Neon"],
     description:
       "Full-stack AI system that orchestrates multiple LLM agents to produce bull/bear investment analyses with live streaming traces, tool-call observability, and cost tracking.",

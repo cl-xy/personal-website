@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import Annotation from './annotation';
 import TraceReplay from './trace-replay';
@@ -10,12 +9,8 @@ export default function FieldEntry({ project, index }) {
   const isPremium = project.tier === 'premium';
 
   return (
-    <motion.article
-      className={`field-entry ${isPremium ? 'bg-code-bg/50 -mx-4 md:-mx-6 px-4 md:px-6 py-8 rounded-lg' : ''}`}
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.4, delay: index * 0.05 }}
+    <article
+      className={`field-entry ${isPremium ? 'bg-code-bg/50 -mx-4 md:-mx-6 px-4 md:px-6 py-8 rounded-md border border-ink/5' : ''} ${index > 0 ? 'border-t border-ink/10 pt-10' : ''}`}
     >
       {/* Header */}
       <div className="mb-4">
@@ -27,7 +22,7 @@ export default function FieldEntry({ project, index }) {
                 alt=""
                 width={28}
                 height={28}
-                className="rounded-md object-contain"
+                className="rounded-none object-contain"
               />
             )}
             <div>
@@ -44,7 +39,7 @@ export default function FieldEntry({ project, index }) {
                 href={project.links.live}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-xs font-mono text-terracotta hover:underline"
+                className="inline-flex items-center gap-1 text-xs font-mono text-ink hover:underline"
               >
                 Live <ArrowUpRight size={12} />
               </a>
@@ -67,7 +62,7 @@ export default function FieldEntry({ project, index }) {
           {project.stack.map((tech) => (
             <span
               key={tech}
-              className="text-xs font-mono px-2 py-0.5 rounded bg-code-bg text-muted"
+              className="text-xs font-mono px-2 py-0.5 rounded-none bg-code-bg text-muted"
             >
               {tech}
             </span>
@@ -77,7 +72,7 @@ export default function FieldEntry({ project, index }) {
 
       {/* Project image */}
       {project.image && (
-        <div className="relative w-full h-48 sm:h-56 mb-4 rounded-md overflow-hidden">
+        <div className="relative w-full h-48 sm:h-56 mb-4 rounded-none overflow-hidden">
           <Image
             src={project.image}
             alt={`${project.title} screenshot`}
@@ -110,20 +105,28 @@ export default function FieldEntry({ project, index }) {
 
       {/* Annotations (the signature element) */}
       {project.annotations && project.annotations.length > 0 && (
-        <div className="mt-5">
-          <p className="text-xs font-mono text-muted/60 uppercase tracking-wider mb-2">
-            Field notes
-          </p>
-          <div className="space-y-2">
+        <div className="mt-5 lg:grid lg:grid-cols-[1fr_200px] lg:gap-6">
+          <div>
+            <p className="text-xs font-mono text-muted/60 uppercase tracking-wider mb-2 lg:hidden">
+              Field notes
+            </p>
+          </div>
+          <div className="space-y-2 lg:col-start-2 lg:row-start-1">
+            <p className="text-xs font-mono text-muted/60 uppercase tracking-wider mb-2 hidden lg:block">
+              Field notes
+            </p>
             {project.annotations.map((note, i) => (
               <Annotation key={i} note={note} />
             ))}
           </div>
+          {/* On mobile, annotations go inline */}
+          <div className="space-y-2 lg:hidden">
+            {project.annotations.map((note, i) => (
+              <Annotation key={`mobile-${i}`} note={note} />
+            ))}
+          </div>
         </div>
       )}
-
-      {/* Bottom border for non-last items */}
-      <div className="mt-10 h-px bg-ink/5" />
-    </motion.article>
+    </article>
   );
 }

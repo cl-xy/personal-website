@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { siteConfig, proofChips, projects, about, gallery } from '@/lib/data';
 import FieldEntry from '@/components/field-entry';
@@ -14,11 +13,7 @@ export default function Home() {
       <main className="max-w-4xl mx-auto px-5 sm:px-6 md:px-8 pt-24 sm:pt-32 pb-16 sm:pb-24">
         {/* Hero */}
         <section id="top" className="mb-14 sm:mb-20">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
+          <div>
             <p className="font-mono text-xs text-muted mb-4 tracking-wide">
               {siteConfig.role} · {siteConfig.location}
             </p>
@@ -28,52 +23,43 @@ export default function Home() {
             <p className="text-lg md:text-xl text-ink/70 max-w-prose leading-relaxed mb-10">
               {siteConfig.tagline}
             </p>
-          </motion.div>
+          </div>
 
           {/* Proof chips */}
-          <motion.div
-            className="flex flex-wrap gap-2 mb-10"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.5 }}
-          >
+          <div className="flex flex-wrap gap-2 mb-10">
             {proofChips.map((chip) => (
               <span key={chip} className="proof-chip">
                 {chip}
               </span>
             ))}
-          </motion.div>
+          </div>
 
           {/* CTAs */}
-          <motion.div
-            className="flex flex-wrap gap-3 sm:gap-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.4 }}
-          >
+          <div className="flex flex-wrap gap-3 sm:gap-4">
             <a
               href="#field-notes"
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-terracotta text-canvas rounded-md font-medium text-sm hover:bg-terracotta/90 transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-terracotta text-canvas rounded-none font-medium text-sm hover:bg-terracotta/90 transition-colors"
             >
               View field notes
             </a>
             <a
               href={`mailto:${siteConfig.email}`}
-              className="inline-flex items-center gap-2 px-5 py-2.5 border border-ink/15 rounded-md font-medium text-sm text-ink hover:border-ink/30 transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-2.5 border border-ink/15 rounded-none font-medium text-sm text-ink hover:border-ink/30 transition-colors"
             >
               Get in touch
             </a>
-          </motion.div>
+          </div>
         </section>
 
         {/* Field Notes (Projects) */}
         <section id="field-notes" className="mb-14 sm:mb-20">
           <div className="section-divider" />
+          <p className="text-xs font-mono text-muted/50 mb-2">01 /</p>
           <h2 className="font-heading text-2xl md:text-3xl font-semibold mb-10">
             Field Notes
           </h2>
 
-          <div className="space-y-12 sm:space-y-16">
+          <div className="space-y-0">
             {projects.map((project, i) => (
               <FieldEntry key={project.id} project={project} index={i} />
             ))}
@@ -83,6 +69,7 @@ export default function Home() {
         {/* About */}
         <section id="about" className="mb-14 sm:mb-20">
           <div className="section-divider" />
+          <p className="text-xs font-mono text-muted/50 mb-2">02 /</p>
           <h2 className="font-heading text-2xl md:text-3xl font-semibold mb-8">
             About
           </h2>
@@ -95,12 +82,12 @@ export default function Home() {
             {/* Gallery */}
             <div className="grid grid-cols-3 gap-2 lg:w-2/5">
               {gallery.map((img) => (
-                <div key={img.src} className="relative aspect-square rounded-md overflow-hidden">
+                <div key={img.src} className="relative aspect-square rounded-none overflow-hidden">
                   <Image
                     src={img.src}
                     alt={img.alt}
                     fill
-                    className="object-cover hover:scale-105 transition-transform duration-300"
+                    className="object-cover"
                     sizes="(max-width: 768px) 33vw, 150px"
                   />
                 </div>
@@ -112,6 +99,7 @@ export default function Home() {
         {/* Contact */}
         <section id="contact">
           <div className="section-divider" />
+          <p className="text-xs font-mono text-muted/50 mb-2">03 /</p>
           <h2 className="font-heading text-2xl md:text-3xl font-semibold mb-4">
             Get in touch
           </h2>
@@ -121,7 +109,7 @@ export default function Home() {
           <div className="flex flex-wrap gap-4">
             <a
               href={`mailto:${siteConfig.email}`}
-              className="inline-flex items-center gap-2 text-sm font-medium text-ink hover:text-terracotta transition-colors"
+              className="inline-flex items-center gap-2 text-sm font-medium text-ink hover:underline transition-colors"
             >
               <Mail size={16} />
               {siteConfig.email}
@@ -131,7 +119,7 @@ export default function Home() {
               href={siteConfig.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-medium text-ink hover:text-terracotta transition-colors"
+              className="inline-flex items-center gap-2 text-sm font-medium text-ink hover:underline transition-colors"
             >
               <Linkedin size={16} />
               LinkedIn
@@ -141,7 +129,7 @@ export default function Home() {
               href={siteConfig.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-medium text-ink hover:text-terracotta transition-colors"
+              className="inline-flex items-center gap-2 text-sm font-medium text-ink hover:underline transition-colors"
             >
               <Github size={16} />
               GitHub
@@ -152,7 +140,7 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="max-w-4xl mx-auto px-5 sm:px-6 md:px-8 py-8 border-t border-ink/5">
+      <footer className="max-w-4xl mx-auto px-5 sm:px-6 md:px-8 py-8 border-t border-ink/10">
         <p className="text-xs text-muted font-mono">
           Built with curiosity and a healthy distrust of clean narratives.
         </p>

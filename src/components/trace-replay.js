@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { traceSteps, traceMetrics, architectureNodes } from '../lib/trace-data';
 
 function formatElapsed(ms) {
@@ -18,7 +17,7 @@ function ActionBadge({ action }) {
 
   return (
     <span
-      className={`text-[10px] font-mono px-1.5 py-0.5 rounded border ${styles[action] || styles.reasoning}`}
+      className={`text-[10px] font-mono px-1.5 py-0.5 rounded-none border ${styles[action] || styles.reasoning}`}
     >
       {action}
     </span>
@@ -39,20 +38,19 @@ function MetricsBar({ currentStep }) {
 
   return (
     <div className="flex items-center gap-3 flex-wrap">
-      <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-saffron/15 text-ink/70">
+      <span className="text-[11px] font-mono px-2 py-0.5 rounded-none bg-saffron/15 text-ink/70">
         {formatElapsed(step?.elapsed || 0)}
       </span>
-      <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-saffron/15 text-ink/70">
+      <span className="text-[11px] font-mono px-2 py-0.5 rounded-none bg-saffron/15 text-ink/70">
         {step?.tokens?.toLocaleString() || 0} tokens
       </span>
-      <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-saffron/15 text-ink/70">
+      <span className="text-[11px] font-mono px-2 py-0.5 rounded-none bg-saffron/15 text-ink/70">
         $0.00 (free tier)
       </span>
-      <div className="ml-auto h-1 w-20 bg-ink/5 rounded-full overflow-hidden">
-        <motion.div
-          className="h-full bg-terracotta/60 rounded-full"
-          animate={{ width: `${progress * 100}%` }}
-          transition={{ duration: 0.3 }}
+      <div className="ml-auto h-1 w-20 bg-ink/5 overflow-hidden">
+        <div
+          className="h-full bg-terracotta/60"
+          style={{ width: `${progress * 100}%` }}
         />
       </div>
     </div>
@@ -82,7 +80,7 @@ function ArchitectureMini({ activeAgent }) {
                 cx={node.x}
                 cy={node.y}
                 r="10"
-                className={`transition-colors duration-300 ${
+                className={`${
                   isActive
                     ? 'fill-terracotta/20 stroke-terracotta'
                     : 'fill-code-bg stroke-ink/20'
@@ -195,14 +193,14 @@ export default function TraceReplay() {
     : null;
 
   return (
-    <div ref={containerRef} className="my-6 rounded-lg overflow-hidden border border-ink/5">
+    <div ref={containerRef} className="my-6 -mx-4 lg:-mx-8 overflow-hidden border border-ink/10">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-2.5 bg-code-bg border-b border-ink/5">
+      <div className="flex items-center justify-between px-4 py-2.5 bg-code-bg border-b border-ink/10">
         <div className="flex items-center gap-2">
           <div className="flex gap-1">
-            <span className="w-2 h-2 rounded-full bg-terracotta/60" />
-            <span className="w-2 h-2 rounded-full bg-saffron/60" />
-            <span className="w-2 h-2 rounded-full bg-sage/60" />
+            <span className="w-2 h-2 rounded-none bg-terracotta/60" />
+            <span className="w-2 h-2 rounded-none bg-saffron/60" />
+            <span className="w-2 h-2 rounded-none bg-sage/60" />
           </div>
           <span className="text-[11px] font-mono text-muted">
             trace: AAPL analysis
@@ -213,7 +211,7 @@ export default function TraceReplay() {
             if (timeoutRef.current) clearTimeout(timeoutRef.current);
             play();
           }}
-          className="text-[11px] font-mono text-terracotta hover:text-terracotta/80 transition-colors px-2 py-0.5 rounded border border-terracotta/20 hover:border-terracotta/40"
+          className="text-[11px] font-mono text-muted hover:text-ink transition-colors px-2 py-0.5 rounded-none border border-ink/20 hover:border-ink/40"
         >
           {isPlaying ? 'Replaying...' : 'Replay'}
         </button>
@@ -225,41 +223,36 @@ export default function TraceReplay() {
       </div>
 
       {/* Metrics bar */}
-      <div className="px-4 py-2 bg-code-bg/30 border-b border-ink/5">
+      <div className="px-4 py-2 bg-code-bg/30 border-b border-ink/10">
         <MetricsBar currentStep={visibleSteps.length} />
       </div>
 
       {/* Trace steps */}
       <div className="bg-code-bg/50 px-4 py-3 max-h-[280px] overflow-y-auto">
-        <AnimatePresence mode="popLayout">
-          {visibleSteps.map((step) => {
-            const isLatest = step.id === visibleSteps[visibleSteps.length - 1]?.id;
-            return (
-              <motion.div
-                key={step.id}
-                initial={{ opacity: 0, x: -8 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.25 }}
-                className={`flex items-start gap-2 py-1.5 border-l-2 pl-3 mb-1 ${
-                  isLatest ? 'border-terracotta' : 'border-sage/40'
-                }`}
-              >
-                <div className="flex flex-col gap-0.5 min-w-0 flex-1">
-                  <div className="flex items-center gap-2">
-                    <AgentLabel agent={step.agent} />
-                    <ActionBadge action={step.action} />
-                    <span className="text-[10px] font-mono text-muted ml-auto shrink-0">
-                      {formatElapsed(step.elapsed)}
-                    </span>
-                  </div>
-                  <p className="text-xs font-mono text-ink/70 leading-relaxed truncate">
-                    {step.content}
-                  </p>
+        {visibleSteps.map((step) => {
+          const isLatest = step.id === visibleSteps[visibleSteps.length - 1]?.id;
+          return (
+            <div
+              key={step.id}
+              className={`flex items-start gap-2 py-1.5 border-l-2 pl-3 mb-1 ${
+                isLatest ? 'border-terracotta' : 'border-sage/40'
+              }`}
+            >
+              <div className="flex flex-col gap-0.5 min-w-0 flex-1">
+                <div className="flex items-center gap-2">
+                  <AgentLabel agent={step.agent} />
+                  <ActionBadge action={step.action} />
+                  <span className="text-[10px] font-mono text-muted ml-auto shrink-0">
+                    {formatElapsed(step.elapsed)}
+                  </span>
                 </div>
-              </motion.div>
-            );
-          })}
-        </AnimatePresence>
+                <p className="text-xs font-mono text-ink/70 leading-relaxed truncate">
+                  {step.content}
+                </p>
+              </div>
+            </div>
+          );
+        })}
 
         {visibleSteps.length === 0 && !isPlaying && (
           <p className="text-xs font-mono text-muted/60 text-center py-4">
@@ -268,15 +261,11 @@ export default function TraceReplay() {
         )}
 
         {isPlaying && visibleSteps.length > 0 && (
-          <motion.div
-            className="flex items-center gap-1 py-1 pl-3"
-            animate={{ opacity: [0.4, 1, 0.4] }}
-            transition={{ duration: 1.2, repeat: Infinity }}
-          >
-            <span className="w-1 h-1 rounded-full bg-terracotta" />
-            <span className="w-1 h-1 rounded-full bg-terracotta" />
-            <span className="w-1 h-1 rounded-full bg-terracotta" />
-          </motion.div>
+          <div className="flex items-center gap-1 py-1 pl-3">
+            <span className="w-1 h-1 bg-terracotta" />
+            <span className="w-1 h-1 bg-terracotta" />
+            <span className="w-1 h-1 bg-terracotta" />
+          </div>
         )}
 
         <div ref={stepsEndRef} />
