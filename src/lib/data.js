@@ -6,7 +6,14 @@ export const siteConfig = {
   linkedin: "https://www.linkedin.com/in/xinyi-lu-35b72917a/",
   github: "https://github.com/cl-xy",
   tagline: "I build agentic systems, then write down what broke.",
+  cover: "/cover.jpg",
 };
+
+export const gallery = [
+  { src: "/gallery/img2.jpg", alt: "Outdoors" },
+  { src: "/gallery/img3.jpg", alt: "Travel" },
+  { src: "/gallery/img4.jpg", alt: "Hiking" },
+];
 
 export const proofChips = [
   "LLM agents saving 7,000 hrs/yr at Citi",
@@ -21,6 +28,7 @@ export const projects = [
     title: "AI Investment Analyst",
     subtitle: "Agentic stock analysis with observable reasoning",
     tier: "premium",
+    image: "/bank_app.jpg",
     stack: ["LangGraph", "FastMCP", "FastAPI", "React", "SSE", "Fly.io", "Neon"],
     description:
       "Full-stack AI system that orchestrates multiple LLM agents to produce bull/bear investment analyses with live streaming traces, tool-call observability, and cost tracking.",
@@ -46,6 +54,7 @@ export const projects = [
     title: "LLM Policy Retrieval Agents",
     subtitle: "Production agents at Citi saving 7,000 hours/year",
     tier: "standard",
+    logo: "/logos/citi-logo.jpg",
     stack: ["Python", "LangChain", "RAG", "FastAPI", "PostgreSQL", "TruLens"],
     description:
       "Built LLM agents that assist users with policy retrieval across Citi's Private Bank, replacing manual search across thousands of documents.",
@@ -65,6 +74,7 @@ export const projects = [
     title: "SAS-to-PySpark Code Converter",
     subtitle: "LLM-powered legacy code migration tool",
     tier: "standard",
+    logo: "/logos/citi-logo.jpg",
     stack: ["Python", "FastAPI", "React", "GenAI"],
     description:
       "Web application automating conversion of SAS codes to PySpark, enhancing migration efficiency by ~20% for analytics teams.",
@@ -83,6 +93,7 @@ export const projects = [
     title: "AI Portfolio Decarbonization Analysis",
     subtitle: "NLP research on climate finance in Asia",
     tier: "compact",
+    image: "/portfolio_decarbonization.png",
     stack: ["Python", "NLP", "scikit-learn", "NLTK", "Pandas"],
     description:
       "Research project analyzing decarbonization strategies across Asian financial institutions using NLP techniques on corporate disclosures.",

@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import Annotation from './annotation';
@@ -19,11 +20,22 @@ export default function FieldEntry({ project, index }) {
       {/* Header */}
       <div className="mb-4">
         <div className="flex items-start justify-between gap-4">
-          <div>
-            <h3 className="font-heading text-xl font-semibold text-ink">
-              {project.title}
-            </h3>
-            <p className="text-sm text-muted mt-0.5">{project.subtitle}</p>
+          <div className="flex items-center gap-3">
+            {project.logo && (
+              <Image
+                src={project.logo}
+                alt=""
+                width={28}
+                height={28}
+                className="rounded-md object-contain"
+              />
+            )}
+            <div>
+              <h3 className="font-heading text-xl font-semibold text-ink">
+                {project.title}
+              </h3>
+              <p className="text-sm text-muted mt-0.5">{project.subtitle}</p>
+            </div>
           </div>
           {/* Links */}
           <div className="flex gap-2 shrink-0">
@@ -63,6 +75,19 @@ export default function FieldEntry({ project, index }) {
         </div>
       </div>
 
+      {/* Project image */}
+      {project.image && (
+        <div className="relative w-full h-48 sm:h-56 mb-4 rounded-md overflow-hidden">
+          <Image
+            src={project.image}
+            alt={`${project.title} screenshot`}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 700px"
+          />
+        </div>
+      )}
+
       {/* Description */}
       <p className="text-ink/80 leading-relaxed mb-4 max-w-prose">
         {project.description}
@@ -85,7 +110,7 @@ export default function FieldEntry({ project, index }) {
 
       {/* Annotations (the signature element) */}
       {project.annotations && project.annotations.length > 0 && (
-        <div className={`mt-5 ${isPremium ? '' : ''}`}>
+        <div className="mt-5">
           <p className="text-xs font-mono text-muted/60 uppercase tracking-wider mb-2">
             Field notes
           </p>

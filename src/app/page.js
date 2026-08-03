@@ -1,7 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { siteConfig, proofChips, projects, about } from '@/lib/data';
+import Image from 'next/image';
+import { siteConfig, proofChips, projects, about, gallery } from '@/lib/data';
 import FieldEntry from '@/components/field-entry';
 import Nav from '@/components/nav';
 import { ArrowUpRight, Mail, Github, Linkedin } from 'lucide-react';
@@ -85,10 +86,26 @@ export default function Home() {
           <h2 className="font-heading text-2xl md:text-3xl font-semibold mb-8">
             About
           </h2>
-          <div className="max-w-prose space-y-5 text-ink/80 leading-relaxed">
-            <p>{about.intro}</p>
-            <p>{about.current}</p>
-            <p>{about.personal}</p>
+          <div className="flex flex-col lg:flex-row gap-8">
+            <div className="max-w-prose space-y-5 text-ink/80 leading-relaxed lg:w-3/5">
+              <p>{about.intro}</p>
+              <p>{about.current}</p>
+              <p>{about.personal}</p>
+            </div>
+            {/* Gallery */}
+            <div className="grid grid-cols-3 gap-2 lg:w-2/5">
+              {gallery.map((img) => (
+                <div key={img.src} className="relative aspect-square rounded-md overflow-hidden">
+                  <Image
+                    src={img.src}
+                    alt={img.alt}
+                    fill
+                    className="object-cover hover:scale-105 transition-transform duration-300"
+                    sizes="(max-width: 768px) 33vw, 150px"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
