@@ -157,7 +157,7 @@ export const traceSteps = [
     args: "(non_work=true)",
     content: "Verifying non-work signals. Attached evidence:",
     images: [
-      { src: "/gallery/img4.jpg", caption: "hackathon: Singapore", meta: "community_signal" },
+      { src: "/gallery/img4.jpg", caption: "community event: Singapore", meta: "social_signal" },
       { src: "/gallery/img3.jpg", caption: "off-grid mode: Grand Canyon, AZ", meta: "recharge_cycle" },
       { src: "/gallery/img2.jpg", caption: "outdoor operating environment", meta: "default_state" },
     ],
