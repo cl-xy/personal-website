@@ -11,44 +11,54 @@ const typeStyles = {
     icon: '◆',
   },
   reasoning: {
-    label: 'reasoning',
+    label: 'thinking',
     labelColor: 'text-trace-orange',
-    borderColor: 'border-trace-orange/30',
-    contentColor: 'text-trace-text',
-    icon: '●',
+    borderColor: 'border-trace-orange/40',
+    contentColor: 'text-trace-text/80',
+    icon: '⟳',
   },
   tool_call: {
     label: 'tool_call',
     labelColor: 'text-trace-blue',
-    borderColor: 'border-trace-blue/30',
+    borderColor: 'border-trace-blue/40',
     contentColor: 'text-trace-text',
     icon: '→',
   },
   result: {
     label: 'result',
     labelColor: 'text-trace-purple',
-    borderColor: 'border-trace-purple/30',
+    borderColor: 'border-trace-purple/40',
     contentColor: 'text-trace-text',
+    icon: '◉',
+  },
+  recommendation: {
+    label: 'RECOMMENDATION',
+    labelColor: 'text-trace-green',
+    borderColor: 'border-trace-green',
+    contentColor: 'text-trace-green',
     icon: '★',
   },
 };
 
 export default function TraceStep({ step }) {
   const style = typeStyles[step.type] || typeStyles.system;
+  const isRecommendation = step.type === 'recommendation';
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.2, ease: 'easeOut' }}
-      className={`border-l-2 ${style.borderColor} pl-4 py-2`}
+      initial={{ opacity: 0, x: -4 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.15, ease: 'easeOut' }}
+      className={`border-l-2 ${style.borderColor} pl-4 py-2 ${
+        isRecommendation ? 'my-4 bg-trace-green/5 rounded-r-lg py-4' : ''
+      }`}
     >
       {/* Header line */}
       <div className="flex items-center gap-3 mb-1 flex-wrap">
-        <span className="text-trace-muted text-xs font-mono opacity-60">
+        <span className="text-trace-muted text-[10px] font-mono opacity-50">
           {step.timestamp}
         </span>
-        <span className={`text-xs font-mono font-medium ${style.labelColor}`}>
+        <span className={`text-xs font-mono font-semibold ${style.labelColor}`}>
           {style.icon} {style.label}
         </span>
         {step.tool && (
@@ -61,7 +71,7 @@ export default function TraceStep({ step }) {
       {/* Content */}
       <pre
         className={`text-sm font-mono whitespace-pre-wrap leading-relaxed ${style.contentColor} ${
-          step.highlight ? 'bg-trace-purple/5 border border-trace-purple/20 p-3 rounded mt-2' : ''
+          step.highlight ? 'text-base' : ''
         }`}
       >
         {step.content}

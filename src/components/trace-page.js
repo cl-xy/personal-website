@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { traceSteps } from '@/lib/trace-script';
 import TraceStep from '@/components/trace-step';
 import CommandInput from '@/components/command-input';
@@ -43,8 +43,8 @@ export default function TracePage() {
       }
     };
 
-    // Small initial delay before trace begins
-    timeoutRef.current = setTimeout(showNext, 600);
+    // Immediate start — no waiting
+    timeoutRef.current = setTimeout(showNext, 100);
   }, []);
 
   useEffect(() => {
@@ -71,10 +71,6 @@ export default function TracePage() {
   const handleClear = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     runTrace();
-  };
-
-  const handleShowRecruiter = () => {
-    setShowRecruiter(true);
   };
 
   return (
@@ -106,12 +102,22 @@ export default function TracePage() {
           </div>
         </div>
 
-        <button
-          onClick={handleShowRecruiter}
-          className="text-xs font-mono px-3 py-1.5 border border-trace-border text-trace-muted hover:text-trace-text hover:border-trace-text/50 transition-colors rounded"
-        >
-          skip to summary
-        </button>
+        <div className="flex items-center gap-2">
+          {isRunning && (
+            <button
+              onClick={skipToEnd}
+              className="text-xs font-mono px-3 py-1.5 border border-trace-orange/40 text-trace-orange hover:text-trace-text hover:border-trace-orange transition-colors"
+            >
+              skip →
+            </button>
+          )}
+          <button
+            onClick={() => setShowRecruiter(true)}
+            className="text-xs font-mono px-3 py-1.5 border border-trace-border text-trace-muted hover:text-trace-text hover:border-trace-text/50 transition-colors"
+          >
+            recruiter view
+          </button>
+        </div>
       </header>
 
       {/* Trace output */}
@@ -123,18 +129,35 @@ export default function TracePage() {
           <TraceStep key={step.id} step={step} />
         ))}
 
+        {/* Typing indicator while running */}
+        {isRunning && visibleSteps.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="flex items-center gap-2 py-2 pl-4 border-l-2 border-trace-border"
+          >
+            <span className="inline-block w-1.5 h-1.5 bg-trace-green rounded-full animate-pulse" />
+            <span className="text-xs font-mono text-trace-muted">processing...</span>
+          </motion.div>
+        )}
+
         {/* End marker when complete */}
         {traceComplete && (
-          <div className="text-trace-muted font-mono text-xs pt-4 border-t border-trace-border/50 mt-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="text-trace-muted font-mono text-xs pt-4 border-t border-trace-border/50 mt-4"
+          >
             ─ trace complete. type a command below or{' '}
             <button
-              onClick={handleShowRecruiter}
+              onClick={() => setShowRecruiter(true)}
               className="text-trace-blue hover:underline"
             >
               view recruiter summary
             </button>
             .
-          </div>
+          </motion.div>
         )}
       </main>
 
