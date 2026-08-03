@@ -6,6 +6,11 @@ inclusion: always
 
 ## Live URLs
 
+- Website: https://xinyi-lu-website.vercel.app
+- GitHub: https://github.com/cl-xy/personal-website
+
+## AI Investment Analyst (featured project)
+
 - Frontend: https://ai-investment-analyst-iota.vercel.app
 - Backend: https://ai-investment-analyst.fly.dev
 - Health: https://ai-investment-analyst.fly.dev/api/health
