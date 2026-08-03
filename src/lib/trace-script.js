@@ -158,7 +158,7 @@ export const traceSteps = [
     content: "Verifying non-work signals. Attached evidence:",
     images: [
       { src: "/gallery/img4.jpg", caption: "trail: MacRitchie, Singapore", meta: "weekend_reset" },
-      { src: "/gallery/img3.jpg", caption: "off-grid mode: SEA", meta: "recharge_cycle" },
+      { src: "/gallery/img3.jpg", caption: "off-grid mode: Grand Canyon, AZ", meta: "recharge_cycle" },
       { src: "/gallery/img2.jpg", caption: "outdoor operating environment", meta: "default_state" },
     ],
     delay: 300,
