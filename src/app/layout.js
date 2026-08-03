@@ -3,10 +3,10 @@ import { ConsoleEasterEgg } from './console-easter-egg';
 
 export const metadata = {
   title: 'Xinyi Lu — AI Engineer',
-  description: 'I build agentic systems, then write down what broke.',
+  description: 'I ship AI systems, then publish what broke.',
   openGraph: {
     title: 'Xinyi Lu — AI Engineer',
-    description: 'I build agentic systems, then write down what broke.',
+    description: 'I ship AI systems, then publish what broke.',
     type: 'website',
   },
   twitter: {
@@ -20,7 +20,7 @@ export const metadata = {
 export const viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#FAF7F2',
+  themeColor: '#FDFBF7',
 };
 
 export default function RootLayout({ children }) {
@@ -30,11 +30,11 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body className="bg-canvas text-ink min-h-screen">
+      <body className="bg-paper text-ink min-h-screen">
         <ConsoleEasterEgg />
         {children}
       </body>

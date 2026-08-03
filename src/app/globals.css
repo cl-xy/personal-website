@@ -5,40 +5,37 @@
 @layer base {
   html {
     font-family: 'Inter', system-ui, sans-serif;
-    color: #1F2933;
-    background-color: #FAF7F2;
+    color: #1C1C1C;
+    background-color: #FDFBF7;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   ::selection {
-    background-color: #C96F4A;
-    color: #FAF7F2;
+    background-color: #D47A2A;
+    color: #FDFBF7;
   }
 }
 
 @layer components {
-  .annotation {
-    @apply font-mono text-xs text-ink/50 leading-relaxed;
+  .incident-block {
+    @apply relative bg-incident-bg border-t-[3px] border-b-[3px] border-incident py-6 px-5;
+  }
+
+  .fix-block {
+    @apply relative border-l-[3px] border-fix bg-fix-bg py-4 px-5;
+  }
+
+  .shipped-badge {
+    @apply inline-flex items-center gap-1.5 text-xs font-mono px-2.5 py-1 bg-fix/10 text-fix border border-fix/20;
+  }
+
+  .section-break {
+    @apply w-full border-t border-border my-12 sm:my-16;
   }
 
   .proof-chip {
-    @apply inline-flex items-center gap-1.5 px-2 py-1 rounded-none text-xs font-mono uppercase tracking-wider;
-    @apply bg-transparent text-ink/70 border border-ink/20;
-  }
-
-  .proof-chip::before {
-    content: '[';
-  }
-
-  .proof-chip::after {
-    content: ']';
-  }
-
-  .field-entry {
-  }
-
-  .section-divider {
-    @apply w-full border-t border-ink/10 my-10 sm:my-16;
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono;
+    @apply bg-transparent text-muted border border-border-strong;
   }
 }

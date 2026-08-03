@@ -5,7 +5,7 @@ import { siteConfig } from '@/lib/data';
 import { Menu, X } from 'lucide-react';
 
 const navLinks = [
-  { label: 'Field Notes', href: '#field-notes' },
+  { label: 'What Broke', href: '#incidents' },
   { label: 'About', href: '#about' },
   { label: 'Contact', href: '#contact' },
 ];
@@ -20,7 +20,6 @@ export default function Nav() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile menu on resize to desktop
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768) setMobileOpen(false);
@@ -32,11 +31,11 @@ export default function Nav() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
-        scrolled || mobileOpen ? 'bg-canvas/90 backdrop-blur-md border-b border-ink/5' : ''
+        scrolled || mobileOpen ? 'bg-paper/90 backdrop-blur-md border-b border-border' : ''
       }`}
     >
-      <div className="max-w-4xl mx-auto px-5 sm:px-6 md:px-8 flex items-center justify-between h-14">
-        <a href="#top" className="font-heading text-sm font-semibold text-ink">
+      <div className="max-w-3xl mx-auto px-5 sm:px-6 md:px-8 flex items-center justify-between h-14">
+        <a href="#top" className="font-heading text-sm font-bold text-ink tracking-tight">
           {siteConfig.name}
         </a>
 
@@ -46,7 +45,7 @@ export default function Nav() {
             <a
               key={link.href}
               href={link.href}
-              className="text-sm text-muted hover:text-ink transition-colors"
+              className="text-xs font-mono text-muted hover:text-ink transition-colors uppercase tracking-wide"
             >
               {link.label}
             </a>
@@ -66,14 +65,14 @@ export default function Nav() {
 
       {/* Mobile menu panel */}
       {mobileOpen && (
-        <div className="md:hidden bg-canvas/95 backdrop-blur-md border-b border-ink/5 px-5 sm:px-6 pb-4">
+        <div className="md:hidden bg-paper/95 backdrop-blur-md border-b border-border px-5 sm:px-6 pb-4">
           <div className="flex flex-col gap-3">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className="text-sm text-muted hover:text-ink transition-colors py-1"
+                className="text-xs font-mono text-muted hover:text-ink transition-colors uppercase tracking-wide py-1"
               >
                 {link.label}
               </a>

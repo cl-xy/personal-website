@@ -8,25 +8,27 @@ export default {
   theme: {
     extend: {
       colors: {
-        canvas: '#FAF7F2',
-        ink: '#1F2933',
-        terracotta: '#C96F4A',
-        sage: '#7A9E7E',
-        saffron: '#F2CC8F',
-        muted: '#8B8680',
-        'code-bg': '#F5F0EA',
+        paper: '#FDFBF7',
+        ink: '#1C1C1C',
+        incident: '#D47A2A',
+        'incident-bg': '#FFF8F0',
+        fix: '#4A9B8E',
+        'fix-bg': '#F0FAF7',
+        muted: '#6B7280',
+        border: '#E5E2DD',
+        'border-strong': '#C8C4BD',
       },
       fontFamily: {
-        heading: ['Fraunces', 'Georgia', 'serif'],
+        heading: ['Space Grotesk', 'system-ui', 'sans-serif'],
         body: ['Inter', 'system-ui', 'sans-serif'],
         mono: ['JetBrains Mono', 'SFMono-Regular', 'Consolas', 'monospace'],
       },
       fontSize: {
-        'hero': ['3rem', { lineHeight: '1.1', fontWeight: '700' }],
-        'hero-sm': ['2.25rem', { lineHeight: '1.15', fontWeight: '700' }],
+        'hero': ['3.5rem', { lineHeight: '1.05', fontWeight: '700' }],
+        'hero-sm': ['2.5rem', { lineHeight: '1.1', fontWeight: '700' }],
       },
       maxWidth: {
-        'prose': '65ch',
+        'prose': '62ch',
       },
     },
   },
