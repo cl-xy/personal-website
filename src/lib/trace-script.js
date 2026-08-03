@@ -149,6 +149,21 @@ export const traceSteps = [
     delay: 200,
   },
   {
+    id: "12b",
+    timestamp: "00:10.102",
+    agent: "career_analyst_v1",
+    type: "evidence",
+    tool: "fetch_human_context",
+    args: "(non_work=true)",
+    content: "Verifying non-work signals. Attached evidence:",
+    images: [
+      { src: "/gallery/img4.jpg", caption: "trail: MacRitchie, Singapore", meta: "weekend_reset" },
+      { src: "/gallery/img3.jpg", caption: "off-grid mode: SEA", meta: "recharge_cycle" },
+      { src: "/gallery/img2.jpg", caption: "outdoor operating environment", meta: "default_state" },
+    ],
+    delay: 300,
+  },
+  {
     id: 13,
     timestamp: "00:10.558",
     agent: "career_analyst_v1",

@@ -2,6 +2,8 @@
 
 import { motion } from 'framer-motion';
 
+import Image from 'next/image';
+
 const typeStyles = {
   system: {
     label: 'system',
@@ -23,6 +25,13 @@ const typeStyles = {
     borderColor: 'border-trace-blue/40',
     contentColor: 'text-trace-text',
     icon: '→',
+  },
+  evidence: {
+    label: 'evidence',
+    labelColor: 'text-trace-blue',
+    borderColor: 'border-trace-blue/40',
+    contentColor: 'text-trace-text',
+    icon: '📎',
   },
   result: {
     label: 'result',
@@ -76,6 +85,29 @@ export default function TraceStep({ step }) {
       >
         {step.content}
       </pre>
+
+      {/* Evidence images */}
+      {step.images && (
+        <div className="flex gap-3 mt-3 overflow-x-auto pb-2">
+          {step.images.map((img, i) => (
+            <div key={i} className="shrink-0 border border-trace-border rounded overflow-hidden">
+              <div className="relative w-28 h-28 sm:w-36 sm:h-36">
+                <Image
+                  src={img.src}
+                  alt={img.caption}
+                  fill
+                  className="object-cover"
+                  sizes="144px"
+                />
+              </div>
+              <div className="px-2 py-1.5 bg-trace-surface">
+                <p className="text-[10px] font-mono text-trace-muted truncate">{img.caption}</p>
+                <p className="text-[9px] font-mono text-trace-blue/60">tag: {img.meta}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </motion.div>
   );
 }
