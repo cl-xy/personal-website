@@ -40,7 +40,7 @@ export default function Home() {
               href="#field-notes"
               className="inline-flex items-center gap-2 px-5 py-2.5 bg-terracotta text-canvas rounded-none font-medium text-sm hover:bg-terracotta/90 transition-colors"
             >
-              View field notes
+              See what broke
             </a>
             <a
               href={`mailto:${siteConfig.email}`}
@@ -51,13 +51,16 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Field Notes (Projects) */}
+        {/* Field Notes (Projects) — failure-first structure */}
         <section id="field-notes" className="mb-14 sm:mb-20">
           <div className="section-divider" />
           <p className="text-xs font-mono text-muted/50 mb-2">01 /</p>
-          <h2 className="font-heading text-2xl md:text-3xl font-semibold mb-10">
-            Field Notes
+          <h2 className="font-heading text-2xl md:text-3xl font-semibold mb-3">
+            What Broke
           </h2>
+          <p className="text-sm text-muted max-w-prose mb-10">
+            Every shipped system has a failure log. These are mine: the objective, what went wrong, how I fixed it, and what shipped.
+          </p>
 
           <div className="space-y-0">
             {projects.map((project, i) => (

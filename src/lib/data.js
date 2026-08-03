@@ -5,8 +5,7 @@ export const siteConfig = {
   email: "xinyilu2000@gmail.com",
   linkedin: "https://www.linkedin.com/in/xinyi-lu-35b72917a/",
   github: "https://github.com/cl-xy",
-  tagline: "I build agentic systems, then write down what broke.",
-  cover: "/cover.jpg",
+  tagline: "I ship AI systems, then publish what broke.",
 };
 
 export const gallery = [
@@ -29,19 +28,39 @@ export const projects = [
     subtitle: "Agentic stock analysis with observable reasoning",
     tier: "premium",
     stack: ["LangGraph", "FastMCP", "FastAPI", "React", "SSE", "Fly.io", "Neon"],
-    description:
-      "Full-stack AI system that orchestrates multiple LLM agents to produce bull/bear investment analyses with live streaming traces, tool-call observability, and cost tracking.",
-    impact: [
+    objective:
+      "Build a full-stack AI system that orchestrates multiple LLM agents to produce bull/bear investment analyses with live streaming traces, tool-call observability, and cost tracking.",
+    failures: [
+      {
+        what: "SSE connections dropping silently under corporate proxies and Fly.io's load balancer",
+        symptom: "Frontend showed 'connected' but no events arrived after ~30s. No error, no timeout, just silence.",
+        fix: "Added 15-second heartbeat pings. The proxy was buffering small payloads and only flushing on disconnect.",
+        lesson: "Streaming through infrastructure you don't control means you need a keepalive that's louder than the buffer timeout.",
+      },
+      {
+        what: "yfinance returning None for any field, silently",
+        symptom: "Analysis would complete but with nonsensical output. No error raised, no missing data flag.",
+        fix: "Wrapped every field access in explicit None checks, populated a data_gaps array, and surfaced it in the final report.",
+        lesson: "Never trust external APIs to fail loudly. Defensive parsing is not optional.",
+      },
+      {
+        what: "LangGraph felt like overkill for v1 (simple sequential pipeline)",
+        symptom: "Two weeks of setup for what could have been 50 lines of async/await.",
+        fix: "Kept it anyway. Paid off immediately when adding the bull/bear/moderator debate step. State graph made the branching trivial.",
+        lesson: "Premature abstraction is usually wrong, but orchestration frameworks are the exception when you know the system will grow.",
+      },
+      {
+        what: "OpenRouter free tier rate limits (20 req/min) causing cascading failures",
+        symptom: "Third tool call in a chain would 429, killing the entire analysis run.",
+        fix: "Aggressive per-ticker caching in Postgres with stale-while-revalidate. Most repeat analyses hit zero API calls.",
+        lesson: "Rate limits teach you caching architecture faster than any tutorial.",
+      },
+    ],
+    proof: [
       "End-to-end deployed: Fly.io backend + Vercel frontend + Neon Postgres",
       "3-agent debate architecture (bull, bear, moderator) via LangGraph StateGraph",
       "Real-time SSE streaming with heartbeat keep-alive through proxy layers",
       "4 FastMCP tool servers: market data, news, portfolio, SEC filings",
-    ],
-    annotations: [
-      "SSE kept dropping under corporate proxies — added 15s heartbeat pings",
-      "LangGraph was overkill for v1, but paid off immediately when adding the debate step",
-      "OpenRouter free tier rate limits taught me aggressive caching early",
-      "The hardest bug: yfinance returning None for any field, silently",
     ],
     links: {
       live: "https://ai-investment-analyst-iota.vercel.app",
@@ -55,16 +74,26 @@ export const projects = [
     tier: "standard",
     logo: "/logos/citi-logo.jpg",
     stack: ["Python", "LangChain", "RAG", "FastAPI", "PostgreSQL", "TruLens"],
-    description:
-      "Built LLM agents that assist users with policy retrieval across Citi's Private Bank, replacing manual search across thousands of documents.",
-    impact: [
-      "Estimated 7,000 hours/year of manual effort eliminated",
-      "RAG pipeline with evaluation via TruLens metrics",
-      "Deployed internally to compliance and operations teams",
+    objective:
+      "Build LLM agents that assist users with policy retrieval across Citi's Private Bank, replacing manual search across thousands of documents.",
+    failures: [
+      {
+        what: "Evaluation metrics disagreed with actual user satisfaction",
+        symptom: "TruLens scores showed 0.9+ faithfulness, but users complained answers were 'technically correct but useless' for their actual workflow.",
+        fix: "Added task-completion metrics alongside retrieval quality. Measured whether users still opened the original doc after getting the agent's answer.",
+        lesson: "RAG evaluation is a lie if it only measures retrieval. Measure whether the human stopped searching.",
+      },
+      {
+        what: "Chunking strategy broke on policy documents with nested cross-references",
+        symptom: "Chunks would contain 'see Section 4.2' with no context of what Section 4.2 said. Retrieval returned dangling pointers.",
+        fix: "Changed 3 times before settling on semantic boundaries with cross-reference expansion. Each chunk carries its dependency context.",
+        lesson: "Enterprise documents aren't blog posts. Chunking strategy is the entire RAG system.",
+      },
     ],
-    annotations: [
-      "Evaluation was harder than building — TruLens metrics kept disagreeing with user satisfaction",
-      "Chunking strategy changed 3 times before settling on semantic boundaries",
+    proof: [
+      "Estimated 7,000 hours/year of manual effort eliminated",
+      "RAG pipeline with evaluation via TruLens + task-completion metrics",
+      "Deployed internally to compliance and operations teams",
     ],
     links: {},
   },
@@ -75,15 +104,20 @@ export const projects = [
     tier: "standard",
     logo: "/logos/citi-logo.jpg",
     stack: ["Python", "FastAPI", "React", "GenAI"],
-    description:
-      "Web application automating conversion of SAS codes to PySpark, enhancing migration efficiency by ~20% for analytics teams.",
-    impact: [
+    objective:
+      "Build a web application automating conversion of SAS codes to PySpark, enhancing migration efficiency for analytics teams.",
+    failures: [
+      {
+        what: "LLMs silently producing syntactically valid but semantically wrong PySpark",
+        symptom: "Generated code would run without errors but produce different numerical results than the original SAS. Off by fractions of pennies on financial calculations.",
+        fix: "Built a validation layer that ran both SAS output and PySpark output on test datasets, flagging divergence above threshold. Caught ~40% of silent failures.",
+        lesson: "Code generation without execution-based validation is just sophisticated copy-paste.",
+      },
+    ],
+    proof: [
       "~20% efficiency improvement in code migration workflows",
       "ReactJS frontend with Python/FastAPI backend",
       "Used by data engineering teams for legacy modernization",
-    ],
-    annotations: [
-      "SAS has edge cases that no LLM handles perfectly — built a validation layer that caught ~40% of silent failures",
     ],
     links: {},
   },
@@ -94,14 +128,19 @@ export const projects = [
     tier: "compact",
     image: "/portfolio_decarbonization.png",
     stack: ["Python", "NLP", "scikit-learn", "NLTK", "Pandas"],
-    description:
-      "Research project analyzing decarbonization strategies across Asian financial institutions using NLP techniques on corporate disclosures.",
-    impact: [
-      "Analyzed disclosure patterns across major Asian financial institutions",
-      "NUS capstone — earned Distinction",
+    objective:
+      "Analyze decarbonization strategies across Asian financial institutions using NLP techniques on corporate disclosures.",
+    failures: [
+      {
+        what: "Corporate climate disclosures are 80% boilerplate",
+        symptom: "Initial keyword extraction returned near-identical 'strategies' across all institutions. Everything looked the same.",
+        fix: "Built a boilerplate detector trained on the common phrases, then extracted only the residual signal. The differentiation was in what companies said differently, not what they all said.",
+        lesson: "Signal extraction in corporate text means subtracting the template first.",
+      },
     ],
-    annotations: [
-      "Corporate climate disclosures are 80% boilerplate — the signal extraction problem was the real challenge",
+    proof: [
+      "Analyzed disclosure patterns across major Asian financial institutions",
+      "NUS capstone project, earned Distinction",
     ],
     links: {
       github: "https://github.com/cl-xy/bt4103_esg",
@@ -111,7 +150,7 @@ export const projects = [
 
 export const about = {
   intro:
-    "I started in data science — building dashboards, running regressions, writing SQL. Then I built my first LLM agent and realized I wanted to be closer to the systems that make AI actually work in production.",
+    "I started in data science, building dashboards, running regressions, writing SQL. Then I built my first LLM agent and realized I wanted to be closer to the systems that make AI actually work in production.",
   current:
     "Now at Citi as a software engineer, I work across the stack: Java/Spring Boot for trade systems, Python/FastAPI for AI services, React for interfaces. The thread connecting it all is making complex AI capabilities reliable enough to ship.",
   personal:
