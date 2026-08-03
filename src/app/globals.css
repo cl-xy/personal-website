@@ -1,3 +1,38 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+    color: #1F2933;
+    background-color: #FAF7F2;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: #C96F4A;
+    color: #FAF7F2;
+  }
+}
+
+@layer components {
+  .annotation {
+    @apply font-mono text-xs text-terracotta leading-relaxed;
+  }
+
+  .proof-chip {
+    @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-mono;
+    @apply bg-code-bg text-ink/70;
+    border: 1px solid rgba(31, 41, 51, 0.08);
+  }
+
+  .field-entry {
+    @apply relative;
+  }
+
+  .section-divider {
+    @apply w-full h-px bg-gradient-to-r from-transparent via-muted/20 to-transparent my-10 sm:my-16;
+  }
+}
