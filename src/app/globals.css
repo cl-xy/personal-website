@@ -4,42 +4,35 @@
 
 @layer base {
   html {
-    font-family: 'JetBrains Mono', 'SFMono-Regular', 'Consolas', monospace;
+    font-family: 'Inter', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   body {
-    background-color: #0D1117;
-    color: #E6EDF3;
+    background-color: #F8F9FA;
+    color: #1F2937;
   }
 
   ::selection {
-    background-color: #58A6FF;
-    color: #0D1117;
+    background-color: #4F46E5;
+    color: #FFFFFF;
   }
 
-  /* Custom scrollbar for dark theme */
   ::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
   }
 
   ::-webkit-scrollbar-track {
-    background: #0D1117;
+    background: #F8F9FA;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #30363D;
-    border-radius: 4px;
+    background: #E5E7EB;
+    border-radius: 3px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #484F58;
-  }
-}
-
-@layer utilities {
-  .font-sans {
-    font-family: 'Inter', system-ui, sans-serif;
+    background: #D1D5DB;
   }
 }
