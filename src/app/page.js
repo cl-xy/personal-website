@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, Linkedin, Github, ExternalLink, X } from "lucide-react";
 import { profile, benchObjects, drawer, tickerTexts } from "@/lib/bench-data";
@@ -73,10 +73,7 @@ function SpecimenJar() {
 function BenchObjectComp({ obj, onFlip, isFlipped, onSelect }) {
   const [isLifted, setIsLifted] = useState(false);
 
-  const handleClick = () => {
-    if (obj.type === "photo") return;
-    onSelect(obj.id);
-  };
+  const handleClick = () => { onSelect(obj.id); };
 
   const handleDoubleClick = () => {
     if (obj.back) onFlip(obj.id);
@@ -104,22 +101,32 @@ function BenchObjectComp({ obj, onFlip, isFlipped, onSelect }) {
         transform: `rotate(${obj.rotation}deg)`,
         zIndex: isLifted ? 100 : (obj.weight === "heavy" ? 10 : obj.weight === "medium" ? 5 : 2),
       }}
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.5 + Math.random() * 0.6, duration: 0.4 }}
+      initial={{ opacity: 0 }}
+      animate={{
+        opacity: 1,
+        y: [0, -0.5, 0],
+        rotate: [obj.rotation, obj.rotation + 0.3, obj.rotation],
+      }}
+      transition={{
+        delay: 0.5 + Math.random() * 0.6,
+        duration: 0.4,
+        y: { delay: 2 + Math.random() * 3, duration: 4 + Math.random() * 2, repeat: Infinity, ease: "easeInOut" },
+        rotate: { delay: 3 + Math.random() * 4, duration: 6 + Math.random() * 3, repeat: Infinity, ease: "easeInOut" },
+      }}
       onMouseDown={() => setIsLifted(true)}
       onMouseUp={() => setIsLifted(false)}
       onMouseLeave={() => setIsLifted(false)}
       onClick={handleClick}
       onDoubleClick={handleDoubleClick}
       whileHover={{ scale: 1.03, y: -2 }}
+      whileTap={{ scale: 1.06, rotate: 0, transition: { type: "spring", stiffness: 400, damping: 15 } }}
       role="button"
       aria-label={obj.label || obj.id}
       tabIndex={0}
       onKeyDown={(e) => { if (e.key === "Enter") handleClick(); if (e.key === " ") { e.preventDefault(); handleDoubleClick(); } }}
     >
       <div className={`relative w-full h-full object-shadow ${isLifted ? "object-lifted" : ""} ${isFlipped ? "object-flipped" : ""}`}>
-        <div className="object-inner w-full h-full" style={{ perspective: "600px" }}>
+        <div className="object-inner w-full h-full">
           <div className="object-front w-full h-full">
             {obj.id === "ticker-machine" && <TickerMachine />}
             {obj.id === "switchboard" && <Switchboard />}
@@ -201,7 +208,7 @@ function DrawerPanel({ isOpen, onClose }) {
           initial={{ y: 200, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 200, opacity: 0 }}
-          transition={{ type: "spring", stiffness: 200, damping: 25 }}
+          transition={{ type: "spring", stiffness: 120, damping: 18, mass: 1.5 }}
           className="fixed bottom-0 left-0 right-0 z-50 bg-bench-dark border-t border-bench-brass/30 p-6"
         >
           <button onClick={onClose} className="absolute top-4 right-4 text-bench-muted hover:text-bench-cream" aria-label="Close drawer"><X size={18} /></button>
@@ -243,10 +250,8 @@ export default function WorkshopBench() {
   }, []);
 
   const handleSelect = useCallback((id) => {
-    const obj = benchObjects.find((o) => o.id === id);
-    if (obj?.project) setSelectedId(id);
-    else if (obj?.back) toggleFlip(id);
-  }, [toggleFlip]);
+    setSelectedId(id);
+  }, []);
 
   const selectedObj = benchObjects.find((o) => o.id === selectedId);
 
@@ -259,18 +264,42 @@ export default function WorkshopBench() {
         transition={{ duration: 1.2, ease: "easeOut" }}
       />
 
-      <div className="absolute top-0 left-0 right-0 h-[10%] bg-gradient-to-b from-bench-dark to-bench-bg/80 border-b border-bench-muted/10">
-        <div className="flex items-center justify-center h-full gap-8 opacity-20">
-          <div className="w-4 h-8 border border-bench-muted/40 rounded-sm" />
-          <div className="w-3 h-10 border border-bench-muted/40 rounded-sm" />
-          <div className="w-5 h-6 border border-bench-muted/40 rounded-sm" />
-          <div className="w-3 h-9 border border-bench-muted/40 rounded-sm" />
-        </div>
+      <div className="absolute top-0 left-0 right-0 h-[10%] bg-gradient-to-b from-bench-dark to-bench-bg/80 border-b border-bench-muted/10 overflow-hidden">
+        <svg className="absolute inset-0 w-full h-full opacity-[0.12]" viewBox="0 0 800 60" preserveAspectRatio="xMidYMid slice">
+          {/* Peg holes */}
+          <circle cx="100" cy="12" r="2.5" fill="#8b7e6a" />
+          <circle cx="250" cy="12" r="2.5" fill="#8b7e6a" />
+          <circle cx="400" cy="12" r="2.5" fill="#8b7e6a" />
+          <circle cx="550" cy="12" r="2.5" fill="#8b7e6a" />
+          <circle cx="700" cy="12" r="2.5" fill="#8b7e6a" />
+          {/* Hanging ruler */}
+          <rect x="95" y="14" width="10" height="45" rx="1" fill="none" stroke="#b8860b" strokeWidth="0.8" />
+          <line x1="97" y1="20" x2="103" y2="20" stroke="#b8860b" strokeWidth="0.4" />
+          <line x1="97" y1="30" x2="101" y2="30" stroke="#b8860b" strokeWidth="0.4" />
+          <line x1="97" y1="40" x2="103" y2="40" stroke="#b8860b" strokeWidth="0.4" />
+          {/* Magnifying glass */}
+          <circle cx="250" cy="35" r="10" fill="none" stroke="#b87333" strokeWidth="0.8" />
+          <line x1="257" y1="42" x2="264" y2="50" stroke="#b87333" strokeWidth="1.2" strokeLinecap="round" />
+          {/* Pliers */}
+          <path d="M395,14 L395,30 M405,14 L405,30 M393,30 Q400,38 407,30 M395,30 L392,45 M405,30 L408,45" fill="none" stroke="#8b7e6a" strokeWidth="0.8" />
+          {/* Coiled wire */}
+          <path d="M540,14 Q545,20 550,18 Q555,16 552,24 Q549,32 555,35 L555,50" fill="none" stroke="#b87333" strokeWidth="0.6" />
+          {/* Hook with key */}
+          <path d="M700,14 L700,22 Q700,25 697,25 Q694,25 694,22" fill="none" stroke="#8b7e6a" strokeWidth="0.8" />
+          <ellipse cx="700" cy="35" rx="5" ry="8" fill="none" stroke="#b8860b" strokeWidth="0.6" />
+        </svg>
       </div>
 
       <div className="absolute inset-0 top-[10%] bottom-[8%] bench-surface">
         <div className="absolute top-[20%] right-[15%] w-12 h-12 rounded-full border border-bench-muted/15 opacity-40" />
         <div className="absolute top-[60%] left-[35%] w-16 h-[1px] bg-bench-muted/10 rotate-[-5deg]" />
+
+        {lampOn && (
+          <svg className="absolute inset-0 w-full h-full pointer-events-none z-[1] opacity-[0.15]">
+            <line x1="42%" y1="35%" x2="28%" y2="55%" stroke="#b8860b" strokeWidth="0.5" strokeDasharray="4 6" />
+            <line x1="18%" y1="25%" x2="28%" y2="55%" stroke="#b87333" strokeWidth="0.5" strokeDasharray="4 6" />
+          </svg>
+        )}
 
         <AnimatePresence>
           {lampOn && benchObjects.map((obj) => (
@@ -303,7 +332,9 @@ export default function WorkshopBench() {
       <div className="absolute bottom-0 left-0 right-0 h-[8%] bg-bench-dark border-t border-bench-muted/20 flex items-center justify-center">
         <button
           onClick={() => setDrawerOpen(true)}
-          className="w-12 h-3 bg-bench-brass/60 rounded-full hover:bg-bench-brass transition-colors cursor-pointer"
+          className={`w-12 h-3 rounded-full transition-all cursor-pointer ${
+            drawerOpen ? "bg-bench-brass/40 translate-y-[1px]" : "bg-bench-brass/60 hover:bg-bench-brass"
+          }`}
           aria-label="Open drawer"
         />
       </div>
@@ -316,8 +347,31 @@ export default function WorkshopBench() {
       </div>
 
       <AnimatePresence>
-        {selectedId && selectedObj && (
+        {selectedId && selectedObj?.project && (
           <DetailPanel obj={selectedObj} onClose={() => setSelectedId(null)} />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {selectedId && selectedObj?.type === "photo" && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-bench-dark/90 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedId(null)}
+          >
+            <motion.div
+              className="bg-white p-3 rounded-sm shadow-2xl max-w-sm"
+              initial={{ scale: 0.6, rotate: selectedObj.rotation }}
+              animate={{ scale: 1, rotate: 0 }}
+              exit={{ scale: 0.6, rotate: selectedObj.rotation }}
+              transition={{ type: "spring", stiffness: 200, damping: 20 }}
+            >
+              <img src={selectedObj.image} alt={selectedObj.caption} className="w-full rounded-sm" />
+              <p className="text-sm text-bench-dark text-center mt-2 font-hand">{selectedObj.caption}</p>
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
 
