@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+
 import { ArrowUpRight } from 'lucide-react';
 import TraceReplay from './trace-replay';
 
@@ -69,13 +69,8 @@ export default function FieldEntry({ project, index }) {
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-center gap-3">
             {project.logo && (
-              <Image
-                src={project.logo}
-                alt=""
-                width={28}
-                height={28}
-                className="object-contain"
-              />
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img src={project.logo} alt="" width={28} height={28} className="object-contain" />
             )}
             <div>
               <h3 className="font-heading text-xl sm:text-2xl font-bold text-ink tracking-tight">
@@ -125,13 +120,8 @@ export default function FieldEntry({ project, index }) {
       {/* Project image */}
       {project.image && (
         <div className="relative w-full h-48 sm:h-56 mb-8 overflow-hidden border border-border">
-          <Image
-            src={project.image}
-            alt={`${project.title} screenshot`}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, 700px"
-          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={project.image} alt={`${project.title} screenshot`} className="w-full h-full object-cover" />
         </div>
       )}
 
