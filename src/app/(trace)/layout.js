@@ -8,12 +8,8 @@ export const metadata = {
     description: 'AI Engineer portfolio rendered as a live agent trace.',
     type: 'website',
   },
-  twitter: {
-    card: 'summary',
-  },
-  icons: {
-    icon: '/favicon.svg',
-  },
+  twitter: { card: 'summary' },
+  icons: { icon: '/favicon.svg' },
 };
 
 export const viewport = {
@@ -22,7 +18,7 @@ export const viewport = {
   themeColor: '#0D1117',
 };
 
-export default function RootLayout({ children }) {
+export default function TraceLayout({ children }) {
   return (
     <html lang="en">
       <head>

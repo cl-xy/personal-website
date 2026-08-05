@@ -1,0 +1,223 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: #0a0f0d;
+    color: #e2e8f0;
+    overflow: hidden;
+  }
+
+  ::selection {
+    background-color: #0ff5e8;
+    color: #0a0f0d;
+  }
+}
+
+/* Terrarium glass effect */
+.terrarium-glass {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3),
+    0 0 60px rgba(15, 245, 232, 0.02);
+}
+
+/* Condensation dots on glass */
+.condensation::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle 1px, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Soil texture band */
+.soil-band {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(26, 21, 16, 0.4) 20%,
+    #1a1510 60%,
+    #12100c 100%
+  );
+}
+
+/* Organism clickable affordance */
+.organism-group {
+  cursor: pointer;
+}
+
+.organism-group:hover {
+  filter: brightness(1.2) !important;
+}
+
+.organism-group:focus-within {
+  outline: 2px solid rgba(15, 245, 232, 0.4);
+  outline-offset: 4px;
+  border-radius: 50%;
+}
+
+/* Filament glow on hover */
+.organism-group:hover .filament-path {
+  filter: brightness(1.4) drop-shadow(0 0 6px currentColor);
+}
+
+/* Scar gold shimmer */
+@keyframes scarShimmer {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.scar-line {
+  animation: scarShimmer 3s ease-in-out infinite;
+}
+
+/* Code pollen styling */
+.code-pollen {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Specimen label brass plate */
+.brass-plate {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #b8860b 0%, #daa520 50%, #b8860b 100%);
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.2),
+    inset 0 -1px 0 rgba(0,0,0,0.3);
+}
+.brass-plate::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* Detail panel */
+.detail-panel {
+  position: relative;
+  background: rgba(10, 15, 13, 0.95);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Root system particle flow */
+@keyframes rootFlow {
+  0% { offset-distance: 0%; opacity: 0; }
+  10% { opacity: 0.8; }
+  90% { opacity: 0.8; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+
+/* Heartbeat sync: all organisms breathe together */
+.heartbeat {
+  animation: breathe 4s ease-in-out infinite;
+}
+
+/* Mobile habitat zones */
+@media (max-width: 767px) {
+  .habitat-zone {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Scrollbar hidden for terrarium */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Loading sequence keyframes */
+@keyframes loadPulse {
+  0% { transform: scale(0); opacity: 0; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.8; }
+}
+
+.load-pulse {
+  animation: loadPulse 0.6s ease-out forwards;
+}
+
+/* Fog dissolve on entry */
+.fog-layer {
+  background: radial-gradient(ellipse at 50% 60%, rgba(10,15,13,0.95) 0%, rgba(10,15,13,0.7) 40%, transparent 80%);
+  transition: opacity 2.5s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+/* Detail panel draw line */
+.detail-panel::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 0;
+  background: linear-gradient(180deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: drawLine 0.6s 0.2s ease-out forwards;
+}
+@keyframes drawLine {
+  to { height: 100%; }
+}
+
+/* Code pollen drift with cursor influence */
+@keyframes driftUp {
+  0% { transform: translate(0, 0); opacity: 0; }
+  10% { opacity: 0.4; }
+  90% { opacity: 0.4; }
+  100% { transform: translate(var(--drift-x, 0px), -100vh); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heartbeat {
+    animation: none;
+  }
+
+  .code-pollen {
+    animation: none !important;
+    opacity: 0.3 !important;
+    transform: none !important;
+  }
+
+  .scar-line {
+    animation: none;
+  }
+
+  .filament-path {
+    transition: none !important;
+  }
+
+  .organism-group {
+    transition: none !important;
+  }
+
+  .fog-layer {
+    transition: none !important;
+    opacity: 0 !important;
+  }
+}

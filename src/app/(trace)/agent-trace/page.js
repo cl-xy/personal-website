@@ -1,5 +1,5 @@
 import TracePage from '@/components/trace-page';
 
-export default function Home() {
+export default function AgentTracePage() {
   return <TracePage />;
 }
