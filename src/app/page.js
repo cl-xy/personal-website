@@ -3,7 +3,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, Linkedin, Github, ExternalLink, X } from "lucide-react";
-import Image from "next/image";
 import { profile, benchObjects, drawer, tickerTexts } from "@/lib/bench-data";
 
 /* ─── Ticker Machine SVG ─── */

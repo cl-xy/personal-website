@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 
-import Image from 'next/image';
+
 
 const typeStyles = {
   system: {
@@ -92,13 +92,8 @@ export default function TraceStep({ step }) {
           {step.images.map((img, i) => (
             <div key={i} className="shrink-0 border border-trace-border rounded overflow-hidden">
               <div className="relative w-28 h-28 sm:w-36 sm:h-36">
-                <Image
-                  src={img.src}
-                  alt={img.caption}
-                  fill
-                  className="object-cover"
-                  sizes="144px"
-                />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={img.src} alt={img.caption} className="w-full h-full object-cover" />
               </div>
               <div className="px-2 py-1.5 bg-trace-surface">
                 <p className="text-[10px] font-mono text-trace-muted truncate">{img.caption}</p>
