@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Mail, Linkedin, Github, X, ExternalLink } from 'lucide-react';
 import { organisms, rootConnections, pollenKeywords, specimenLabel } from '@/lib/greenhouse-data';
 
@@ -40,7 +40,7 @@ function generateSubBranches(endX, endY, baseAngle, count = 3, length = 30) {
 }
 
 // Organism SVG component
-function OrganismSVG({ organism, isHovered, onClick, loaded }) {
+function OrganismSVG({ organism, isHovered, onClick, loaded, prefersReducedMotion }) {
   const sizeMap = { large: 120, medium: 90, small: 70, seedling: 55 };
   const baseLength = sizeMap[organism.size] || 80;
   const cx = 150;
@@ -93,7 +93,7 @@ function OrganismSVG({ organism, isHovered, onClick, loaded }) {
         opacity={loaded ? 0.9 : 0}
         className="transition-opacity duration-700"
       >
-        {loaded && (
+        {loaded && !prefersReducedMotion && (
           <animate
             attributeName="r"
             values={`${organism.size === 'large' ? 5 : 4};${organism.size === 'large' ? 7 : 5};${organism.size === 'large' ? 5 : 4}`}
@@ -104,7 +104,7 @@ function OrganismSVG({ organism, isHovered, onClick, loaded }) {
       </circle>
 
       {/* Bioluminescent pulse ring on hover */}
-      {isHovered && loaded && (
+      {isHovered && loaded && !prefersReducedMotion && (
         <circle cx={cx} cy={cy} r={10} fill="none" stroke={organism.color} strokeWidth="0.5" opacity="0">
           <animate attributeName="r" from="8" to={baseLength * 0.7} dur="1.2s" repeatCount="indefinite" />
           <animate attributeName="opacity" from="0.6" to="0" dur="1.2s" repeatCount="indefinite" />
@@ -568,12 +568,24 @@ export default function GreenhousePage() {
   const [selectedOrganism, setSelectedOrganism] = useState(null);
   const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
   const containerRef = useRef(null);
+  const shouldReduceMotion = useReducedMotion();
 
   // Loading sequence: trigger after 300ms
   useEffect(() => {
     const timer = setTimeout(() => setLoaded(true), 300);
     return () => clearTimeout(timer);
   }, []);
+
+  // Escape key to close detail panel
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && selectedOrganism) {
+        setSelectedOrganism(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedOrganism]);
 
   // Mouse tracking for parallax
   const handleMouseMove = useCallback((e) => {
@@ -597,10 +609,11 @@ export default function GreenhousePage() {
 
   // Parallax transform
   const getParallax = useCallback((depth) => {
+    if (shouldReduceMotion) return '';
     const dx = (mousePos.x - 50) * depth * 0.1;
     const dy = (mousePos.y - 50) * depth * 0.05;
     return `translate(${dx}px, ${dy}px)`;
-  }, [mousePos]);
+  }, [mousePos, shouldReduceMotion]);
 
   const sizeClasses = {
     large: 'w-64 h-64 md:w-80 md:h-80',
@@ -694,6 +707,7 @@ export default function GreenhousePage() {
                 isHovered={hoveredOrganism === org.id}
                 onClick={() => setSelectedOrganism(org)}
                 loaded={loaded}
+                prefersReducedMotion={shouldReduceMotion}
               />
             </div>
           </div>
@@ -701,7 +715,7 @@ export default function GreenhousePage() {
       })}
 
       {/* Code pollen */}
-      <CodePollen loaded={loaded} mousePos={mousePos} />
+      <CodePollen loaded={loaded && !shouldReduceMotion} mousePos={mousePos} />
 
       {/* Specimen label */}
       <SpecimenLabelComponent loaded={loaded} />

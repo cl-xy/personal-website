@@ -192,3 +192,32 @@
   90% { opacity: 0.4; }
   100% { transform: translate(var(--drift-x, 0px), -100vh); opacity: 0; }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .heartbeat {
+    animation: none;
+  }
+
+  .code-pollen {
+    animation: none !important;
+    opacity: 0.3 !important;
+    transform: none !important;
+  }
+
+  .scar-line {
+    animation: none;
+  }
+
+  .filament-path {
+    transition: none !important;
+  }
+
+  .organism-group {
+    transition: none !important;
+  }
+
+  .fog-layer {
+    transition: none !important;
+    opacity: 0 !important;
+  }
+}
