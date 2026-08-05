@@ -136,12 +136,11 @@ export default function TraceStep({ step, index }) {
                 className="shrink-0 border border-trace-border rounded overflow-hidden hover:border-trace-blue/40 transition-colors snap-start"
               >
                 <div className="relative w-24 h-24 sm:w-36 sm:h-36">
-                  <Image
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
                     src={img.src}
                     alt={img.caption}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 640px) 96px, 144px"
+                    className="w-full h-full object-cover"
                   />
                 </div>
                 <div className="px-2 py-1.5 bg-trace-surface">
