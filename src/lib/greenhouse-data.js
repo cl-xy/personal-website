@@ -207,7 +207,7 @@ export const specimenLabel = {
   stack: 'LangGraph, FastMCP, SSE, Full-stack deploy',
   links: {
     email: 'xinyilu2000@gmail.com',
-    linkedin: 'https://linkedin.com/in/xinyilu2000',
+    linkedin: 'https://www.linkedin.com/in/xinyi-lu-35b72917a/',
     github: 'https://github.com/cl-xy',
   },
 };

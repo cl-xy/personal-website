@@ -51,6 +51,21 @@
   );
 }
 
+/* Organism clickable affordance */
+.organism-group {
+  cursor: pointer;
+}
+
+.organism-group:hover {
+  filter: brightness(1.2) !important;
+}
+
+.organism-group:focus-within {
+  outline: 2px solid rgba(15, 245, 232, 0.4);
+  outline-offset: 4px;
+  border-radius: 50%;
+}
+
 /* Filament glow on hover */
 .organism-group:hover .filament-path {
   filter: brightness(1.4) drop-shadow(0 0 6px currentColor);

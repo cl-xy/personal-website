@@ -79,8 +79,10 @@ function OrganismSVG({ organism, isHovered, onClick, loaded }) {
       viewBox="0 0 300 300"
       className="w-full h-full cursor-pointer"
       onClick={onClick}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } }}
       role="button"
       aria-label={`View ${organism.name} project details`}
+      tabIndex={0}
     >
       {/* Center node */}
       <circle
@@ -613,6 +615,16 @@ export default function GreenhousePage() {
       onMouseMove={handleMouseMove}
       className="relative w-screen h-screen overflow-hidden bg-greenhouse-bg terrarium-glass condensation"
     >
+      {/* Version nav */}
+      <nav className="fixed top-4 left-4 z-50 flex items-center gap-3">
+        <a
+          href="../"
+          className="text-[10px] font-mono text-white/30 hover:text-white/70 transition-colors"
+          aria-label="Back to all versions"
+        >
+          ← versions
+        </a>
+      </nav>
       {/* Fog dissolve on entry */}
       <div className={`fog-layer fixed inset-0 z-[60] ${loaded ? 'opacity-0' : 'opacity-100'}`} />
 
@@ -712,6 +724,23 @@ export default function GreenhousePage() {
           </>
         )}
       </AnimatePresence>
+
+      {/* Desktop hint */}
+      {!selectedOrganism && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: loaded ? 0.6 : 0 }}
+          transition={{ delay: 4, duration: 1 }}
+          className="hidden md:block absolute bottom-24 left-1/2 -translate-x-1/2 text-white/40 text-xs font-mono z-20 pointer-events-none"
+        >
+          <motion.span
+            animate={{ opacity: [0.6, 0] }}
+            transition={{ delay: 12, duration: 2 }}
+          >
+            click an organism to explore
+          </motion.span>
+        </motion.div>
+      )}
 
       {/* Mobile hint */}
       <div className="md:hidden absolute bottom-20 left-1/2 -translate-x-1/2 text-white/30 text-xs z-20">
