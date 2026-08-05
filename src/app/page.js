@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence, useReducedMotion, MotionConfig } from "framer-motion";
 import { Mail, Linkedin, Github, ExternalLink, X } from "lucide-react";
 import { profile, benchObjects, drawer, tickerTexts } from "@/lib/bench-data";
@@ -187,6 +187,12 @@ function BenchObjectComp({ obj, onFlip, isFlipped, onSelect }) {
 
 /* ─── Detail Panel ─── */
 function DetailPanel({ obj, onClose }) {
+  const closeRef = useRef(null);
+
+  useEffect(() => {
+    if (closeRef.current) closeRef.current.focus();
+  }, []);
+
   if (!obj || !obj.project) return null;
   const p = obj.project;
   return (
@@ -199,7 +205,7 @@ function DetailPanel({ obj, onClose }) {
       exit={{ opacity: 0, y: 20 }}
       className="fixed bottom-0 left-0 right-0 z-50 bg-bench-dark/95 backdrop-blur-sm border-t border-bench-brass/20 p-6 max-h-[60vh] overflow-y-auto"
     >
-      <button onClick={onClose} className="absolute top-4 right-4 text-bench-muted hover:text-bench-cream transition-colors" aria-label="Close"><X size={18} /></button>
+      <button ref={closeRef} onClick={onClose} className="absolute top-4 right-4 text-bench-muted hover:text-bench-cream transition-colors" aria-label="Close"><X size={18} /></button>
       <div className="max-w-2xl mx-auto">
         <h2 className="text-lg font-semibold text-bench-cream">{p.title}</h2>
         <p className="text-sm text-bench-muted mt-1">{p.subtitle}</p>
@@ -227,6 +233,12 @@ function DetailPanel({ obj, onClose }) {
 
 /* ─── Drawer ─── */
 function DrawerPanel({ isOpen, onClose }) {
+  const closeRef = useRef(null);
+
+  useEffect(() => {
+    if (isOpen && closeRef.current) closeRef.current.focus();
+  }, [isOpen]);
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -240,7 +252,7 @@ function DrawerPanel({ isOpen, onClose }) {
           transition={{ type: "spring", stiffness: 120, damping: 18, mass: 1.5 }}
           className="fixed bottom-0 left-0 right-0 z-50 bg-bench-dark border-t border-bench-brass/30 p-6"
         >
-          <button onClick={onClose} className="absolute top-4 right-4 text-bench-muted hover:text-bench-cream" aria-label="Close drawer"><X size={18} /></button>
+          <button ref={closeRef} onClick={onClose} className="absolute top-4 right-4 text-bench-muted hover:text-bench-cream" aria-label="Close drawer"><X size={18} /></button>
           <div className="max-w-md mx-auto">
             <h3 className="font-mono text-sm text-bench-brass mb-3">{drawer.resume.headline}</h3>
             <ul className="space-y-2 mb-4">
@@ -264,6 +276,7 @@ export default function WorkshopBench() {
   const [selectedId, setSelectedId] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [lampOn, setLampOn] = useState(false);
+  const triggerRef = useRef(null);
 
   const shouldReduceMotion = useReducedMotion();
 
@@ -292,14 +305,29 @@ export default function WorkshopBench() {
   }, []);
 
   const handleSelect = useCallback((id) => {
+    triggerRef.current = document.activeElement;
     setSelectedId(id);
   }, []);
+
+  const openDrawer = useCallback(() => {
+    triggerRef.current = document.activeElement;
+    setDrawerOpen(true);
+  }, []);
+
+  // Restore focus to the triggering element when overlays close
+  useEffect(() => {
+    if (!selectedId && !drawerOpen && triggerRef.current) {
+      triggerRef.current.focus();
+      triggerRef.current = null;
+    }
+  }, [selectedId, drawerOpen]);
 
   const selectedObj = benchObjects.find((o) => o.id === selectedId);
 
   return (
     <MotionConfig reducedMotion="user">
     <div className="h-screen w-screen overflow-hidden bg-bench-bg relative">
+      <div inert={selectedId || drawerOpen ? true : undefined}>
       {/* Version nav */}
       <nav className="fixed top-3 left-3 z-50">
         <a
@@ -385,7 +413,7 @@ export default function WorkshopBench() {
 
       <div className="absolute bottom-0 left-0 right-0 h-[8%] bg-bench-dark border-t border-bench-muted/20 flex items-center justify-center">
         <button
-          onClick={() => setDrawerOpen(true)}
+          onClick={openDrawer}
           className={`w-12 h-3 rounded-full transition-all cursor-pointer ${
             drawerOpen ? "bg-bench-brass/40 translate-y-[1px]" : "bg-bench-brass/60 hover:bg-bench-brass"
           }`}
@@ -398,6 +426,7 @@ export default function WorkshopBench() {
           <p className="text-xs font-mono text-bench-dark font-semibold tracking-wide">{profile.name}</p>
           <p className="text-[10px] font-mono text-bench-dark/70">{profile.role} · {profile.location}</p>
         </div>
+      </div>
       </div>
 
       <AnimatePresence>
