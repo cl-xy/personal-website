@@ -9,6 +9,15 @@ import { profile, benchObjects, drawer, tickerTexts } from "@/lib/bench-data";
 function TickerMachine() {
   return (
     <div className="relative w-full h-full">
+      <a
+        href="https://ai-investment-analyst-iota.vercel.app"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="absolute top-1 left-1 z-10 text-[8px] font-mono text-bench-brass/80 hover:text-bench-cream transition-colors flex items-center gap-0.5"
+        onClick={(e) => e.stopPropagation()}
+      >
+        ▶ Live
+      </a>
       <div className="absolute inset-0 border border-bench-brass/40 rounded-sm bg-bench-dark/50 overflow-hidden">
         <svg viewBox="0 0 80 50" className="absolute inset-0 w-full h-full opacity-40">
           <circle cx="20" cy="25" r="8" fill="none" stroke="#b8860b" strokeWidth="0.5" strokeDasharray="2 2" className="animate-[spin_8s_linear_infinite]" />
@@ -44,7 +53,7 @@ function Switchboard() {
           <path d="M70,5 Q72,15 68,25" fill="none" stroke="#b87333" strokeWidth="1" className="pendulum" />
         </svg>
         <div className="absolute bottom-1 right-2 font-mono text-[8px] text-bench-brass/60">7,247</div>
-        <div className="absolute top-3 left-2 bg-bench-red/70 px-1 text-[6px] font-mono text-bench-cream/80 rotate-[-3deg]">DEPRECATED</div>
+        <div className="absolute top-3 left-2 bg-bench-brass/50 px-1 text-[6px] font-mono text-bench-cream/80 rotate-[-3deg]">PRODUCTION</div>
       </div>
     </div>
   );
@@ -132,6 +141,16 @@ function BenchObjectComp({ obj, onFlip, isFlipped, onSelect }) {
       <div className={`relative w-full h-full object-shadow ${isLifted ? "object-lifted" : ""} ${isFlipped ? "object-flipped" : ""} ${obj.id === "ticker-machine" ? "attention-pulse" : ""}`}>
         <div className="object-inner w-full h-full">
           <div className="object-front w-full h-full">
+            {obj.back && (
+              <button
+                className="absolute top-1 right-1 z-10 w-5 h-5 flex items-center justify-center rounded-full bg-bench-brass/30 hover:bg-bench-brass/60 text-bench-cream/60 hover:text-bench-cream transition-all text-[10px]"
+                onClick={(e) => { e.stopPropagation(); onFlip(obj.id); }}
+                aria-label="Flip card"
+                tabIndex={0}
+              >
+                ↻
+              </button>
+            )}
             {obj.id === "ticker-machine" && <TickerMachine />}
             {obj.id === "switchboard" && <Switchboard />}
             {obj.id === "specimen-jar" && <SpecimenJar />}
@@ -261,6 +280,17 @@ export default function WorkshopBench() {
 
   return (
     <div className="h-screen w-screen overflow-hidden bg-bench-bg relative">
+      {/* Version nav */}
+      <nav className="fixed top-3 left-3 z-50">
+        <a
+          href="../"
+          className="text-[10px] font-mono text-bench-muted/50 hover:text-bench-cream/70 transition-colors"
+          aria-label="Back to all versions"
+        >
+          ← versions
+        </a>
+      </nav>
+
       <motion.div
         className="absolute inset-0 lamp-cone"
         initial={{ opacity: 0, scale: 0.6 }}
@@ -325,11 +355,11 @@ export default function WorkshopBench() {
 
         <motion.p
           initial={{ opacity: 0 }}
-          animate={{ opacity: [0, 0.8, 0.8, 0.3] }}
+          animate={{ opacity: [0, 1, 1, 0.5] }}
           transition={{ delay: 1.5, duration: 4, times: [0, 0.1, 0.6, 1] }}
-          className="absolute top-[15%] left-1/2 -translate-x-1/2 text-sm font-hand text-bench-cream/60 italic z-20 pointer-events-none"
+          className="absolute top-[15%] left-1/2 -translate-x-1/2 text-sm font-hand text-bench-cream/80 italic z-20 pointer-events-none"
         >
-          pick something up. double-click to flip.
+          pick something up. click ↻ to flip.
         </motion.p>
       </div>
 
