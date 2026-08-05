@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import {
   TrendingUp,
@@ -45,10 +45,50 @@ const severityColors = {
   low: "bg-yellow-400 text-yellow-900",
 };
 
+const severityBorders = {
+  critical: "border-l-2 border-l-red-500",
+  high: "border-l-2 border-l-orange-500",
+};
+
+function StrengthBar({ strength, isActive }) {
+  return (
+    <div className="flex items-center gap-0.5 ml-1">
+      {[1, 2, 3, 4].map((i) => (
+        <div
+          key={i}
+          className={`w-1.5 h-3 rounded-sm transition-colors duration-150 ${
+            i <= strength
+              ? isActive
+                ? "bg-white/70"
+                : "bg-case-slate/40"
+              : isActive
+                ? "bg-white/20"
+                : "bg-case-slate/10"
+          }`}
+        />
+      ))}
+    </div>
+  );
+}
+
 export default function CaseFilePage() {
   const [activeFilter, setActiveFilter] = useState(null);
   const [expandedCard, setExpandedCard] = useState(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const verdictRef = useRef(null);
+
+  // Scroll progress bar
+  useEffect(() => {
+    function handleScroll() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (docHeight > 0) {
+        setScrollProgress(Math.min(scrollTop / docHeight, 1));
+      }
+    }
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const filteredEvidence = activeFilter
     ? evidence.filter((e) => e.signal === activeFilter)
@@ -64,7 +104,15 @@ export default function CaseFilePage() {
 
   return (
     <div className="min-h-screen">
-      {/* Skip to verdict - always visible */}
+      {/* Scroll Progress Bar */}
+      <div className="fixed top-0 left-0 right-0 z-[60] h-0.5 bg-case-border/30">
+        <div
+          className="h-full bg-case-accent transition-[width] duration-75 ease-out"
+          style={{ width: `${scrollProgress * 100}%` }}
+        />
+      </div>
+
+      {/* Skip to verdict */}
       <button
         onClick={scrollToVerdict}
         className="fixed top-4 right-4 z-50 flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-case-muted hover:text-case-accent bg-case-surface border border-case-border rounded-full shadow-sm transition-colors duration-150"
@@ -74,23 +122,37 @@ export default function CaseFilePage() {
 
       {/* Header */}
       <header className="pt-16 pb-12 px-6 text-center">
-        <p className="text-xs font-semibold tracking-widest text-case-muted uppercase mb-4">
-          Candidate Evaluation
-        </p>
-        <h1 className="text-4xl sm:text-5xl font-bold text-case-slate mb-3">
-          {candidate.name}
-        </h1>
-        <p className="text-lg text-case-muted">
-          {candidate.role} · {candidate.location} · {candidate.education}
-        </p>
-        <p className="text-sm text-case-muted mt-1">
-          {candidate.current}
-        </p>
+        <div className="max-w-2xl mx-auto">
+          <div className="flex items-center justify-center gap-4 mb-4 text-xs font-mono text-case-muted">
+            <span>{candidate.caseNumber}</span>
+            <span className="w-1 h-1 rounded-full bg-case-muted/40" />
+            <span>Filed: {candidate.filedDate}</span>
+            <span className="w-1 h-1 rounded-full bg-case-muted/40" />
+            <span className="px-1.5 py-0.5 border border-case-border rounded text-[10px] tracking-wider uppercase">
+              {candidate.classification}
+            </span>
+          </div>
+          <p className="text-xs font-semibold tracking-widest text-case-muted uppercase mb-4">
+            Candidate Evaluation
+          </p>
+          <h1 className="text-4xl sm:text-5xl font-bold text-case-slate mb-3">
+            {candidate.name}
+          </h1>
+          <p className="text-lg text-case-muted">
+            {candidate.role} · {candidate.location} · {candidate.education}
+          </p>
+          <p className="text-sm text-case-muted mt-1">
+            {candidate.current}
+          </p>
+          <p className="text-xs text-case-muted/60 mt-3 font-mono">
+            Assessor: Hiring Committee
+          </p>
+        </div>
       </header>
 
       {/* Signal Filters */}
-      <nav className="sticky top-0 z-40 bg-case-bg/95 backdrop-blur-sm border-b border-case-border">
-        <div className="max-w-5xl mx-auto px-6 py-3 flex flex-wrap gap-2 justify-center">
+      <nav className="sticky top-0.5 z-40 bg-case-bg/95 backdrop-blur-sm border-b border-case-border">
+        <div className="max-w-5xl mx-auto px-6 py-3 flex gap-2 justify-start sm:justify-center overflow-x-auto whitespace-nowrap">
           {signals.map((signal) => {
             const Icon = iconMap[signal.icon];
             const isActive = activeFilter === signal.id;
@@ -98,7 +160,7 @@ export default function CaseFilePage() {
               <button
                 key={signal.id}
                 onClick={() => toggleFilter(signal.id)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium border transition-all duration-150 ${
+                className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium border transition-all duration-150 flex-shrink-0 ${
                   isActive
                     ? "bg-case-accent text-white border-case-accent shadow-sm"
                     : "bg-case-surface text-case-slate border-case-border hover:border-case-accent/40"
@@ -106,6 +168,7 @@ export default function CaseFilePage() {
               >
                 <Icon size={16} />
                 {signal.label}
+                <StrengthBar strength={signal.strength} isActive={isActive} />
                 <span
                   className={`text-xs px-1.5 py-0.5 rounded-full ${
                     isActive
@@ -150,10 +213,10 @@ export default function CaseFilePage() {
       {/* Verdict Section */}
       <section ref={verdictRef} className="max-w-5xl mx-auto px-6 pb-16">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4 }}
+          initial={{ opacity: 0, scale: 0.97, filter: "blur(4px)" }}
+          whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
           className="bg-case-surface border border-case-border rounded-xl shadow-sm overflow-hidden"
         >
           <div className="flex">
@@ -164,14 +227,17 @@ export default function CaseFilePage() {
                   Recommendation
                 </span>
               </div>
-              <h2 className="text-3xl font-bold text-case-green mb-1">
+              <h2 className="text-4xl font-bold text-case-green mb-1">
                 {verdict.recommendation}
               </h2>
               <p className="text-sm text-case-muted mb-4">
                 Confidence: {verdict.confidence}
               </p>
-              <p className="text-case-slate leading-relaxed mb-6">
+              <p className="text-case-slate leading-relaxed mb-3">
                 {verdict.summary}
+              </p>
+              <p className="text-sm italic text-case-muted/80 mb-6">
+                &ldquo;{verdict.keyFinding}&rdquo;
               </p>
               <div className="flex flex-wrap gap-2 mb-8">
                 {verdict.fitFor.map((role) => (
@@ -249,19 +315,29 @@ export default function CaseFilePage() {
 function EvidenceCard({ item, index, expanded, onToggle }) {
   const isFailure = item.signal === "resilience";
   const hasExpandableContent = isFailure && (item.rootCause || item.fix || item.lesson);
+  const hasSeverityBorder = item.severity && severityBorders[item.severity];
 
   return (
     <motion.div
       layout
       initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, y: 0, rotate: 0, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.95, rotate: -1 }}
       transition={{ duration: 0.2, delay: index * 0.03 }}
       onClick={hasExpandableContent ? onToggle : undefined}
-      className={`bg-case-surface border border-case-border rounded-xl p-5 shadow-sm ${
+      className={`relative bg-case-surface border border-case-border rounded-xl p-5 shadow-sm ${
+        hasSeverityBorder ? severityBorders[item.severity] : ""
+      } ${
         hasExpandableContent ? "cursor-pointer hover:shadow-md" : ""
       } transition-shadow duration-150`}
     >
+      {/* Exhibit label */}
+      {item.exhibit && (
+        <span className="absolute top-3 right-3 text-[10px] font-mono font-medium text-case-muted/50 tracking-wide">
+          EX-{item.exhibit}
+        </span>
+      )}
+
       {/* Top row: signal badge + verified/severity */}
       <div className="flex items-start justify-between mb-3">
         <span
