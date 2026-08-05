@@ -1,11 +1,11 @@
 import './globals.css';
 
 export const metadata = {
-  title: 'Xinyi Lu — Evidence Atlas',
-  description: 'AI Engineer portfolio. Explore the evidence.',
+  title: 'Xinyi Lu — The Greenhouse',
+  description: 'AI Engineer portfolio. Living systems, kintsugi scars, root connections.',
   openGraph: {
-    title: 'Xinyi Lu — Evidence Atlas',
-    description: 'AI Engineer building production LLM agents. Explore the trail.',
+    title: 'Xinyi Lu — The Greenhouse',
+    description: 'AI Engineer building production LLM agents. 4 deployed systems, 7000 hrs/yr automated.',
     type: 'website',
   },
   twitter: { card: 'summary' },
@@ -15,7 +15,7 @@ export const metadata = {
 export const viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#FAF6F0',
+  themeColor: '#0a0f0d',
 };
 
 export default function RootLayout({ children }) {
@@ -25,11 +25,11 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body className="bg-atlas-bg text-atlas-slate min-h-screen">
+      <body className="bg-greenhouse-bg text-white min-h-screen">
         {children}
       </body>
     </html>

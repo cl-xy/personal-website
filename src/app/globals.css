@@ -10,24 +10,127 @@
   }
 
   body {
-    background-color: #FAF6F0;
-    color: #2D3748;
+    background-color: #0a0f0d;
+    color: #e2e8f0;
+    overflow: hidden;
   }
 
   ::selection {
-    background-color: #C96F4A;
-    color: #FFFCF8;
+    background-color: #0ff5e8;
+    color: #0a0f0d;
   }
 }
 
-/* Paper grain texture overlay for map container */
-.paper-grain::before {
+/* Terrarium glass effect */
+.terrarium-glass {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3),
+    0 0 60px rgba(15, 245, 232, 0.02);
+}
+
+/* Condensation dots on glass */
+.condensation::after {
   content: '';
   position: absolute;
   inset: 0;
-  opacity: 0.04;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  background-image: radial-gradient(circle 1px, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
   pointer-events: none;
-  border-radius: inherit;
-  z-index: 1;
+  z-index: 2;
+}
+
+/* Soil texture band */
+.soil-band {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(26, 21, 16, 0.4) 20%,
+    #1a1510 60%,
+    #12100c 100%
+  );
+}
+
+/* Filament glow on hover */
+.organism-group:hover .filament-path {
+  filter: brightness(1.4) drop-shadow(0 0 6px currentColor);
+}
+
+/* Scar gold shimmer */
+@keyframes scarShimmer {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.scar-line {
+  animation: scarShimmer 3s ease-in-out infinite;
+}
+
+/* Code pollen styling */
+.code-pollen {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Specimen label brass plate */
+.brass-plate {
+  background: linear-gradient(135deg, #b8860b 0%, #daa520 50%, #b8860b 100%);
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.2),
+    inset 0 -1px 0 rgba(0,0,0,0.3);
+}
+
+/* Detail panel */
+.detail-panel {
+  background: rgba(10, 15, 13, 0.95);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Root system particle flow */
+@keyframes rootFlow {
+  0% { offset-distance: 0%; opacity: 0; }
+  10% { opacity: 0.8; }
+  90% { opacity: 0.8; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+
+/* Heartbeat sync: all organisms breathe together */
+.heartbeat {
+  animation: breathe 4s ease-in-out infinite;
+}
+
+/* Mobile habitat zones */
+@media (max-width: 767px) {
+  .habitat-zone {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Scrollbar hidden for terrarium */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Loading sequence keyframes */
+@keyframes loadPulse {
+  0% { transform: scale(0); opacity: 0; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.8; }
+}
+
+.load-pulse {
+  animation: loadPulse 0.6s ease-out forwards;
 }
