@@ -292,7 +292,7 @@ export default function TracePage() {
         ref={scrollRef}
         className="flex-1 overflow-y-auto px-4 sm:px-6 py-6 space-y-0.5"
         role="log"
-        aria-live="polite"
+        aria-live={shouldReduceMotion ? "off" : "polite"}
         aria-label="Agent evaluation trace"
       >
         <AnimatePresence mode="popLayout">
@@ -400,6 +400,12 @@ export default function TracePage() {
       >
         ← versions
       </a>
+      {/* Screen reader completion announcement */}
+      {traceComplete && (
+        <div role="status" aria-live="polite" className="sr-only">
+          Evaluation complete. {totalSteps} steps analyzed. Recommendation: Strong hire. View recruiter summary for details.
+        </div>
+      )}
     </div>
     </MotionConfig>
   );
