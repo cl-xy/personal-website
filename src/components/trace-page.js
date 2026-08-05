@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, useReducedMotion, MotionConfig } from 'framer-motion';
 import { traceSteps } from '@/lib/trace-script';
 import TraceStep from '@/components/trace-step';
 import CommandInput from '@/components/command-input';
@@ -55,6 +55,7 @@ export default function TracePage() {
   const stepIndexRef = useRef(0);
   const tokenIntervalRef = useRef(null);
 
+  const shouldReduceMotion = useReducedMotion();
   const elapsed = useElapsedTime(isRunning);
 
   useEffect(() => {
@@ -112,6 +113,18 @@ export default function TracePage() {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
   }, [runTrace]);
+
+  // Instant render for reduced motion preference
+  useEffect(() => {
+    if (shouldReduceMotion) {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      setVisibleSteps(traceSteps);
+      setTokenCount(2847);
+      setIsRunning(false);
+      setCompletionPhase(false);
+      setTraceComplete(true);
+    }
+  }, [shouldReduceMotion]);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -178,6 +191,7 @@ export default function TracePage() {
   const progress = (stepCount / totalSteps) * 100;
 
   return (
+    <MotionConfig reducedMotion="user">
     <div className="h-screen flex flex-col bg-trace-bg text-trace-text overflow-hidden">
       {/* Progress rail */}
       <div className="h-[2px] w-full bg-trace-border/30 shrink-0 relative overflow-hidden">
@@ -277,6 +291,9 @@ export default function TracePage() {
       <main
         ref={scrollRef}
         className="flex-1 overflow-y-auto px-4 sm:px-6 py-6 space-y-0.5"
+        role="log"
+        aria-live="polite"
+        aria-label="Agent evaluation trace"
       >
         <AnimatePresence mode="popLayout">
           {visibleSteps.map((step, index) => (
@@ -384,5 +401,6 @@ export default function TracePage() {
         ← versions
       </a>
     </div>
+    </MotionConfig>
   );
 }
