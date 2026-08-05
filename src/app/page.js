@@ -128,7 +128,8 @@ function BenchObjectComp({ obj, onFlip, isFlipped, onSelect }) {
             {obj.type === "photo" && obj.image && (
               <div className="w-full h-full bg-white p-1 rounded-sm shadow-md">
                 <div className="relative w-full h-[80%] overflow-hidden">
-                  <Image src={obj.image} alt={obj.caption || ""} fill className="object-cover" sizes="96px" />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={obj.image} alt={obj.caption || ""} className="w-full h-full object-cover" />
                 </div>
                 <p className="text-[7px] text-bench-dark text-center mt-1 font-hand">{obj.caption}</p>
               </div>
