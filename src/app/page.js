@@ -101,6 +101,14 @@ function OrganismSVG({ organism, isHovered, onClick, loaded }) {
         )}
       </circle>
 
+      {/* Bioluminescent pulse ring on hover */}
+      {isHovered && loaded && (
+        <circle cx={cx} cy={cy} r={10} fill="none" stroke={organism.color} strokeWidth="0.5" opacity="0">
+          <animate attributeName="r" from="8" to={baseLength * 0.7} dur="1.2s" repeatCount="indefinite" />
+          <animate attributeName="opacity" from="0.6" to="0" dur="1.2s" repeatCount="indefinite" />
+        </circle>
+      )}
+
       {/* Filament paths */}
       {filaments.map((f, i) => (
         <g key={i}>
@@ -195,6 +203,19 @@ function OrganismSVG({ organism, isHovered, onClick, loaded }) {
               className="transition-opacity duration-1000"
               style={{ transitionDelay: '3700ms' }}
             />
+            {/* Gold particles on hover */}
+            {isHovered && (
+              <>
+                <circle cx={pos.x} cy={pos.y - 2} r="1" fill="#d4a04a" opacity="0">
+                  <animate attributeName="cy" from={pos.y} to={pos.y - 20} dur="2s" repeatCount="indefinite" />
+                  <animate attributeName="opacity" values="0;0.8;0" dur="2s" repeatCount="indefinite" />
+                </circle>
+                <circle cx={pos.x + 3} cy={pos.y} r="0.7" fill="#e8c060" opacity="0">
+                  <animate attributeName="cy" from={pos.y} to={pos.y - 15} dur="1.6s" begin="0.5s" repeatCount="indefinite" />
+                  <animate attributeName="opacity" values="0;0.6;0" dur="1.6s" begin="0.5s" repeatCount="indefinite" />
+                </circle>
+              </>
+            )}
           </g>
         );
       })}
@@ -203,7 +224,7 @@ function OrganismSVG({ organism, isHovered, onClick, loaded }) {
 }
 
 // Root system SVG connecting organisms
-function RootSystem({ loaded }) {
+function RootSystem({ loaded, mousePos }) {
   const posMap = {
     'ai-investment-analyst': { x: 45, y: 75 },
     'policy-retrieval': { x: 65, y: 55 },
@@ -225,6 +246,9 @@ function RootSystem({ loaded }) {
         const midX = (from.x + to.x) / 2 + (i % 2 === 0 ? 3 : -3);
         const midY = Math.max(from.y, to.y) + 5 + i * 2;
         const path = `M ${from.x} ${from.y} Q ${midX} ${midY}, ${to.x} ${to.y}`;
+        const dist = Math.hypot(mousePos.x - midX, mousePos.y - midY);
+        const proximity = Math.max(0, 1 - dist / 25);
+        const pathOpacity = loaded ? 0.15 + proximity * 0.5 : 0;
         return (
           <g key={i}>
             <path
@@ -232,7 +256,7 @@ function RootSystem({ loaded }) {
               fill="none"
               stroke="rgba(212, 160, 74, 0.2)"
               strokeWidth="0.15"
-              opacity={loaded ? 1 : 0}
+              opacity={pathOpacity}
               className="transition-opacity duration-1000"
               style={{ transitionDelay: '2500ms' }}
             />
@@ -267,7 +291,7 @@ function RootSystem({ loaded }) {
 }
 
 // Code pollen particles floating upward
-function CodePollen({ loaded }) {
+function CodePollen({ loaded, mousePos }) {
   const [particles, setParticles] = useState([]);
 
   useEffect(() => {
@@ -286,21 +310,25 @@ function CodePollen({ loaded }) {
 
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 3 }}>
-      {particles.map((p) => (
-        <span
-          key={p.id}
-          className="code-pollen absolute text-white/40"
-          style={{
-            left: `${p.x}%`,
-            bottom: '-20px',
-            animation: `driftUp ${p.duration}s linear infinite`,
-            animationDelay: `${p.delay}s`,
-            opacity: 0,
-          }}
-        >
-          {p.word}
-        </span>
-      ))}
+      {particles.map((p) => {
+        const pushX = (p.x - mousePos.x) * 0.15;
+        return (
+          <span
+            key={p.id}
+            className="code-pollen absolute text-white/40"
+            style={{
+              left: `${p.x}%`,
+              bottom: '-20px',
+              '--drift-x': `${pushX}px`,
+              animation: `driftUp ${p.duration}s linear infinite`,
+              animationDelay: `${p.delay}s`,
+              opacity: 0,
+            }}
+          >
+            {p.word}
+          </span>
+        );
+      })}
     </div>
   );
 }
@@ -380,15 +408,27 @@ function DetailPanel({ organism, onClose }) {
       </button>
 
       <div className="mt-8">
-        <h2 className="text-xl font-semibold mb-1" style={{ color: organism.color }}>
-          {organism.name}
-        </h2>
-        <p className="text-white/60 text-sm leading-relaxed mb-4">
-          {organism.description}
-        </p>
+        {/* Title + description */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+        >
+          <h2 className="text-xl font-semibold mb-1" style={{ color: organism.color }}>
+            {organism.name}
+          </h2>
+          <p className="text-white/60 text-sm leading-relaxed mb-4">
+            {organism.description}
+          </p>
+        </motion.div>
 
         {/* Stack */}
-        <div className="mb-4">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25 }}
+          className="mb-4"
+        >
           <h3 className="text-xs uppercase tracking-wider text-white/40 mb-2">Stack</h3>
           <div className="flex flex-wrap gap-1.5">
             {organism.stack.map((tech) => (
@@ -405,11 +445,16 @@ function DetailPanel({ organism, onClose }) {
               </span>
             ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* Links */}
         {(organism.links.live || organism.links.github) && (
-          <div className="flex gap-3 mb-6">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="flex gap-3 mb-6"
+          >
             {organism.links.live && (
               <a
                 href={organism.links.live}
@@ -430,11 +475,15 @@ function DetailPanel({ organism, onClose }) {
                 <Github size={12} /> Source
               </a>
             )}
-          </div>
+          </motion.div>
         )}
 
         {/* Scars */}
-        <div>
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+        >
           <h3 className="text-xs uppercase tracking-wider text-white/40 mb-3">
             {organism.scars.some(s => s.isScar === false) ? 'Scars & Decisions' : 'Kintsugi Scars'}
           </h3>
@@ -490,7 +539,7 @@ function DetailPanel({ organism, onClose }) {
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
     </motion.div>
   );
@@ -550,6 +599,9 @@ export default function GreenhousePage() {
       onMouseMove={handleMouseMove}
       className="relative w-screen h-screen overflow-hidden bg-greenhouse-bg terrarium-glass condensation"
     >
+      {/* Fog dissolve on entry */}
+      <div className={`fog-layer fixed inset-0 z-[60] ${loaded ? 'opacity-0' : 'opacity-100'}`} />
+
       {/* Background ambient glow */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -559,7 +611,7 @@ export default function GreenhousePage() {
       />
 
       {/* Root system */}
-      <RootSystem loaded={loaded} />
+      <RootSystem loaded={loaded} mousePos={mousePos} />
 
       {/* Soil band at bottom */}
       <div
@@ -577,13 +629,20 @@ export default function GreenhousePage() {
         return (
           <div
             key={org.id}
-            className={`organism-group absolute ${sizeClasses[org.size]} transition-all duration-500 ${isDimmed ? 'opacity-20 scale-95' : ''}`}
+            className={`organism-group absolute ${sizeClasses[org.size]}`}
             style={{
               left: `${org.position.x}%`,
               top: `${org.position.y}%`,
-              transform: `translate(-50%, -50%) ${getParallax(depth)}`,
+              transition: 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)',
+              transform: isSelected
+                ? `translate(-50%, -50%) scale(1.15) ${getParallax(depth)}`
+                : isDimmed
+                  ? `translate(-50%, -50%) scale(0.92) ${getParallax(depth)}`
+                  : `translate(-50%, -50%) ${getParallax(depth)}`,
+              filter: isDimmed
+                ? `brightness(${glowIntensity * 0.4}) blur(1.5px)`
+                : `brightness(${glowIntensity})`,
               zIndex: org.size === 'large' ? 10 : org.size === 'medium' ? 8 : 6,
-              filter: `brightness(${glowIntensity})`,
             }}
             onMouseEnter={() => setHoveredOrganism(org.id)}
             onMouseLeave={() => setHoveredOrganism(null)}
@@ -616,7 +675,7 @@ export default function GreenhousePage() {
       })}
 
       {/* Code pollen */}
-      <CodePollen loaded={loaded} />
+      <CodePollen loaded={loaded} mousePos={mousePos} />
 
       {/* Specimen label */}
       <SpecimenLabelComponent loaded={loaded} />
