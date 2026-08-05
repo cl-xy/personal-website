@@ -68,11 +68,11 @@
   .object-shadow:hover {
     filter: drop-shadow(5px 5px 12px rgba(0, 0, 0, 0.5));
     transform: translateY(-2px);
-    cursor: grab;
+    cursor: pointer;
   }
 
   .object-shadow:active {
-    cursor: grabbing;
+    cursor: pointer;
   }
 
   .object-lifted {
@@ -186,7 +186,16 @@
 @media (prefers-reduced-motion: reduce) {
   .ticker-tape,
   .pendulum,
-  .sprout-grow {
+  .sprout-grow,
+  .attention-pulse {
     animation: none;
+  }
+
+  .object-shadow {
+    transition: none !important;
+  }
+
+  .lamp-cone {
+    transition: none !important;
   }
 }

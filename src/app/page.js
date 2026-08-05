@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion, MotionConfig } from "framer-motion";
 import { Mail, Linkedin, Github, ExternalLink, X } from "lucide-react";
 import { profile, benchObjects, drawer, tickerTexts } from "@/lib/bench-data";
 
@@ -105,7 +105,7 @@ function BenchObjectComp({ obj, onFlip, isFlipped, onSelect }) {
 
   return (
     <motion.div
-      className={`absolute cursor-grab active:cursor-grabbing ${sizes[obj.id] || "w-24 h-20"}`}
+      className={`absolute cursor-pointer ${sizes[obj.id] || "w-24 h-20"}`}
       style={{
         left: `${obj.position.x}%`,
         top: `${obj.position.y}%`,
@@ -191,6 +191,9 @@ function DetailPanel({ obj, onClose }) {
   const p = obj.project;
   return (
     <motion.div
+      role="dialog"
+      aria-modal="true"
+      aria-label={p.title}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
@@ -228,6 +231,9 @@ function DrawerPanel({ isOpen, onClose }) {
     <AnimatePresence>
       {isOpen && (
         <motion.div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Contact information"
           initial={{ y: 200, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 200, opacity: 0 }}
@@ -259,10 +265,23 @@ export default function WorkshopBench() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [lampOn, setLampOn] = useState(false);
 
+  const shouldReduceMotion = useReducedMotion();
+
   useEffect(() => {
     const t = setTimeout(() => setLampOn(true), 300);
     return () => clearTimeout(t);
   }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        if (drawerOpen) setDrawerOpen(false);
+        else if (selectedId) setSelectedId(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [drawerOpen, selectedId]);
 
   const toggleFlip = useCallback((id) => {
     setFlipped((prev) => {
@@ -279,6 +298,7 @@ export default function WorkshopBench() {
   const selectedObj = benchObjects.find((o) => o.id === selectedId);
 
   return (
+    <MotionConfig reducedMotion="user">
     <div className="h-screen w-screen overflow-hidden bg-bench-bg relative">
       {/* Version nav */}
       <nav className="fixed top-3 left-3 z-50">
@@ -359,7 +379,7 @@ export default function WorkshopBench() {
           transition={{ delay: 1.5, duration: 4, times: [0, 0.1, 0.6, 1] }}
           className="absolute top-[15%] left-1/2 -translate-x-1/2 text-sm font-hand text-bench-cream/80 italic z-20 pointer-events-none"
         >
-          pick something up. click ↻ to flip.
+          click to explore. ↻ to flip.
         </motion.p>
       </div>
 
@@ -389,6 +409,9 @@ export default function WorkshopBench() {
       <AnimatePresence>
         {selectedId && selectedObj?.type === "photo" && (
           <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-label={selectedObj?.caption || "Photo"}
             className="fixed inset-0 z-50 flex items-center justify-center bg-bench-dark/90 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -411,5 +434,6 @@ export default function WorkshopBench() {
 
       <DrawerPanel isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
     </div>
+    </MotionConfig>
   );
 }
