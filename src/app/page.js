@@ -80,17 +80,19 @@ function BenchObjectComp({ obj, onFlip, isFlipped, onSelect }) {
   };
 
   const sizes = {
-    "ticker-machine": "w-36 h-24 sm:w-44 sm:h-28",
-    "switchboard": "w-28 h-32 sm:w-32 sm:h-36",
-    "specimen-jar": "w-20 h-24 sm:w-24 sm:h-28",
-    "notebook": "w-28 h-20 sm:w-32 sm:h-24",
-    "topo-map": "w-24 h-16 sm:w-28 sm:h-20",
-    "brass-weights": "w-20 h-16 sm:w-24 sm:h-18",
-    "seed-packets": "w-16 h-14 sm:w-20 sm:h-16",
-    "polaroid-1": "w-20 h-24 sm:w-24 sm:h-28",
-    "polaroid-2": "w-20 h-24 sm:w-24 sm:h-28",
-    "polaroid-3": "w-20 h-24 sm:w-24 sm:h-28",
+    "ticker-machine": "w-44 h-28 sm:w-52 sm:h-32",
+    "switchboard": "w-32 h-36 sm:w-38 sm:h-40",
+    "specimen-jar": "w-24 h-28 sm:w-28 sm:h-32",
+    "notebook": "w-32 h-24 sm:w-36 sm:h-28",
+    "topo-map": "w-28 h-20 sm:w-32 sm:h-24",
+    "brass-weights": "w-24 h-18 sm:w-28 sm:h-20",
+    "seed-packets": "w-20 h-16 sm:w-24 sm:h-20",
+    "polaroid-1": "w-24 h-28 sm:w-28 sm:h-32",
+    "polaroid-2": "w-24 h-28 sm:w-28 sm:h-32",
+    "polaroid-3": "w-24 h-28 sm:w-28 sm:h-32",
   };
+
+  const weightDelay = { heavy: 0.3, medium: 0.6, light: 0.9, feather: 1.2 };
 
   return (
     <motion.div
@@ -101,15 +103,17 @@ function BenchObjectComp({ obj, onFlip, isFlipped, onSelect }) {
         transform: `rotate(${obj.rotation}deg)`,
         zIndex: isLifted ? 100 : (obj.weight === "heavy" ? 10 : obj.weight === "medium" ? 5 : 2),
       }}
-      initial={{ opacity: 0 }}
+      initial={{ opacity: 0, scale: 0.9 }}
       animate={{
         opacity: 1,
+        scale: 1,
         y: [0, -0.5, 0],
         rotate: [obj.rotation, obj.rotation + 0.3, obj.rotation],
       }}
       transition={{
-        delay: 0.5 + Math.random() * 0.6,
+        delay: weightDelay[obj.weight] || 0.5,
         duration: 0.4,
+        scale: { delay: weightDelay[obj.weight] || 0.5, duration: 0.4, type: "spring", stiffness: 300, damping: 20 },
         y: { delay: 2 + Math.random() * 3, duration: 4 + Math.random() * 2, repeat: Infinity, ease: "easeInOut" },
         rotate: { delay: 3 + Math.random() * 4, duration: 6 + Math.random() * 3, repeat: Infinity, ease: "easeInOut" },
       }}
@@ -125,7 +129,7 @@ function BenchObjectComp({ obj, onFlip, isFlipped, onSelect }) {
       tabIndex={0}
       onKeyDown={(e) => { if (e.key === "Enter") handleClick(); if (e.key === " ") { e.preventDefault(); handleDoubleClick(); } }}
     >
-      <div className={`relative w-full h-full object-shadow ${isLifted ? "object-lifted" : ""} ${isFlipped ? "object-flipped" : ""}`}>
+      <div className={`relative w-full h-full object-shadow ${isLifted ? "object-lifted" : ""} ${isFlipped ? "object-flipped" : ""} ${obj.id === "ticker-machine" ? "attention-pulse" : ""}`}>
         <div className="object-inner w-full h-full">
           <div className="object-front w-full h-full">
             {obj.id === "ticker-machine" && <TickerMachine />}
@@ -321,9 +325,9 @@ export default function WorkshopBench() {
 
         <motion.p
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 3, duration: 1 }}
-          className="absolute bottom-4 right-4 text-[10px] font-hand text-bench-muted/40 italic"
+          animate={{ opacity: [0, 0.8, 0.8, 0.3] }}
+          transition={{ delay: 1.5, duration: 4, times: [0, 0.1, 0.6, 1] }}
+          className="absolute top-[15%] left-1/2 -translate-x-1/2 text-sm font-hand text-bench-cream/60 italic z-20 pointer-events-none"
         >
           pick something up. double-click to flip.
         </motion.p>
@@ -340,9 +344,9 @@ export default function WorkshopBench() {
       </div>
 
       <div className="absolute bottom-[9%] left-4 sm:left-6">
-        <div className="brass-plate px-3 py-1.5 rounded-sm">
-          <p className="text-[10px] font-mono text-bench-dark font-medium tracking-wide">{profile.name}</p>
-          <p className="text-[8px] font-mono text-bench-dark/70">{profile.role} · {profile.location}</p>
+        <div className="brass-plate px-4 py-2 rounded-sm shadow-lg">
+          <p className="text-xs font-mono text-bench-dark font-semibold tracking-wide">{profile.name}</p>
+          <p className="text-[10px] font-mono text-bench-dark/70">{profile.role} · {profile.location}</p>
         </div>
       </div>
 
