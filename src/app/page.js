@@ -233,6 +233,7 @@ function RootSystem({ loaded, mousePos }) {
   };
 
   return (
+    <>
     <svg
       className="absolute inset-0 w-full h-full pointer-events-none"
       viewBox="0 0 100 100"
@@ -270,23 +271,35 @@ function RootSystem({ loaded, mousePos }) {
                 />
               </circle>
             ))}
-            <text
-              x={midX}
-              y={midY + 2}
-              textAnchor="middle"
-              fill="rgba(212, 160, 74, 0.35)"
-              fontSize="1.2"
-              fontFamily="Inter, sans-serif"
-              opacity={loaded ? 1 : 0}
-              className="transition-opacity duration-500"
-              style={{ transitionDelay: '3000ms' }}
-            >
-              {conn.label}
-            </text>
           </g>
         );
       })}
     </svg>
+    {/* Root labels as HTML to avoid SVG stretching */}
+    <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 1 }}>
+      {rootConnections.map((conn, i) => {
+        const from = posMap[conn.from];
+        const to = posMap[conn.to];
+        if (!from || !to) return null;
+        const midX = (from.x + to.x) / 2 + (i % 2 === 0 ? 3 : -3);
+        const midY = Math.max(from.y, to.y) + 5 + i * 2;
+        return (
+          <span
+            key={i}
+            className="absolute text-[9px] font-mono text-[#d4a04a]/35 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap transition-opacity duration-500"
+            style={{
+              left: `${midX}%`,
+              top: `${midY}%`,
+              opacity: loaded ? 1 : 0,
+              transitionDelay: '3000ms',
+            }}
+          >
+            {conn.label}
+          </span>
+        );
+      })}
+    </div>
+    </>
   );
 }
 
