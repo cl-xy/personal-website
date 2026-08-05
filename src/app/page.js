@@ -743,13 +743,13 @@ export default function GreenhousePage() {
       {!selectedOrganism && (
         <motion.div
           initial={{ opacity: 0 }}
-          animate={{ opacity: loaded ? 0.6 : 0 }}
-          transition={{ delay: 4, duration: 1 }}
-          className="hidden md:block absolute bottom-24 left-1/2 -translate-x-1/2 text-white/40 text-xs font-mono z-20 pointer-events-none"
+          animate={{ opacity: loaded ? 1 : 0 }}
+          transition={{ delay: 3, duration: 0.8 }}
+          className="hidden md:block absolute bottom-24 left-1/2 -translate-x-1/2 text-white/60 text-sm font-mono z-20 pointer-events-none tracking-wide"
         >
           <motion.span
-            animate={{ opacity: [0.6, 0] }}
-            transition={{ delay: 12, duration: 2 }}
+            animate={{ opacity: [1, 0] }}
+            transition={{ delay: 10, duration: 3 }}
           >
             click an organism to explore
           </motion.span>
@@ -757,7 +757,7 @@ export default function GreenhousePage() {
       )}
 
       {/* Mobile hint */}
-      <div className="md:hidden absolute bottom-20 left-1/2 -translate-x-1/2 text-white/30 text-xs z-20">
+      <div className="md:hidden absolute bottom-20 left-1/2 -translate-x-1/2 text-white/50 text-sm z-20 font-mono">
         Tap an organism to explore
       </div>
     </div>
