@@ -1,439 +1,327 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
-import {
-  TrendingUp,
-  Code,
-  AlertTriangle,
-  Heart,
-  CheckCircle,
-  ExternalLink,
-  Mail,
-  Linkedin,
-  Github,
-  ArrowRight,
-} from "lucide-react";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Mail, Linkedin, Github, ExternalLink, X } from "lucide-react";
 import Image from "next/image";
-import { candidate, signals, evidence, verdict } from "@/lib/case-data";
+import { profile, benchObjects, drawer, tickerTexts } from "@/lib/bench-data";
 
-const iconMap = {
-  TrendingUp,
-  Code,
-  AlertTriangle,
-  Heart,
-};
-
-const signalColors = {
-  impact: "bg-case-accent/10 text-case-accent",
-  technical: "bg-blue-50 text-blue-700",
-  resilience: "bg-red-50 text-case-red",
-  culture: "bg-emerald-50 text-case-green",
-};
-
-const signalDots = {
-  impact: "bg-case-accent",
-  technical: "bg-blue-600",
-  resilience: "bg-case-red",
-  culture: "bg-case-green",
-};
-
-const severityColors = {
-  critical: "bg-case-red text-white",
-  high: "bg-orange-500 text-white",
-  medium: "bg-case-amber text-white",
-  low: "bg-yellow-400 text-yellow-900",
-};
-
-const severityBorders = {
-  critical: "border-l-2 border-l-red-500",
-  high: "border-l-2 border-l-orange-500",
-};
-
-function StrengthBar({ strength, isActive }) {
+/* ─── Ticker Machine SVG ─── */
+function TickerMachine() {
   return (
-    <div className="flex items-center gap-0.5 ml-1">
-      {[1, 2, 3, 4].map((i) => (
-        <div
-          key={i}
-          className={`w-1.5 h-3 rounded-sm transition-colors duration-150 ${
-            i <= strength
-              ? isActive
-                ? "bg-white/70"
-                : "bg-case-slate/40"
-              : isActive
-                ? "bg-white/20"
-                : "bg-case-slate/10"
-          }`}
-        />
-      ))}
-    </div>
-  );
-}
-
-export default function CaseFilePage() {
-  const [activeFilter, setActiveFilter] = useState(null);
-  const [expandedCard, setExpandedCard] = useState(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const verdictRef = useRef(null);
-
-  // Scroll progress bar
-  useEffect(() => {
-    function handleScroll() {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      if (docHeight > 0) {
-        setScrollProgress(Math.min(scrollTop / docHeight, 1));
-      }
-    }
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const filteredEvidence = activeFilter
-    ? evidence.filter((e) => e.signal === activeFilter)
-    : evidence;
-
-  function scrollToVerdict() {
-    verdictRef.current?.scrollIntoView({ behavior: "smooth" });
-  }
-
-  function toggleFilter(id) {
-    setActiveFilter((prev) => (prev === id ? null : id));
-  }
-
-  return (
-    <div className="min-h-screen">
-      {/* Scroll Progress Bar */}
-      <div className="fixed top-0 left-0 right-0 z-[60] h-0.5 bg-case-border/30">
-        <div
-          className="h-full bg-case-accent transition-[width] duration-75 ease-out"
-          style={{ width: `${scrollProgress * 100}%` }}
-        />
+    <div className="relative w-full h-full">
+      <div className="absolute inset-0 border border-bench-brass/40 rounded-sm bg-bench-dark/50 overflow-hidden">
+        <svg viewBox="0 0 80 50" className="absolute inset-0 w-full h-full opacity-40">
+          <circle cx="20" cy="25" r="8" fill="none" stroke="#b8860b" strokeWidth="0.5" strokeDasharray="2 2" className="animate-[spin_8s_linear_infinite]" />
+          <circle cx="38" cy="20" r="6" fill="none" stroke="#b87333" strokeWidth="0.5" strokeDasharray="2 2" className="animate-[spin_6s_linear_infinite_reverse]" />
+          <circle cx="55" cy="28" r="7" fill="none" stroke="#8b6914" strokeWidth="0.5" strokeDasharray="2 2" className="animate-[spin_10s_linear_infinite]" />
+        </svg>
+        <div className="absolute bottom-2 left-0 right-0 h-4 overflow-hidden">
+          <div className="ticker-tape whitespace-nowrap font-mono text-[9px] text-bench-brass/70">
+            {tickerTexts.join("  ·  ")}
+          </div>
+        </div>
+        <div className="absolute top-2 right-3 w-[2px] h-8 scar-crack rotate-12 rounded-full" />
+        <div className="absolute top-2 right-[11px] w-3 h-1 bg-bench-copper/60 rounded-sm rotate-12" title="Repaired: heartbeat pings" />
       </div>
-
-      {/* Skip to verdict */}
-      <button
-        onClick={scrollToVerdict}
-        className="fixed top-4 right-4 z-50 flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-case-muted hover:text-case-accent bg-case-surface border border-case-border rounded-full shadow-sm transition-colors duration-150"
-      >
-        Skip to verdict <ArrowRight size={14} />
-      </button>
-
-      {/* Header */}
-      <header className="pt-16 pb-12 px-6 text-center">
-        <div className="max-w-2xl mx-auto">
-          <div className="flex items-center justify-center gap-4 mb-4 text-xs font-mono text-case-muted">
-            <span>{candidate.caseNumber}</span>
-            <span className="w-1 h-1 rounded-full bg-case-muted/40" />
-            <span>Filed: {candidate.filedDate}</span>
-            <span className="w-1 h-1 rounded-full bg-case-muted/40" />
-            <span className="px-1.5 py-0.5 border border-case-border rounded text-[10px] tracking-wider uppercase">
-              {candidate.classification}
-            </span>
-          </div>
-          <p className="text-xs font-semibold tracking-widest text-case-muted uppercase mb-4">
-            Candidate Evaluation
-          </p>
-          <h1 className="text-4xl sm:text-5xl font-bold text-case-slate mb-3">
-            {candidate.name}
-          </h1>
-          <p className="text-lg text-case-muted">
-            {candidate.role} · {candidate.location} · {candidate.education}
-          </p>
-          <p className="text-sm text-case-muted mt-1">
-            {candidate.current}
-          </p>
-          <p className="text-xs text-case-muted/60 mt-3 font-mono">
-            Assessor: Hiring Committee
-          </p>
-        </div>
-      </header>
-
-      {/* Signal Filters */}
-      <nav className="sticky top-0.5 z-40 bg-case-bg/95 backdrop-blur-sm border-b border-case-border">
-        <div className="max-w-5xl mx-auto px-6 py-3 flex gap-2 justify-start sm:justify-center overflow-x-auto whitespace-nowrap">
-          {signals.map((signal) => {
-            const Icon = iconMap[signal.icon];
-            const isActive = activeFilter === signal.id;
-            return (
-              <button
-                key={signal.id}
-                onClick={() => toggleFilter(signal.id)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium border transition-all duration-150 flex-shrink-0 ${
-                  isActive
-                    ? "bg-case-accent text-white border-case-accent shadow-sm"
-                    : "bg-case-surface text-case-slate border-case-border hover:border-case-accent/40"
-                }`}
-              >
-                <Icon size={16} />
-                {signal.label}
-                <StrengthBar strength={signal.strength} isActive={isActive} />
-                <span
-                  className={`text-xs px-1.5 py-0.5 rounded-full ${
-                    isActive
-                      ? "bg-white/20 text-white"
-                      : "bg-case-bg text-case-muted"
-                  }`}
-                >
-                  {signal.count}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </nav>
-
-      {/* Evidence Grid */}
-      <main className="max-w-5xl mx-auto px-6 py-10">
-        <LayoutGroup>
-          <motion.div
-            layout
-            className="grid grid-cols-1 md:grid-cols-2 gap-4"
-          >
-            <AnimatePresence mode="popLayout">
-              {filteredEvidence.map((item, index) => (
-                <EvidenceCard
-                  key={item.id}
-                  item={item}
-                  index={index}
-                  expanded={expandedCard === item.id}
-                  onToggle={() =>
-                    setExpandedCard((prev) =>
-                      prev === item.id ? null : item.id
-                    )
-                  }
-                />
-              ))}
-            </AnimatePresence>
-          </motion.div>
-        </LayoutGroup>
-      </main>
-
-      {/* Verdict Section */}
-      <section ref={verdictRef} className="max-w-5xl mx-auto px-6 pb-16">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.97, filter: "blur(4px)" }}
-          whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="bg-case-surface border border-case-border rounded-xl shadow-sm overflow-hidden"
-        >
-          <div className="flex">
-            <div className="w-1.5 bg-case-green flex-shrink-0" />
-            <div className="p-8 flex-1">
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-xs font-semibold tracking-widest text-case-muted uppercase">
-                  Recommendation
-                </span>
-              </div>
-              <h2 className="text-4xl font-bold text-case-green mb-1">
-                {verdict.recommendation}
-              </h2>
-              <p className="text-sm text-case-muted mb-4">
-                Confidence: {verdict.confidence}
-              </p>
-              <p className="text-case-slate leading-relaxed mb-3">
-                {verdict.summary}
-              </p>
-              <p className="text-sm italic text-case-muted/80 mb-6">
-                &ldquo;{verdict.keyFinding}&rdquo;
-              </p>
-              <div className="flex flex-wrap gap-2 mb-8">
-                {verdict.fitFor.map((role) => (
-                  <span
-                    key={role}
-                    className="px-3 py-1 text-sm font-medium bg-case-green/10 text-case-green rounded-full"
-                  >
-                    {role}
-                  </span>
-                ))}
-              </div>
-              <div className="flex flex-wrap gap-3">
-                <a
-                  href={`mailto:${candidate.email}`}
-                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-case-accent text-white rounded-lg hover:bg-case-accent/90 transition-colors duration-150"
-                >
-                  <Mail size={16} /> Email
-                </a>
-                <a
-                  href={candidate.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-case-surface text-case-slate border border-case-border rounded-lg hover:border-case-accent/40 transition-colors duration-150"
-                >
-                  <Linkedin size={16} /> LinkedIn
-                </a>
-                <a
-                  href={candidate.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-case-surface text-case-slate border border-case-border rounded-lg hover:border-case-accent/40 transition-colors duration-150"
-                >
-                  <Github size={16} /> GitHub
-                </a>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      </section>
-
-      {/* Footer */}
-      <footer className="border-t border-case-border py-8 px-6">
-        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-case-muted">
-          <span>{candidate.name} · {candidate.role} · {candidate.location}</span>
-          <div className="flex items-center gap-4">
-            <a
-              href={`mailto:${candidate.email}`}
-              className="hover:text-case-accent transition-colors"
-            >
-              {candidate.email}
-            </a>
-            <a
-              href={candidate.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-case-accent transition-colors"
-            >
-              <Linkedin size={16} />
-            </a>
-            <a
-              href={candidate.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-case-accent transition-colors"
-            >
-              <Github size={16} />
-            </a>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
 
-function EvidenceCard({ item, index, expanded, onToggle }) {
-  const isFailure = item.signal === "resilience";
-  const hasExpandableContent = isFailure && (item.rootCause || item.fix || item.lesson);
-  const hasSeverityBorder = item.severity && severityBorders[item.severity];
+/* ─── Switchboard SVG ─── */
+function Switchboard() {
+  return (
+    <div className="relative w-full h-full">
+      <div className="absolute inset-0 border border-bench-brass/30 rounded-sm bg-bench-dark/40">
+        <div className="grid grid-cols-4 gap-2 p-3 pt-4">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div key={i} className="w-2 h-2 rounded-full bg-bench-dark border border-bench-brass/40" />
+          ))}
+        </div>
+        <svg viewBox="0 0 80 30" className="absolute bottom-4 left-0 w-full h-8 overflow-visible">
+          <path d="M15,5 Q25,20 40,8" fill="none" stroke="#b87333" strokeWidth="1" />
+          <path d="M30,5 Q45,22 60,5" fill="none" stroke="#b8860b" strokeWidth="1" />
+          <path d="M50,5 Q55,18 65,12" fill="none" stroke="#8b7e6a" strokeWidth="1" />
+          <path d="M70,5 Q72,15 68,25" fill="none" stroke="#b87333" strokeWidth="1" className="pendulum" />
+        </svg>
+        <div className="absolute bottom-1 right-2 font-mono text-[8px] text-bench-brass/60">7,247</div>
+        <div className="absolute top-3 left-2 bg-bench-red/70 px-1 text-[6px] font-mono text-bench-cream/80 rotate-[-3deg]">DEPRECATED</div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Specimen Jar ─── */
+function SpecimenJar() {
+  return (
+    <div className="relative w-full h-full flex items-center justify-center">
+      <div className="w-16 h-20 border border-bench-cream/20 rounded-lg rounded-t-xl bg-gradient-to-b from-bench-cream/5 to-bench-dark/30 relative overflow-hidden">
+        <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-8 h-3 bg-bench-surface rounded-sm border border-bench-muted/30 rotate-[2deg]" />
+        <div className="absolute bottom-2 left-2 right-2 h-6 bg-bench-surface/40 rounded-sm">
+          <div className="absolute top-1 left-1 w-1.5 h-1.5 bg-bench-brass/40 rounded-sm" />
+          <div className="absolute top-1 right-2 w-1 h-1 bg-bench-copper/40 rounded-sm" />
+          <div className="absolute bottom-1 left-2 w-2 h-0.5 bg-bench-muted/30" />
+        </div>
+      </div>
+      <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 font-hand text-[7px] text-bench-muted italic whitespace-nowrap">
+        v4.2
+      </div>
+    </div>
+  );
+}
+
+/* ─── Object Wrapper ─── */
+function BenchObjectComp({ obj, onFlip, isFlipped, onSelect }) {
+  const [isLifted, setIsLifted] = useState(false);
+
+  const handleClick = () => {
+    if (obj.type === "photo") return;
+    onSelect(obj.id);
+  };
+
+  const handleDoubleClick = () => {
+    if (obj.back) onFlip(obj.id);
+  };
+
+  const sizes = {
+    "ticker-machine": "w-36 h-24 sm:w-44 sm:h-28",
+    "switchboard": "w-28 h-32 sm:w-32 sm:h-36",
+    "specimen-jar": "w-20 h-24 sm:w-24 sm:h-28",
+    "notebook": "w-28 h-20 sm:w-32 sm:h-24",
+    "topo-map": "w-24 h-16 sm:w-28 sm:h-20",
+    "brass-weights": "w-20 h-16 sm:w-24 sm:h-18",
+    "seed-packets": "w-16 h-14 sm:w-20 sm:h-16",
+    "polaroid-1": "w-20 h-24 sm:w-24 sm:h-28",
+    "polaroid-2": "w-20 h-24 sm:w-24 sm:h-28",
+    "polaroid-3": "w-20 h-24 sm:w-24 sm:h-28",
+  };
 
   return (
     <motion.div
-      layout
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0, rotate: 0, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.95, rotate: -1 }}
-      transition={{ duration: 0.2, delay: index * 0.03 }}
-      onClick={hasExpandableContent ? onToggle : undefined}
-      className={`relative bg-case-surface border border-case-border rounded-xl p-5 shadow-sm ${
-        hasSeverityBorder ? severityBorders[item.severity] : ""
-      } ${
-        hasExpandableContent ? "cursor-pointer hover:shadow-md" : ""
-      } transition-shadow duration-150`}
+      className={`absolute cursor-grab active:cursor-grabbing ${sizes[obj.id] || "w-24 h-20"}`}
+      style={{
+        left: `${obj.position.x}%`,
+        top: `${obj.position.y}%`,
+        transform: `rotate(${obj.rotation}deg)`,
+        zIndex: isLifted ? 100 : (obj.weight === "heavy" ? 10 : obj.weight === "medium" ? 5 : 2),
+      }}
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.5 + Math.random() * 0.6, duration: 0.4 }}
+      onMouseDown={() => setIsLifted(true)}
+      onMouseUp={() => setIsLifted(false)}
+      onMouseLeave={() => setIsLifted(false)}
+      onClick={handleClick}
+      onDoubleClick={handleDoubleClick}
+      whileHover={{ scale: 1.03, y: -2 }}
+      role="button"
+      aria-label={obj.label || obj.id}
+      tabIndex={0}
+      onKeyDown={(e) => { if (e.key === "Enter") handleClick(); if (e.key === " ") { e.preventDefault(); handleDoubleClick(); } }}
     >
-      {/* Exhibit label */}
-      {item.exhibit && (
-        <span className="absolute top-3 right-3 text-[10px] font-mono font-medium text-case-muted/50 tracking-wide">
-          EX-{item.exhibit}
-        </span>
-      )}
-
-      {/* Top row: signal badge + verified/severity */}
-      <div className="flex items-start justify-between mb-3">
-        <span
-          className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-full ${signalColors[item.signal]}`}
-        >
-          <span className={`w-1.5 h-1.5 rounded-full ${signalDots[item.signal]}`} />
-          {signals.find((s) => s.id === item.signal)?.label}
-        </span>
-        <div className="flex items-center gap-2">
-          {item.severity && (
-            <span
-              className={`px-2 py-0.5 text-xs font-semibold rounded uppercase ${severityColors[item.severity]}`}
-            >
-              {item.severity}
-            </span>
-          )}
-          {item.verified && (
-            <span className="flex items-center gap-1 text-xs text-case-green font-medium">
-              <CheckCircle size={12} /> Verified
-            </span>
-          )}
-          {item.link && (
-            <a
-              href={item.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="text-case-muted hover:text-case-accent transition-colors"
-            >
-              <ExternalLink size={14} />
-            </a>
+      <div className={`relative w-full h-full object-shadow ${isLifted ? "object-lifted" : ""} ${isFlipped ? "object-flipped" : ""}`}>
+        <div className="object-inner w-full h-full" style={{ perspective: "600px" }}>
+          <div className="object-front w-full h-full">
+            {obj.id === "ticker-machine" && <TickerMachine />}
+            {obj.id === "switchboard" && <Switchboard />}
+            {obj.id === "specimen-jar" && <SpecimenJar />}
+            {obj.type === "photo" && obj.image && (
+              <div className="w-full h-full bg-white p-1 rounded-sm shadow-md">
+                <div className="relative w-full h-[80%] overflow-hidden">
+                  <Image src={obj.image} alt={obj.caption || ""} fill className="object-cover" sizes="96px" />
+                </div>
+                <p className="text-[7px] text-bench-dark text-center mt-1 font-hand">{obj.caption}</p>
+              </div>
+            )}
+            {!["ticker-machine", "switchboard", "specimen-jar"].includes(obj.id) && obj.type !== "photo" && (
+              <div className="w-full h-full bg-bench-surface/80 border border-bench-muted/20 rounded-sm p-2 flex flex-col justify-between">
+                <span className="text-[9px] font-mono text-bench-muted">{obj.label}</span>
+                {obj.sublabel && <span className="text-[7px] text-bench-brass/70">{obj.sublabel}</span>}
+                {obj.scar && (
+                  <div className="absolute top-1 right-1 w-2 h-2 rounded-full scar-glow bg-bench-gold/60" title={obj.scar.tooltip} />
+                )}
+              </div>
+            )}
+          </div>
+          {obj.back && (
+            <div className="object-back w-full h-full bg-bench-surface border border-bench-muted/30 rounded-sm p-2 overflow-hidden">
+              <p className="text-[8px] font-mono text-bench-brass mb-1">{obj.back.title}</p>
+              <p className="text-[7px] font-mono text-bench-cream/70 whitespace-pre-wrap leading-relaxed">{obj.back.content}</p>
+            </div>
           )}
         </div>
       </div>
+    </motion.div>
+  );
+}
 
-      {/* Title */}
-      <h3 className="text-base font-semibold text-case-slate mb-2">
-        {item.title}
-      </h3>
-
-      {/* Body */}
-      <p className="text-sm text-case-muted leading-relaxed">{item.body}</p>
-
-      {/* Project tag */}
-      {item.project && (
-        <p className="mt-3 text-xs text-case-muted">
-          Project: <span className="font-medium text-case-slate">{item.project}</span>
-        </p>
-      )}
-
-      {/* Photo */}
-      {item.photo && (
-        <div className="mt-3 relative w-full h-40 rounded-lg overflow-hidden">
-          <Image
-            src={item.photo}
-            alt={item.title}
-            fill
-            sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-cover"
-          />
+/* ─── Detail Panel ─── */
+function DetailPanel({ obj, onClose }) {
+  if (!obj || !obj.project) return null;
+  const p = obj.project;
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 20 }}
+      className="fixed bottom-0 left-0 right-0 z-50 bg-bench-dark/95 backdrop-blur-sm border-t border-bench-brass/20 p-6 max-h-[60vh] overflow-y-auto"
+    >
+      <button onClick={onClose} className="absolute top-4 right-4 text-bench-muted hover:text-bench-cream transition-colors" aria-label="Close"><X size={18} /></button>
+      <div className="max-w-2xl mx-auto">
+        <h2 className="text-lg font-semibold text-bench-cream">{p.title}</h2>
+        <p className="text-sm text-bench-muted mt-1">{p.subtitle}</p>
+        <div className="flex flex-wrap gap-1.5 mt-3">
+          {p.stack.map((s) => (<span key={s} className="text-[10px] font-mono px-2 py-0.5 bg-bench-surface border border-bench-muted/20 rounded text-bench-muted">{s}</span>))}
         </div>
-      )}
+        <ul className="mt-4 space-y-1.5">
+          {p.proof.map((item, i) => (<li key={i} className="text-sm text-bench-cream/80 flex items-start gap-2"><span className="text-bench-brass mt-0.5">✓</span>{item}</li>))}
+        </ul>
+        {obj.scar && (
+          <div className="mt-4 pt-3 border-t border-bench-brass/20">
+            <p className="text-xs text-bench-gold flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-bench-gold/60 scar-glow" />{obj.scar.tooltip}</p>
+          </div>
+        )}
+        {(p.links?.live || p.links?.github) && (
+          <div className="mt-4 flex gap-3">
+            {p.links.live && <a href={p.links.live} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs text-bench-brass hover:text-bench-cream transition-colors"><ExternalLink size={12} /> Live</a>}
+            {p.links.github && <a href={p.links.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs text-bench-brass hover:text-bench-cream transition-colors"><Github size={12} /> Source</a>}
+          </div>
+        )}
+      </div>
+    </motion.div>
+  );
+}
 
-      {/* Expandable failure details */}
-      <AnimatePresence>
-        {expanded && hasExpandableContent && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="overflow-hidden"
-          >
-            <div className="mt-4 pt-4 border-t border-case-border space-y-2">
-              {item.rootCause && (
-                <p className="text-sm">
-                  <span className="font-medium text-case-red">Root cause:</span>{" "}
-                  <span className="text-case-muted">{item.rootCause}</span>
-                </p>
-              )}
-              {item.fix && (
-                <p className="text-sm">
-                  <span className="font-medium text-case-green">Fix:</span>{" "}
-                  <span className="text-case-muted">{item.fix}</span>
-                </p>
-              )}
-              {item.lesson && (
-                <p className="text-sm">
-                  <span className="font-medium text-case-amber">Lesson:</span>{" "}
-                  <span className="text-case-muted">{item.lesson}</span>
-                </p>
-              )}
+/* ─── Drawer ─── */
+function DrawerPanel({ isOpen, onClose }) {
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ y: 200, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 200, opacity: 0 }}
+          transition={{ type: "spring", stiffness: 200, damping: 25 }}
+          className="fixed bottom-0 left-0 right-0 z-50 bg-bench-dark border-t border-bench-brass/30 p-6"
+        >
+          <button onClick={onClose} className="absolute top-4 right-4 text-bench-muted hover:text-bench-cream" aria-label="Close drawer"><X size={18} /></button>
+          <div className="max-w-md mx-auto">
+            <h3 className="font-mono text-sm text-bench-brass mb-3">{drawer.resume.headline}</h3>
+            <ul className="space-y-2 mb-4">
+              {drawer.resume.bullets.map((b, i) => (<li key={i} className="text-sm text-bench-cream/80">· {b}</li>))}
+            </ul>
+            <div className="flex flex-wrap gap-3 pt-3 border-t border-bench-muted/20">
+              <a href={`mailto:${drawer.resume.links.email}`} className="inline-flex items-center gap-1.5 text-sm text-bench-cream hover:text-bench-brass transition-colors"><Mail size={14} /> Email</a>
+              <a href={drawer.resume.links.linkedin} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm text-bench-cream hover:text-bench-brass transition-colors"><Linkedin size={14} /> LinkedIn</a>
+              <a href={drawer.resume.links.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm text-bench-cream hover:text-bench-brass transition-colors"><Github size={14} /> GitHub</a>
             </div>
-          </motion.div>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
+/* ─── Main ─── */
+export default function WorkshopBench() {
+  const [flipped, setFlipped] = useState(new Set());
+  const [selectedId, setSelectedId] = useState(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [lampOn, setLampOn] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setLampOn(true), 300);
+    return () => clearTimeout(t);
+  }, []);
+
+  const toggleFlip = useCallback((id) => {
+    setFlipped((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  }, []);
+
+  const handleSelect = useCallback((id) => {
+    const obj = benchObjects.find((o) => o.id === id);
+    if (obj?.project) setSelectedId(id);
+    else if (obj?.back) toggleFlip(id);
+  }, [toggleFlip]);
+
+  const selectedObj = benchObjects.find((o) => o.id === selectedId);
+
+  return (
+    <div className="h-screen w-screen overflow-hidden bg-bench-bg relative">
+      <motion.div
+        className="absolute inset-0 lamp-cone"
+        initial={{ opacity: 0, scale: 0.6 }}
+        animate={{ opacity: lampOn ? 1 : 0, scale: lampOn ? 1 : 0.6 }}
+        transition={{ duration: 1.2, ease: "easeOut" }}
+      />
+
+      <div className="absolute top-0 left-0 right-0 h-[10%] bg-gradient-to-b from-bench-dark to-bench-bg/80 border-b border-bench-muted/10">
+        <div className="flex items-center justify-center h-full gap-8 opacity-20">
+          <div className="w-4 h-8 border border-bench-muted/40 rounded-sm" />
+          <div className="w-3 h-10 border border-bench-muted/40 rounded-sm" />
+          <div className="w-5 h-6 border border-bench-muted/40 rounded-sm" />
+          <div className="w-3 h-9 border border-bench-muted/40 rounded-sm" />
+        </div>
+      </div>
+
+      <div className="absolute inset-0 top-[10%] bottom-[8%] bench-surface">
+        <div className="absolute top-[20%] right-[15%] w-12 h-12 rounded-full border border-bench-muted/15 opacity-40" />
+        <div className="absolute top-[60%] left-[35%] w-16 h-[1px] bg-bench-muted/10 rotate-[-5deg]" />
+
+        <AnimatePresence>
+          {lampOn && benchObjects.map((obj) => (
+            <BenchObjectComp
+              key={obj.id}
+              obj={obj}
+              isFlipped={flipped.has(obj.id)}
+              onFlip={toggleFlip}
+              onSelect={handleSelect}
+            />
+          ))}
+        </AnimatePresence>
+
+        {lampOn && (
+          <div className="absolute" style={{ left: "10%", top: "48%" }}>
+            <div className="w-[3px] bg-bench-green/70 rounded-full sprout-grow" />
+          </div>
+        )}
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 3, duration: 1 }}
+          className="absolute bottom-4 right-4 text-[10px] font-hand text-bench-muted/40 italic"
+        >
+          pick something up. double-click to flip.
+        </motion.p>
+      </div>
+
+      <div className="absolute bottom-0 left-0 right-0 h-[8%] bg-bench-dark border-t border-bench-muted/20 flex items-center justify-center">
+        <button
+          onClick={() => setDrawerOpen(true)}
+          className="w-12 h-3 bg-bench-brass/60 rounded-full hover:bg-bench-brass transition-colors cursor-pointer"
+          aria-label="Open drawer"
+        />
+      </div>
+
+      <div className="absolute bottom-[9%] left-4 sm:left-6">
+        <div className="brass-plate px-3 py-1.5 rounded-sm">
+          <p className="text-[10px] font-mono text-bench-dark font-medium tracking-wide">{profile.name}</p>
+          <p className="text-[8px] font-mono text-bench-dark/70">{profile.role} · {profile.location}</p>
+        </div>
+      </div>
+
+      <AnimatePresence>
+        {selectedId && selectedObj && (
+          <DetailPanel obj={selectedObj} onClose={() => setSelectedId(null)} />
         )}
       </AnimatePresence>
-    </motion.div>
+
+      <DrawerPanel isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
+    </div>
   );
 }
