@@ -1,0 +1,35 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e5]:
+      - generic [ref=e6]:
+        - generic [ref=e7]:
+          - generic [ref=e9]: "agent:"
+          - generic [ref=e10]: career_analyst_v1
+        - generic [ref=e11]: "|"
+        - generic [ref=e12]:
+          - generic [ref=e13]: "target:"
+          - generic [ref=e14]: xinyi_lu
+          - generic [ref=e15]: "|"
+          - generic [ref=e16]: "role:"
+          - generic [ref=e17]: ai_engineer
+      - generic [ref=e18]:
+        - generic [ref=e19]:
+          - generic [ref=e20]:
+            - generic [ref=e21]: steps
+            - generic [ref=e22]: 0/17
+          - generic [ref=e23]: "|"
+          - generic [ref=e24]:
+            - generic [ref=e25]: tokens
+            - generic [ref=e26]: "0"
+          - generic [ref=e27]: "|"
+          - generic [ref=e28]:
+            - generic [ref=e29]: elapsed
+            - generic [ref=e30]: 00:00
+        - generic [ref=e31]:
+          - button "skip →" [ref=e32] [cursor=pointer]
+          - button "recruiter view" [ref=e33] [cursor=pointer]
+    - log "Agent evaluation trace" [ref=e34]
+    - link "Back to all versions" [ref=e36] [cursor=pointer]:
+      - /url: ../
+      - text: ← versions
+  - alert [ref=e37]

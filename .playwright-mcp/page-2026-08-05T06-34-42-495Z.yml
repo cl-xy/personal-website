@@ -1,0 +1,16 @@
+- generic [ref=f12e2]:
+  - heading "Xinyi Lu" [level=1] [ref=f12e3]
+  - paragraph [ref=f12e4]: AI Engineer · Singapore — three portfolio explorations
+  - generic [ref=f12e5]:
+    - link "Agent Trace Dark terminal. AI agent analyzes the candidate in real-time with live telemetry." [ref=f12e6] [cursor=pointer]:
+      - /url: /personal-website/agent-trace/
+      - generic [ref=f12e7]: Agent Trace
+      - generic [ref=f12e8]: Dark terminal. AI agent analyzes the candidate in real-time with live telemetry.
+    - link "Greenhouse Living terrarium. Projects are bioluminescent organisms with golden kintsugi scars." [ref=f12e9] [cursor=pointer]:
+      - /url: /personal-website/evidence-atlas/
+      - generic [ref=f12e10]: Greenhouse
+      - generic [ref=f12e11]: Living terrarium. Projects are bioluminescent organisms with golden kintsugi scars.
+    - link "Workshop Bench Maker's workbench. Pick up objects, flip them, find the drawer." [ref=f12e12] [cursor=pointer]:
+      - /url: /personal-website/case-file/
+      - generic [ref=f12e13]: Workshop Bench
+      - generic [ref=f12e14]: Maker's workbench. Pick up objects, flip them, find the drawer.

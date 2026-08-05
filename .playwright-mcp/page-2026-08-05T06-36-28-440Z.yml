@@ -1,0 +1,29 @@
+- generic [active] [ref=f14e1]:
+  - generic [ref=f14e2]:
+    - banner [ref=f14e5]:
+      - generic [ref=f14e6]:
+        - generic [ref=f14e7]:
+          - generic [ref=f14e9]: "agent:"
+          - generic [ref=f14e10]: career_analyst_v1
+        - generic [ref=f14e11]: "|"
+        - generic [ref=f14e12]:
+          - generic [ref=f14e13]: "target:"
+          - generic [ref=f14e14]: xinyi_lu
+      - generic [ref=f14e15]:
+        - generic [ref=f14e16]:
+          - generic [ref=f14e17]:
+            - generic [ref=f14e18]: steps
+            - generic [ref=f14e19]: 0/17
+          - generic [ref=f14e20]: "|"
+          - generic [ref=f14e21]:
+            - generic [ref=f14e22]: tokens
+            - generic [ref=f14e23]: "0"
+          - generic [ref=f14e24]: "|"
+          - generic [ref=f14e25]:
+            - generic [ref=f14e26]: elapsed
+            - generic [ref=f14e27]: 00:02
+        - generic [ref=f14e28]:
+          - button "skip →" [ref=f14e29] [cursor=pointer]
+          - button "recruiter view" [ref=f14e30] [cursor=pointer]
+    - main [ref=f14e31]
+  - alert [ref=f14e33]

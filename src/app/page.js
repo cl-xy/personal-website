@@ -436,6 +436,26 @@ export default function WorkshopBench() {
       </AnimatePresence>
 
       <AnimatePresence>
+        {selectedId && selectedObj && !selectedObj.project && selectedObj.type !== "photo" && selectedObj.back && (
+          <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-label={selectedObj.back.title}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            className="fixed bottom-0 left-0 right-0 z-50 bg-bench-dark/95 backdrop-blur-sm border-t border-bench-brass/20 p-6"
+          >
+            <button onClick={() => setSelectedId(null)} className="absolute top-4 right-4 text-bench-muted hover:text-bench-cream transition-colors" aria-label="Close"><X size={18} /></button>
+            <div className="max-w-md mx-auto">
+              <h2 className="text-sm font-mono text-bench-brass mb-2">{selectedObj.back.title}</h2>
+              <pre className="text-sm font-mono text-bench-cream/80 whitespace-pre-wrap leading-relaxed">{selectedObj.back.content}</pre>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
         {selectedId && selectedObj?.type === "photo" && (
           <motion.div
             role="dialog"

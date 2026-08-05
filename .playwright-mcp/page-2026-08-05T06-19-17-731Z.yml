@@ -1,0 +1,9 @@
+- generic [active] [ref=f11e1]:
+  - generic [ref=f11e2]:
+    - generic [ref=f11e17]:
+      - paragraph: pick something up. double-click to flip.
+    - button "Open drawer" [ref=f11e21] [cursor=pointer]
+    - generic [ref=f11e23]:
+      - paragraph [ref=f11e24]: Xinyi Lu
+      - paragraph [ref=f11e25]: AI Engineer · Singapore
+  - alert [ref=f11e26]

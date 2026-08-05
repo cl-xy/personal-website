@@ -1,0 +1,28 @@
+- generic [active] [ref=f1e1]:
+  - generic [ref=f1e2]:
+    - navigation [ref=f1e3]:
+      - link "Back to all versions" [ref=f1e4] [cursor=pointer]:
+        - /url: ../
+        - text: ← versions
+    - generic:
+      - generic: defensive parsing, caching architecture
+      - generic: execution-based validation
+      - generic: signal extraction from noisy text
+    - button "View AI Investment Analyst project details" [ref=f1e7] [cursor=pointer]
+    - button "View LLM Policy Retrieval Agents project details" [ref=f1e42] [cursor=pointer]
+    - button "View SAS-to-PySpark Converter project details" [ref=f1e79] [cursor=pointer]
+    - button "View Portfolio Decarbonization project details" [ref=f1e108] [cursor=pointer]
+    - generic [ref=f1e130]:
+      - generic [ref=f1e131]: XINYI LU
+      - generic [ref=f1e132]: AI Engineer · Singapore
+      - generic [ref=f1e133]: 4 deployed systems, 7,000 hrs/yr automated
+      - generic [ref=f1e134]: LangGraph, FastMCP, SSE, Full-stack deploy
+      - generic [ref=f1e135]:
+        - link "Email" [ref=f1e136] [cursor=pointer]:
+          - /url: mailto:xinyilu2000@gmail.com
+        - link "LinkedIn" [ref=f1e140] [cursor=pointer]:
+          - /url: https://www.linkedin.com/in/xinyi-lu-35b72917a/
+        - link "GitHub" [ref=f1e145] [cursor=pointer]:
+          - /url: https://github.com/cl-xy
+    - generic: click an organism to explore
+  - alert [ref=f1e149]
