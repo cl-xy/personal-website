@@ -286,12 +286,13 @@ function RootSystem({ loaded, mousePos }) {
         return (
           <span
             key={i}
-            className="absolute text-[9px] font-mono text-[#d4a04a]/35 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap transition-opacity duration-500"
+            className="absolute text-[10px] font-mono text-[#d4a04a]/50 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap transition-opacity duration-500"
             style={{
               left: `${midX}%`,
               top: `${midY}%`,
               opacity: loaded ? 1 : 0,
               transitionDelay: '3000ms',
+              textShadow: '0 0 8px rgba(212, 160, 74, 0.2)',
             }}
           >
             {conn.label}
