@@ -9,9 +9,9 @@ export const siteConfig = {
 };
 
 export const gallery = [
-  { src: "/gallery/img2.jpg", alt: "Outdoors" },
-  { src: "/gallery/img3.jpg", alt: "Travel" },
-  { src: "/gallery/img4.jpg", alt: "Hiking" },
+  { src: "gallery/img2.jpg", alt: "Outdoors" },
+  { src: "gallery/img3.jpg", alt: "Travel" },
+  { src: "gallery/img4.jpg", alt: "Hiking" },
 ];
 
 export const proofChips = [

@@ -142,9 +142,9 @@ export const failures = [
 export const personal = {
   tagline: "Outside work, I hike around Singapore and Southeast Asia, practice yoga, and volunteer with youth and elderly communities.",
   photos: [
-    { src: "/gallery/img3.jpg", caption: "Grand Canyon, AZ" },
-    { src: "/gallery/img2.jpg", caption: "Outdoors" },
-    { src: "/gallery/img4.jpg", caption: "Community event, Singapore" },
+    { src: "gallery/img3.jpg", caption: "Grand Canyon, AZ" },
+    { src: "gallery/img2.jpg", caption: "Outdoors" },
+    { src: "gallery/img4.jpg", caption: "Community event, Singapore" },
   ],
 };
 
