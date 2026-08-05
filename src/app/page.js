@@ -314,20 +314,23 @@ function SpecimenLabelComponent({ loaded }) {
       transition={{ delay: 3.5, duration: 0.6 }}
       className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20"
     >
-      <div className="brass-plate rounded-sm px-6 py-3 text-center">
-        <div className="text-[#1a1510] font-semibold text-sm tracking-wider">
-          {specimenLabel.name} &middot; {specimenLabel.title} &middot; {specimenLabel.location}
+      <div className="brass-plate rounded-sm px-6 py-3 text-center shadow-lg">
+        <div className="text-[#f5f0e8] font-bold text-sm tracking-wider drop-shadow-sm">
+          {specimenLabel.name}
         </div>
-        <div className="text-[#2a2010] text-xs mt-1 tracking-wide">
+        <div className="text-[#e8dcc8] text-xs mt-0.5 tracking-wide">
+          {specimenLabel.title} · {specimenLabel.location}
+        </div>
+        <div className="text-[#d4c4a0] text-[11px] mt-2 tracking-wide">
           {specimenLabel.stats}
         </div>
-        <div className="text-[#3a3020] text-xs mt-0.5 font-mono tracking-tight">
+        <div className="text-[#c0b090] text-[10px] mt-1 font-mono tracking-tight">
           {specimenLabel.stack}
         </div>
-        <div className="flex items-center justify-center gap-4 mt-2">
+        <div className="flex items-center justify-center gap-4 mt-2.5 pt-2 border-t border-[#8b6914]/30">
           <a
             href={`mailto:${specimenLabel.links.email}`}
-            className="text-[#2a2010] hover:text-[#0a0f0d] transition-colors"
+            className="text-[#e8dcc8] hover:text-white transition-colors"
             aria-label="Email"
           >
             <Mail size={14} />
@@ -336,7 +339,7 @@ function SpecimenLabelComponent({ loaded }) {
             href={specimenLabel.links.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[#2a2010] hover:text-[#0a0f0d] transition-colors"
+            className="text-[#e8dcc8] hover:text-white transition-colors"
             aria-label="LinkedIn"
           >
             <Linkedin size={14} />
@@ -345,7 +348,7 @@ function SpecimenLabelComponent({ loaded }) {
             href={specimenLabel.links.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[#2a2010] hover:text-[#0a0f0d] transition-colors"
+            className="text-[#e8dcc8] hover:text-white transition-colors"
             aria-label="GitHub"
           >
             <Github size={14} />
