@@ -152,7 +152,7 @@ export const benchObjects = [
     weight: "feather",
     position: { x: 50, y: 72 },
     rotation: 3,
-    image: "/gallery/img3.jpg",
+    image: "gallery/img3.jpg",
     caption: "Grand Canyon, AZ",
   },
   {
@@ -162,7 +162,7 @@ export const benchObjects = [
     weight: "feather",
     position: { x: 56, y: 78 },
     rotation: -2,
-    image: "/gallery/img2.jpg",
+    image: "gallery/img2.jpg",
     caption: "Outdoors",
   },
   {
@@ -172,7 +172,7 @@ export const benchObjects = [
     weight: "feather",
     position: { x: 44, y: 76 },
     rotation: 5,
-    image: "/gallery/img4.jpg",
+    image: "gallery/img4.jpg",
     caption: "Community event",
   },
 ];
