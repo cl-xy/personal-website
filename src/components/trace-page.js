@@ -32,9 +32,10 @@ function useElapsedTime(isRunning) {
 }
 
 function formatElapsed(ms) {
-  const secs = Math.floor(ms / 1000);
-  const millis = Math.floor((ms % 1000) / 10);
-  return `${secs.toString().padStart(2, '0')}:${millis.toString().padStart(2, '0')}`;
+  const totalSecs = Math.floor(ms / 1000);
+  const mins = Math.floor(totalSecs / 60);
+  const secs = totalSecs % 60;
+  return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
 }
 
 function formatTokens(count) {
@@ -212,6 +213,9 @@ export default function TracePage() {
           <div className="hidden sm:flex items-center gap-2">
             <span className="text-trace-muted">target:</span>
             <span className="text-trace-text">xinyi_lu</span>
+            <span className="text-trace-border">|</span>
+            <span className="text-trace-muted">role:</span>
+            <span className="text-trace-text">ai_engineer</span>
           </div>
         </div>
 
@@ -242,7 +246,7 @@ export default function TracePage() {
             {isRunning && (
               <button
                 onClick={skipToEnd}
-                className="text-[10px] sm:text-xs font-mono px-2 sm:px-3 py-1 sm:py-1.5 border border-trace-orange/40 text-trace-orange hover:text-trace-text hover:border-trace-orange hover:bg-trace-orange/10 transition-all"
+                className="text-xs sm:text-sm font-mono px-3 sm:px-4 py-1.5 sm:py-2 bg-trace-orange/15 border border-trace-orange/60 text-trace-orange hover:text-trace-text hover:border-trace-orange hover:bg-trace-orange/20 transition-all rounded-sm skip-pulse"
                 title="Skip to end (Space)"
               >
                 skip <span className="hidden sm:inline">→</span>
@@ -259,7 +263,7 @@ export default function TracePage() {
             )}
             <button
               onClick={() => setShowRecruiter(true)}
-              className="text-[10px] sm:text-xs font-mono px-2 sm:px-3 py-1 sm:py-1.5 border border-trace-border text-trace-muted hover:text-trace-text hover:border-trace-text/50 hover:bg-trace-surface transition-all"
+              className="text-[10px] sm:text-xs font-mono px-2 sm:px-3 py-1 sm:py-1.5 border border-trace-blue/40 text-trace-blue hover:text-trace-text hover:border-trace-blue hover:bg-trace-blue/10 transition-all rounded-sm"
               title="View recruiter summary (Esc to close)"
             >
               <span className="hidden sm:inline">recruiter view</span>
@@ -354,7 +358,7 @@ export default function TracePage() {
         )}
       </AnimatePresence>
 
-      {isRunning && visibleSteps.length > 2 && visibleSteps.length < 5 && (
+      {isRunning && visibleSteps.length > 0 && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -370,6 +374,15 @@ export default function TracePage() {
           <RecruiterView onClose={() => setShowRecruiter(false)} />
         )}
       </AnimatePresence>
+
+      {/* Version nav */}
+      <a
+        href="../"
+        className="fixed bottom-3 left-3 z-30 text-[10px] font-mono text-trace-muted/30 hover:text-trace-muted/70 transition-colors"
+        aria-label="Back to all versions"
+      >
+        ← versions
+      </a>
     </div>
   );
 }
