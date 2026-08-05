@@ -25,7 +25,7 @@ function TickerMachine() {
           <circle cx="55" cy="28" r="7" fill="none" stroke="#8b6914" strokeWidth="0.5" strokeDasharray="2 2" className="animate-[spin_10s_linear_infinite]" />
         </svg>
         <div className="absolute bottom-2 left-0 right-0 h-4 overflow-hidden">
-          <div className="ticker-tape whitespace-nowrap font-mono text-[9px] text-bench-brass/70">
+          <div className="ticker-tape whitespace-nowrap font-mono text-[10px] text-bench-brass/70">
             {tickerTexts.join("  ·  ")}
           </div>
         </div>
@@ -52,8 +52,8 @@ function Switchboard() {
           <path d="M50,5 Q55,18 65,12" fill="none" stroke="#8b7e6a" strokeWidth="1" />
           <path d="M70,5 Q72,15 68,25" fill="none" stroke="#b87333" strokeWidth="1" className="pendulum" />
         </svg>
-        <div className="absolute bottom-1 right-2 font-mono text-[8px] text-bench-brass/60">7,247</div>
-        <div className="absolute top-3 left-2 bg-bench-brass/50 px-1 text-[6px] font-mono text-bench-cream/80 rotate-[-3deg]">PRODUCTION</div>
+        <div className="absolute bottom-1 right-2 font-mono text-[10px] text-bench-brass/60">7,247</div>
+        <div className="absolute top-3 left-2 bg-bench-brass/50 px-1 text-[8px] font-mono text-bench-cream/80 rotate-[-3deg]">PRODUCTION</div>
       </div>
     </div>
   );
@@ -71,7 +71,7 @@ function SpecimenJar() {
           <div className="absolute bottom-1 left-2 w-2 h-0.5 bg-bench-muted/30" />
         </div>
       </div>
-      <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 font-hand text-[7px] text-bench-muted italic whitespace-nowrap">
+      <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 font-hand text-[9px] text-bench-muted italic whitespace-nowrap">
         v4.2
       </div>
     </div>
@@ -143,7 +143,7 @@ function BenchObjectComp({ obj, onFlip, isFlipped, onSelect }) {
           <div className="object-front w-full h-full">
             {obj.back && (
               <button
-                className="absolute top-1 right-1 z-10 w-5 h-5 flex items-center justify-center rounded-full bg-bench-brass/30 hover:bg-bench-brass/60 text-bench-cream/60 hover:text-bench-cream transition-all text-[10px]"
+                className="absolute top-1 right-1 z-10 w-6 h-6 flex items-center justify-center rounded-full bg-bench-brass/40 hover:bg-bench-brass/60 text-bench-cream/70 hover:text-bench-cream transition-all text-xs"
                 onClick={(e) => { e.stopPropagation(); onFlip(obj.id); }}
                 aria-label="Flip card"
                 tabIndex={0}
@@ -160,13 +160,13 @@ function BenchObjectComp({ obj, onFlip, isFlipped, onSelect }) {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={obj.image} alt={obj.caption || ""} className="w-full h-full object-cover" />
                 </div>
-                <p className="text-[7px] text-bench-dark text-center mt-1 font-hand">{obj.caption}</p>
+                <p className="text-[9px] text-bench-dark text-center mt-1 font-hand">{obj.caption}</p>
               </div>
             )}
             {!["ticker-machine", "switchboard", "specimen-jar"].includes(obj.id) && obj.type !== "photo" && (
               <div className="w-full h-full bg-bench-surface/80 border border-bench-muted/20 rounded-sm p-2 flex flex-col justify-between">
-                <span className="text-[9px] font-mono text-bench-muted">{obj.label}</span>
-                {obj.sublabel && <span className="text-[7px] text-bench-brass/70">{obj.sublabel}</span>}
+                <span className="text-[11px] font-mono text-bench-muted">{obj.label}</span>
+                {obj.sublabel && <span className="text-[9px] text-bench-brass/70">{obj.sublabel}</span>}
                 {obj.scar && (
                   <div className="absolute top-1 right-1 w-2 h-2 rounded-full scar-glow bg-bench-gold/60" title={obj.scar.tooltip} />
                 )}
@@ -175,8 +175,8 @@ function BenchObjectComp({ obj, onFlip, isFlipped, onSelect }) {
           </div>
           {obj.back && (
             <div className="object-back w-full h-full bg-bench-surface border border-bench-muted/30 rounded-sm p-2 overflow-hidden">
-              <p className="text-[8px] font-mono text-bench-brass mb-1">{obj.back.title}</p>
-              <p className="text-[7px] font-mono text-bench-cream/70 whitespace-pre-wrap leading-relaxed">{obj.back.content}</p>
+              <p className="text-[10px] font-mono text-bench-brass mb-1">{obj.back.title}</p>
+              <p className="text-[9px] font-mono text-bench-cream/70 whitespace-pre-wrap leading-relaxed">{obj.back.content}</p>
             </div>
           )}
         </div>
@@ -423,8 +423,8 @@ export default function WorkshopBench() {
 
       <div className="absolute bottom-[9%] left-4 sm:left-6">
         <div className="brass-plate px-4 py-2 rounded-sm shadow-lg">
-          <p className="text-xs font-mono text-bench-dark font-semibold tracking-wide">{profile.name}</p>
-          <p className="text-[10px] font-mono text-bench-dark/70">{profile.role} · {profile.location}</p>
+          <p className="text-sm font-mono text-bench-dark font-bold tracking-wide">{profile.name}</p>
+          <p className="text-xs font-mono text-bench-dark/70">{profile.role} · {profile.location}</p>
         </div>
       </div>
       </div>
