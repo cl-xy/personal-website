@@ -39,3 +39,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# AI IDE files — never commit
+.ai/
+.claude/
+.kiro/
+.opencode/
+opencode.json
+CLAUDE.md
+AGENTS.md
+
+# playwright mcp debug logs
+.playwright-mcp/
