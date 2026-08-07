@@ -206,7 +206,6 @@ export default function FourRoomsPage() {
                     >
                       {room.label}
                     </h2>
-                    <p className="room-detail-desc">{room.description}</p>
 
                     <div className="room-story">
                       {room.story.map((paragraph, idx) => (
