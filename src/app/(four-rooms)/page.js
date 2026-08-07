@@ -130,7 +130,6 @@ export default function FourRoomsPage() {
           />
           <h1 className="site-name">Xinyi Lu</h1>
           <p className="site-subtitle">Software engineer, mostly AI/ML systems.</p>
-          <p className="site-meta">Recently Citi, Singapore. Cornell Tech MEng 2026.</p>
         </header>
 
         {/* Room overview / detail */}
@@ -143,10 +142,6 @@ export default function FourRoomsPage() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
             >
-              {/* Instruction line */}
-              <p className="rooms-instruction">
-                Explore four areas of work
-              </p>
 
               <div className="rooms-shell">
                 <div className="rooms-grid">
