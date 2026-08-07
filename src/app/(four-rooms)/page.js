@@ -164,7 +164,6 @@ export default function FourRoomsPage() {
                       </span>
 
                       <h2 className="room-label">{room.label}</h2>
-                      <p className="room-description">{room.description}</p>
 
                       <span className="room-enter-cue" aria-hidden="true">
                         Enter &rarr;
