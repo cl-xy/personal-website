@@ -509,7 +509,7 @@ body {
 .project-card {
   perspective: 800px;
   background: var(--bg-shell);
-  min-height: clamp(180px, 22vw, 260px);
+  min-height: clamp(260px, 30vw, 340px);
   cursor: pointer;
   outline: none;
 }
@@ -549,7 +549,8 @@ body {
   flex-direction: column;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  padding: clamp(24px, 5vw, 48px);
+  padding: clamp(24px, 5vw, 40px) clamp(24px, 5vw, 48px);
+  overflow-y: auto;
 }
 
 /* Front face */
@@ -606,12 +607,22 @@ body {
 
 /* Back face */
 .project-card-back {
-  justify-content: center;
+  justify-content: flex-start;
   align-items: flex-start;
-  gap: var(--space-3);
+  gap: var(--space-4);
   background: var(--bg-card);
   transform: rotateY(180deg);
-  border-top: 2px solid var(--room-projects);
+}
+
+.project-card-back::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--room-projects);
+  opacity: 0.85;
 }
 
 .project-card-description {
@@ -641,7 +652,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-3);
-  margin-top: var(--space-2);
+  margin-top: auto;
 }
 
 .project-card-link {
