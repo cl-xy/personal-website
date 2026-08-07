@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import Image from 'next/image';
+import ProjectCard from '@/components/project-card';
 
 const rooms = [
   {
@@ -37,14 +38,23 @@ const rooms = [
     numeral: 'III',
     color: 'var(--room-projects)',
     description: 'A live stock-analysis demo, plus my NUS capstone',
-    story: [
-      'AI Investment Analyst: three agents (bull, bear, moderator) debate a stock position and stream their reasoning in real time. Mostly built it because I wanted to see where multi-agent debate actually breaks down.',
-      'Deploying it was the annoying part. SSE connections would just die somewhere in Vercel\'s proxy layer with no error, and OpenAI rate limits would kill an agent halfway through its argument. Took longer to fix than the agents took to build.',
-      'For my NUS capstone, I did NLP analysis of climate disclosures from Asian banks. Turns out ~80% of what banks publish is copy-paste boilerplate across reports. Built a classifier to separate the template language from actual decarbonization commitments. Got Distinction, but honestly the dataset was the hard part.',
+    projects: [
+      {
+        id: 'ai-investment-analyst',
+        title: 'AI Investment Analyst',
+        description: 'Three agents (bull, bear, moderator) debate a stock position and stream their reasoning in real time. Built to explore where multi-agent debate actually breaks down.',
+        stack: ['LangGraph', 'FastMCP', 'React', 'Python'],
+        github: 'https://github.com/cl-xy/ai-investment-analyst',
+        demo: 'https://ai-investment-analyst-iota.vercel.app',
+      },
+      {
+        id: 'climate-disclosure-nlp',
+        title: 'Climate Disclosure NLP',
+        description: 'NUS capstone: NLP analysis of climate disclosures from Asian banks. Built a classifier to separate boilerplate from actual decarbonization commitments. Distinction.',
+        stack: ['Python', 'NLP', 'scikit-learn'],
+        github: 'https://github.com/cl-xy/climate-disclosure-nlp',
+      },
     ],
-    stack: 'LangGraph, FastMCP, React, Python, too many API retries',
-    link: 'https://ai-investment-analyst-iota.vercel.app',
-    linkLabel: 'See the demo',
   },
   {
     id: 'education',
@@ -207,29 +217,39 @@ export default function FourRoomsPage() {
                       {room.label}
                     </h2>
 
-                    <div className="room-story">
-                      {room.story.map((paragraph, idx) => (
-                        <p key={idx}>{paragraph}</p>
-                      ))}
-                    </div>
-
-                    {(room.stack || room.link) && (
-                      <div className="room-meta">
-                        {room.stack && (
-                          <span className="room-stack">{room.stack}</span>
-                        )}
-                        {room.link && (
-                          <a
-                            href={room.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="room-link"
-                            aria-label={`${room.linkLabel || 'See it live'} (opens in new tab)`}
-                          >
-                            {room.linkLabel || 'See it live'} &rarr;
-                          </a>
-                        )}
+                    {room.projects ? (
+                      <div className="project-cards-grid">
+                        {room.projects.map((project) => (
+                          <ProjectCard key={project.id} project={project} />
+                        ))}
                       </div>
+                    ) : (
+                      <>
+                        <div className="room-story">
+                          {room.story.map((paragraph, idx) => (
+                            <p key={idx}>{paragraph}</p>
+                          ))}
+                        </div>
+
+                        {(room.stack || room.link) && (
+                          <div className="room-meta">
+                            {room.stack && (
+                              <span className="room-stack">{room.stack}</span>
+                            )}
+                            {room.link && (
+                              <a
+                                href={room.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="room-link"
+                                aria-label={`${room.linkLabel || 'See it live'} (opens in new tab)`}
+                              >
+                                {room.linkLabel || 'See it live'} &rarr;
+                              </a>
+                            )}
+                          </div>
+                        )}
+                      </>
                     )}
                   </div>
                 );
