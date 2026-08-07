@@ -1,14 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',
+  basePath: '/personal-website',
+  images: {
+    unoptimized: true,
+  },
   async redirects() {
-    return [
-      { source: '/about', destination: '/#about', permanent: true },
-      { source: '/projects', destination: '/#field-notes', permanent: true },
-      { source: '/resume', destination: '/', permanent: true },
-    ];
+    return [];
   },
 };
 
 export default nextConfig;
-
-// deploy trigger
