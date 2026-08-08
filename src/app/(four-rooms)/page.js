@@ -208,7 +208,7 @@ export default function FourRoomsPage() {
         {/* Header */}
         <header className="site-header">
           <Image
-            src="/personal-website/gallery/img3.jpg"
+            src="/gallery/img3.jpg"
             alt="Xinyi Lu"
             width={96}
             height={96}

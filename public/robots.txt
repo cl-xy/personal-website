@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://cl-xy.github.io/personal-website/sitemap.xml
