@@ -384,6 +384,16 @@ body {
   margin-bottom: 0;
 }
 
+/* === Highlight Style === */
+.highlight {
+  text-shadow:
+    0 0 8px rgba(212, 146, 10, 0.6),
+    0 0 20px rgba(212, 146, 10, 0.4),
+    0 0 40px rgba(212, 146, 10, 0.2);
+  color: #b07a08;
+  font-weight: 500;
+}
+
 /* === Meta (Stack + Link) === */
 .room-meta {
   margin-top: var(--space-7);
@@ -423,6 +433,180 @@ body {
   outline: 2px solid var(--room-color);
   outline-offset: 3px;
   border-radius: 2px;
+}
+
+/* === Work Room === */
+.work-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.work-role-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.work-role-block + .work-role-block {
+  padding-top: var(--space-7);
+  border-top: 1px solid var(--border-light);
+}
+
+/* Role header */
+.work-role {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2) var(--space-3);
+  padding-bottom: var(--space-5);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.work-role-title {
+  font-family: var(--font-serif), Georgia, 'Times New Roman', serif;
+  font-size: var(--text-lg);
+  font-weight: 400;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.work-role-org {
+  font-size: var(--text-sm);
+  color: var(--room-color);
+}
+
+.work-role-dates {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+  margin-left: auto;
+}
+
+/* Highlights */
+.work-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.work-highlight {
+  position: relative;
+  padding-left: var(--space-4);
+  border-left: 2px solid var(--border-light);
+  transition: border-color var(--duration-normal) var(--ease-out);
+}
+
+.work-highlight:hover {
+  border-left-color: var(--room-color);
+}
+
+.work-highlight-title {
+  font-family: var(--font-serif), Georgia, 'Times New Roman', serif;
+  font-size: var(--text-base);
+  font-weight: 400;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+  margin-bottom: var(--space-2);
+}
+
+.work-highlight-description {
+  font-size: 0.9375rem;
+  line-height: var(--leading-snug);
+  color: var(--text-body);
+  margin-bottom: var(--space-4);
+}
+
+.work-highlight-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+/* Pulled stat */
+.work-stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.work-stat-value {
+  font-family: var(--font-serif), Georgia, 'Times New Roman', serif;
+  font-size: var(--text-lg);
+  font-weight: 400;
+  color: var(--room-color);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.work-stat-label {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+  margin-top: 2px;
+}
+
+/* Stack chips */
+.work-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.work-stack-chip {
+  font-size: var(--text-xs);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--room-color);
+  background: rgba(47, 95, 168, 0.08);
+  padding: 2px 8px;
+  border-radius: 3px;
+  border: 1px solid rgba(47, 95, 168, 0.18);
+}
+
+/* Prior roles */
+.work-prior {
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border-light);
+}
+
+.work-prior-label {
+  display: block;
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin-bottom: var(--space-3);
+}
+
+.work-prior-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.work-prior-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+}
+
+.work-prior-org {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.work-prior-title {
+  color: var(--text-secondary);
+}
+
+.work-prior-year {
+  color: var(--text-faint);
+  font-size: var(--text-xs);
+  margin-left: auto;
 }
 
 /* === Back Button === */

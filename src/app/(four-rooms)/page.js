@@ -11,11 +11,28 @@ const rooms = [
     label: 'About',
     numeral: 'I',
     color: 'var(--room-about)',
-    description: 'From Singapore, moving to NYC for Cornell Tech',
+    description: 'Curious by nature, in ML by choice',
     story: [
-      'I got into ML through analytics at NUS and then spent two years learning that most of "AI engineering" is plumbing. I like the plumbing.',
-      'For the last two years I\'ve been on Citi Singapore\'s AI/ML platform team. Internal LLM tools, mostly: compliance search, code migration, trade processing workflows. The kind of stuff that\'s boring to explain but satisfying to get right.',
-      'This fall I\'m moving to New York for Cornell Tech\'s MEng in Data Science and Decision Analytics. Looking for AI/backend engineering roles in the US after that, ideally close to applied systems rather than pure research.',
+      [
+        { text: 'I got into ML through analytics at NUS, and what kept me there was ' },
+        { text: 'curiosity', highlight: true },
+        { text: ' more than anything else — I like taking on problems that don\'t have a clean answer key and figuring out how to get to one.' },
+      ],
+      [
+        { text: 'For the last three years I\'ve been dabbling in the AI/ML space, turning ideas into things people actually use: compliance search, code migration, trade processing workflows. A lot of it comes down to ' },
+        { text: 'leveraging generative AI to solve real business pain points', highlight: true },
+        { text: ', not just building for the sake of the technology.' },
+      ],
+      [
+        { text: 'I ' },
+        { text: 'pick things up quickly', highlight: true },
+        { text: ' and enjoy the process of learning enough to be useful fast, then getting better from there. That\'s probably the throughline across everything I\'ve worked on.' },
+      ],
+      [
+        { text: 'Outside of work, I\'m usually hiking, on a yoga mat, or volunteering with youth and elderly causes — trying to ' },
+        { text: 'stay curious about people, not just problems', highlight: true },
+        { text: '.' },
+      ],
     ],
   },
   {
@@ -23,14 +40,74 @@ const rooms = [
     label: 'Work',
     numeral: 'II',
     color: 'var(--room-work)',
-    description: 'Two years at Citi on the AI/ML platform team',
-    story: [
-      'Software Engineer (AI/ML Platform) at Citi, Singapore. 2023 to 2026.',
-      'One project was a retrieval tool for policy/compliance questions. The metric I ended up caring about wasn\'t faithfulness scores on some eval set. It was whether compliance officers stopped opening ten PDFs to answer one question. They mostly did. Internal estimate was ~7k hours/year saved, which sounds big but honestly the direction was obvious from usage data.',
-      'Also built a SAS-to-PySpark code converter using LLMs. The annoying failure mode: generated code compiles fine and quietly returns different numbers. So we ran both versions on the same data and diffed the output instead of trusting the model. Less elegant, more reliable.',
-      'Before Citi: interned at GIC (2022) on data pipelines, and at A*STAR (2021) on research infra. Different environments, both useful.',
+    description: 'Three years at Citi, from data science into software engineering',
+    roles: [
+      {
+        title: 'Software Engineer',
+        org: 'Citi, Singapore',
+        dates: 'Sep 2024 – Jul 2026',
+        highlights: [
+          {
+            title: 'Investment analyst AI agent',
+            description:
+              'Conceptualized and architected an AI agent that generates next-best-action recommendations from client portfolio data.',
+            stack: ['LLM agents', 'Python'],
+          },
+          {
+            title: 'Document Generation platform',
+            description:
+              'Led end-to-end development of a platform for bankers to manage banking documents. Deployed and validated in UAT environments.',
+            stat: { value: '15%+', label: 'improvement in operational efficiency' },
+            stack: ['React', 'TypeScript'],
+          },
+          {
+            title: 'Trade order systems',
+            description:
+              'Enhanced trade order systems, laying groundwork for low-latency data access for downstream analytics.',
+            stat: { value: '10%', label: 'faster API response time' },
+            stack: ['Java', 'Spring Boot'],
+          },
+          {
+            title: 'GenAI Accelerators',
+            description:
+              'Championed GenAI adoption org-wide as a member of Citi\'s AI Accelerators, running knowledge-sharing sessions on LLM applications, MCP, prompt engineering, and AI coding tools.',
+            stack: ['LLM applications', 'MCP', 'Prompt engineering'],
+          },
+        ],
+      },
+      {
+        title: 'Data Scientist, AI/ML Platform',
+        org: 'Citi, Singapore',
+        dates: 'Jul 2023 – Aug 2024',
+        highlights: [
+          {
+            title: 'RAG chatbot for policy retrieval',
+            description:
+              'Leveraged LLMs to develop RAG-based chatbots for policy retrieval. Prioritized real-world adoption over offline eval scores: success was measured by whether compliance officers could resolve a query without manually searching through multiple policy documents — and adoption data confirmed they largely did.',
+            stat: { value: '~7,000 hrs/yr', label: 'reduced in manual lookup time' },
+            stack: ['LangChain', 'FastAPI', 'Python'],
+          },
+          {
+            title: 'Prompt engineering & evaluation',
+            description:
+              'Applied prompt engineering techniques — ReAct, Chain of Thought — to boost model responses, and conducted systematic evaluation using TruLens.',
+            stack: ['ReAct', 'Chain of Thought', 'TruLens'],
+          },
+          {
+            title: 'SAS → PySpark conversion tool',
+            description:
+              'Developed a full-stack web application to assist developers in converting SAS code to PySpark. Identified a critical failure mode where converted code compiled successfully but produced silently incorrect results. Mitigated this by validating outputs through parallel execution and diffing against the original implementation, ensuring functional correctness beyond compile-time checks.',
+            stat: { value: '~20%', label: 'improvement in conversion efficiency' },
+            stack: ['React', 'Python', 'FastAPI'],
+          },
+        ],
+      },
     ],
-    stack: 'Python, LangChain, FastAPI, Java, Spring Boot, retrieval systems',
+    priorRoles: [
+      { org: 'GovTech', title: 'Data Scientist Intern', year: '2023' },
+      { org: 'GIC', title: 'Data Science Intern', year: '2022' },
+      { org: 'A*STAR', title: 'Research Intern', year: '2021' },
+    ],
   },
   {
     id: 'projects',
@@ -223,12 +300,87 @@ export default function FourRoomsPage() {
                           <ProjectCard key={project.id} project={project} />
                         ))}
                       </div>
+                    ) : room.id === 'work' ? (
+                      <div className="work-content">
+                        {room.roles.map((role, roleIdx) => (
+                          <div key={role.title} className="work-role-block">
+                            <div className="work-role">
+                              <span className="work-role-title">{role.title}</span>
+                              <span className="work-role-org">{role.org}</span>
+                              <span className="work-role-dates">{role.dates}</span>
+                            </div>
+
+                            <div className="work-highlights">
+                              {role.highlights.map((highlight) => (
+                                <div key={highlight.title} className="work-highlight">
+                                  <h3 className="work-highlight-title">{highlight.title}</h3>
+                                  <p className="work-highlight-description">
+                                    {highlight.description}
+                                  </p>
+
+                                  <div className="work-highlight-footer">
+                                    {highlight.stat && (
+                                      <div className="work-stat">
+                                        <span className="work-stat-value">
+                                          {highlight.stat.value}
+                                        </span>
+                                        <span className="work-stat-label">
+                                          {highlight.stat.label}
+                                        </span>
+                                      </div>
+                                    )}
+
+                                    {highlight.stack && (
+                                      <div className="work-stack">
+                                        {highlight.stack.map((tech) => (
+                                          <span key={tech} className="work-stack-chip">
+                                            {tech}
+                                          </span>
+                                        ))}
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+
+                        {room.priorRoles && (
+                          <div className="work-prior">
+                            <span className="work-prior-label">Earlier</span>
+                            <ul className="work-prior-list">
+                              {room.priorRoles.map((prior) => (
+                                <li key={prior.org} className="work-prior-item">
+                                  <span className="work-prior-org">{prior.org}</span>
+                                  <span className="work-prior-title">{prior.title}</span>
+                                  <span className="work-prior-year">{prior.year}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
                     ) : (
                       <>
                         <div className="room-story">
-                          {room.story.map((paragraph, idx) => (
-                            <p key={idx}>{paragraph}</p>
-                          ))}
+                          {room.story.map((paragraph, idx) =>
+                            typeof paragraph === 'string' ? (
+                              <p key={idx}>{paragraph}</p>
+                            ) : (
+                              <p key={idx}>
+                                {paragraph.map((segment, sIdx) =>
+                                  segment.highlight ? (
+                                    <span key={sIdx} className="highlight">
+                                      {segment.text}
+                                    </span>
+                                  ) : (
+                                    <span key={sIdx}>{segment.text}</span>
+                                  )
+                                )}
+                              </p>
+                            )
+                          )}
                         </div>
 
                         {(room.stack || room.link) && (
